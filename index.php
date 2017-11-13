@@ -1,5 +1,6 @@
 <?php
-	require("./fonctions.php");
+	require("./fonctionsBen.php");
+	session_start();
 ?>
 
 <!DOCTYPE html>
@@ -18,7 +19,11 @@
 
 	<h1>Bienvenue sur le site en construction.</h1>
 
-	<?php 
+	<a href="./patient.php">Créer Patient</a>
+
+	<?php
+		print_r($_SESSION);
+		echo '<br>'. "\n";
 		PrintFooter();
 	?>
 
