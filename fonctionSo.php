@@ -2,66 +2,81 @@
 
 	function Query($query)
 	{
-		$r=mysqli_connect('localhost','root','','commandes');
+		#on essaye de se connecter à la base de données
+		#il faut gérer les erreurs SQL 
+		$r=mysqli_connect('localhost','Lea','BD20162017','projetPHP');
+		if (mysqli_connect_error()){
+			throw new Exception("<p> Impossible de se connecter à la base de données </p>");			
+		}
 		$t=mysqli_query($r,$query);
+		if ($t == ""){
+			throw new Exception("<p> Impossible d'executer la requête </p>");
+		}
 		mysqli_close($r);
 		return ($t);
 	}
-	
-	function Printresults($tableau,$type)
+
+	function PrintResults($tableau,$type)
 	{
-		if ($type = "checkbox")
+		if ($type == "checkbox")
 		{
-			while($nuplet=mysqli_fetch_array($t))
+			while($nuplet=mysqli_fetch_array($tableau))
 			{
-				print("<input type=\"checkbox\" name=\"value[]\" value=\"".$nuplet[0]."\" id= b> ");
-				print("<label for= \"b\">".$nuplet[0]."\n</label><br><br>");
+				print("<input type=\"checkbox\" name=\"value[]\" value=\"".$nuplet[0]."\" id =\"b\"> ");
+				print("<label for= \"b\">".$nuplet[0]."\n</label> <br><br>");
 			}
 		}
 		else
 		{
-			while($nuplet=mysqli_fetch_array($t))
+			while($nuplet=mysqli_fetch_array($tableau))
 			{
-				print("<input type=\"radio\" name=\"val\" value=\"".$nuplet[0]."\" id= b> ");
-				print("<label for= \"b\">".$nuplet[0]."\n</label><br><br>");
+				print("<input type=\"radio\" name=\"val\" value=\"".$nuplet[0]."\" id =\"b\"> ");
+				print("<label for= \"b\"> ".$nuplet[0]."\n</label><br><br>");
 			}
 		}
 	}
-	
+			
+
 	function DeletePatient($numSecu)
 	{
-		$r="DELETE from `Personne` WHERE `num_secu`=$numSECU";
+		$r="DELETE from `Patient` WHERE `num_secu`=$numSECU";
 		$q=Query($r);
-		#Gestion des erreurs avec query ? 
-		#WriteUserlog
+		#WriteUserlog; 
 	}
-	
+
 	function AddIntervention($serviceI,$creneau,$Idpers,$numSecu)
 	{
-		$r="INSERT INTO `Planning` (`ID_service_int`,`ID_creneau`,`ID_personnel`,`num_secu`) VALUES ("$serviceI","$creneau","$Idpers","$numSecu")";
-		$q=Query($r);
-		#Gestion des erreurs avec query ? 
+		$r="INSERT INTO `Planning` VALUES (\"$serviceI\",\"$creneau\",\"$Idpers\",\"$numSecu\",\"0\")";
+		$q=Query($r); 
 		#WriteUserlog
 		#writeInterventionlog
 	}
-	
-	function AddService($IDservice,$nomService,$type)
+
+	function AddService($nomService,$type)
 	{
-		if ($type="intervention")
+		if ($type=="intervention")
 		{
-			$r="INSERT INTO `Service_intervention` VALUES ("$IDservice","$nomService")";
+			$r1 = "SELECT ID_service_inter FROM service_intervention";
+			$q1 = Query($r1);
+			$array = [];
+			while ($nuplet = mysqli_fetch_array($q1)) {
+				array_push($array, substr($nuplet[0], -3));
+			}
+			$n = max($array); 
+			print($n + 1); 
+			#$r="INSERT INTO `Service_intervention` VALUES ("$IDservice","$nomService")";
 			#WriteUserlog
 			#writeInterventionlog
 		}
-		else
-		{
-			$r="INSERT INTO `Service_accueil` VALUES ("$IDservice","$nomService")";
+		#else
+		#{
+			#$r="INSERT INTO `Service_accueil` VALUES ("$IDservice","$nomService")";
 			#WriteUserlog
 			#writeInterventionlog
-		}
-		$q=Query($r);
+		#}
+		#$q=Query($r);
 	}
-	
+
 	function DeleteService($nomService, $type) #ou id service ??
 	{
 		if ($type="intervention")
@@ -74,5 +89,4 @@
 		}
 		$q=Query($r);
 	}
-			
 ?>
