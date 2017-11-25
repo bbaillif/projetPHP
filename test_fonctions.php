@@ -5,11 +5,26 @@
 
 	<?php
 	require("C:/xampp/htdocs/Cours_PHP/projetPHP/fonctionSo.php"); 
-	$requete = "SELECT nom FROM personne"; 
-	$sql = Query($requete); 
-	PrintResults($sql,"radio");
+	
+	#Essai CHECKID 
+	#try{
+	#	print(CheckID("PER001", "mdp1"));
+	#}catch(Exception $e){
+	#	echo $e -> getMessage();
+	#}
 
-	AddService("blabla","intervention"); 
+	#Essai AddService
+	#AddService("blabla","accueil");
+
+	#fonctions finies
+	#query
+	#printresults 
+
+	#ça marche mais pas fini (ajout write log) : 
+	#AddService
+	#delete patient
+	#add intervention
+	#checkID
 
 	?> 
 
