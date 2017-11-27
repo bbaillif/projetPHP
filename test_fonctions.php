@@ -50,11 +50,11 @@
 	#Emergency("num secu","INT004");
 
 	#Essai de CheckID 
-	$array_vide = array('name' => "Sylvie",
-		'surname' => "Blnchard", 
-		'ssNumber' => '3453', 
+	$array_vide = array('name' => "X",
+		'surname' => "Y", 
+		'ssNumber' => '170125410485276', 
 		'gender' => 'F', 
-		'birthday' => '1969-03-06',
+		'birthday' => '2017-03-06',
 		 'pathology' => 'rhume', 
 		 'emergencyNumber' => '3');
 	try{
@@ -62,6 +62,10 @@
 	}catch(Exception $e){
 		echo $e -> getMessage();
 	}
+
+	#Essai AddPatient 
+	AddPatient($array_vide);
+
 
 
 	?> 

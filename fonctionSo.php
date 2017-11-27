@@ -398,20 +398,16 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 
 	function CheckPatient($patient_array)
 	{
-		#Vérifie que toutes les informations sont présentes dans le tableau
-		foreach ($patient_array as $key => $value) {
-			if (empty($value)){
-				throw new Exception("Il manque des infos."); 
-			}
-		}
-
 		try{
+			#Vérifie que toutes les informations sont présentes dans le tableau
+			foreach ($patient_array as $key => $value) {
+				if (empty($value)){
+					throw new Exception("Il manque des infos."); 
+				}
+			}
+
 			#Vérifie que  infos sont présentes 
-			$prenom = $patient_array['name']; 
-			$nom =  $patient_array['surname']; 
 			$secu = $patient_array['ssNumber']; 
-			$sexe = $patient_array['gender']; 
-			$date_naiss = $patient_array['birthday'];
 
 			$r1 = "SELECT num_secu FROM patient" ; 
 			$q1 = Query($r1); 
@@ -424,13 +420,8 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 			if (in_array("$secu",$array)){
 				throw new Exception("Le patient existe déjà."); 
 			}
-		}catch (Exception $e){
-				#Si il y a une erreur de query
-				echo $e -> getMessage();
-		}
-		
-		#Verifie que le niveau d'urgence est compatible avec la pathologie 
-		try{
+				
+			#Verifie que le niveau d'urgence est compatible avec la pathologie 
 			$patho = $patient_array['pathology'];
 			$NU = $patient_array['emergencyNumber']; 	
 
@@ -446,6 +437,4 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 			echo $e -> getMessage();
 		}
 	}
-
-
 ?>
