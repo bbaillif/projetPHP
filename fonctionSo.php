@@ -27,6 +27,12 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 				throw new Exception($error2); 
 			}
 		} 
+		else {
+			#Si les query du type INSERT, UPDATE, ne marchent pas
+			if ($t == False){
+				throw new Exception($error2); 
+			}
+		}
 
 		#On ferme la base de données
 		mysqli_close($r);
@@ -35,7 +41,8 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 
 	function WriteUserLog($chaine)
 	{
-		$user = "X"; #comment on fait pour récupérer le nom de l'utilisateur? 
+		#On récupère l'ID de l'utilisateur 
+		$user = $_SESSION['uid']; 
 		#On ouvre le fichier, si pas créé, on le crée
 		if ($f = fopen("$user.txt", "a")){
 			#On écrit la chaine
@@ -58,8 +65,9 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 
 	function CheckID($ID, $mdp)
 	{
+		$error = "Les informations saisies sont incorrectes. <br>Merci de bien vouloir vérifier les informations saisies.";
+		$date = date("d/m/Y H:i"); 
 		try{
-			$error = "Les informations saisies sont incorrectes. <br>Merci de bien vouloir vérifier les informations saisies.";
 			#On récupère les couple (ID, mdp) de la bdd 
 			$r1 = "SELECT ID_personnel, MDP FROM personnel"; 
 			$q1 = Query($r1);
@@ -76,14 +84,18 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 					$r2 = "SELECT droit FROM personnel WHERE ID_personnel=\"".$ID."\"" ; 
 					$q2 = Query($r2); 
 					$row = mysqli_fetch_array($q2); 
+
+					#On écrit dans le fichier de l'utilisateur
+					WriteUserLog("$date : connection \r\n");
+
+					#On retourne son droit
 					return($row[0]);
 				}
 				#Sinon, on continue 
 				$i = $i + 2;
 			}
 			#Si le couple(ID,mdp) n'est pas dans la base de données
-			throw new Exception($error);
-			#writeUserLog()  
+			throw new Exception($error); 
 		}catch(Exception $e){
 			echo $e -> getMessage();
 		}
@@ -111,10 +123,13 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 			
 	function DeletePatient($numSecu)
 	{
+		$date = date("d/m/Y H:i"); 
 		try{
-			$r="DELETE from patient WHERE num_secu=\"$numSECU\"";
+			$r="DELETE from patient WHERE num_secu=\"$numSecu\"";
 			$q=Query($r);
-			#WriteUserlog; 
+
+			#On écrit dans le fichier de l'utilisateur
+			WriteUserLog("$date : suppression du patient $numSecu \r\n");
 		}catch (Exception $e){
 			#Si il y a une erreur de query
 			echo $e -> getMessage();
@@ -123,24 +138,43 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 
 	function DeleteService($nom_service)
 	{
+		$date = date("d/m/Y H:i"); 
 		try{
+			#On sélectionne l'ID du service de la BDD 
+			$r2 = "SELECT ID_service_int FROM Service_intervention WHERE nom=\"$nom_service\"";
+			$q2 = Query($r2); 
+			$row = mysqli_fetch_array($q2); 
+
+			#On supprime le service de la BDD
 			$r="DELETE from Service_intervention WHERE nom=\"$nom_service\"";
 			$q=Query($r);
-			#WriteUserlog; 
-			#WriteInterventionLog 
+
+			#On écrit dans le fichier de l'utilisateur
+			WriteUserLog("$date : suppression du service $nom_service \r\n"); 
+
+			#On écrit dans le fichier service
+			WriteInterventionLog("$date : suppression du service $nom_service \r\n", $row[0]); 
+
 		}catch (Exception $e){
 			#Si il y a une erreur de query
 			echo $e -> getMessage();
 		}
 	}
 
-	function AddIntervention($serviceI,$creneau,$Idpers,$numSecu)
+	function AddIntervention($serviceI, $creneau, $Idpers, $numSecu)
 	{
+		$date = date("d/m/Y H:i");
+
 		try{
-			$r="INSERT INTO planning VALUES ($serviceI,$creneau,$Idpers,$numSecu,\"0\")";
+			$r="INSERT INTO planning VALUES (\"$serviceI\", \"$creneau\", \"$Idpers\", \"$numSecu\" ,0)";
 			$q=Query($r); 
-			#WriteUserlog
-			#writeInterventionlog
+
+			#On écrit dans le fichier de l'utilisateur
+			WriteUserLog("$date : ajout de l'intervention $serviceI pour le patient $numSecu au créneau $creneau \r\n"); 
+
+			#On écrit dans le fichier service
+			WriteInterventionLog("$date : ajout de l'intervention $creneau pour le patient $numSecu \r\n", $serviceI); 
+
 		}catch (Exception $e){
 			#Si il y a une erreur de query
 			echo $e -> getMessage();
@@ -149,6 +183,8 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 
 	function AddService($nomService,$type)
 	{
+		$date = date("d/m/Y H:i"); 
+
 		#On veut ajouter un service d'intervention 
 		if ($type=="intervention")
 		{
@@ -176,8 +212,13 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 				#Ajout dans la base de données
 				$r2 = "INSERT INTO Service_intervention VALUES (\"".$IDservice."\",\"".$nomService."\")";
 				$q2 = Query($r2);
-				#WriteUserlog
-				#WriteInterventionlog
+
+				#On écrit dans le fichier de l'utilisateur
+				WriteUserLog("$date : création du service $nomService \r\n"); 
+
+				#On écrit dans le fichier service
+				WriteInterventionLog("$date : création du service $nomService \r\n", $IDservice); 
+
 			}catch (Exception $e){
 				#Si il y a une erreur de query
 				echo $e -> getMessage();
@@ -210,8 +251,13 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 				#Ajout dans la base de données
 				$r2 = "INSERT INTO Service_accueil VALUES (\"".$IDservice."\",\"".$nomService."\")";
 				$q2 = Query($r2);
-				#WriteUserlog
-				#WriteInterventionlog
+				
+				#On écrit dans le fichier de l'utilisateur
+				WriteUserLog("$date : création du service $nomService \r\n"); 
+
+				#On écrit dans le fichier service
+				WriteInterventionLog("$date : création du service $nomService \r\n", $IDservice); 
+
 			}catch (Exception $e){
 				#Si il y a une erreur de query
 				echo $e -> getMessage();
@@ -230,6 +276,7 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 			while ($nuplet = mysqli_fetch_array($q)) {
 				array_push($array, $nuplet[0]);
 			}
+
 			#On print l'email (on considère qu'une seule personne a un nom+prénom)
 			return($array[0]);
 		} catch (Exception $e){
@@ -264,30 +311,20 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 		}
 	}
 
-	function FactureIntervention($query_result)
+	function FactureIntervention($service, $creneau, $secu)
 	{
+		$date = date("d/m/Y H:i"); 
+
 		try{
-			$array = [];
-			while ($nuplet = mysqli_fetch_array($query_result)) {
-				array_push($array, $nuplet[0], $nuplet[1], $nuplet[2],$nuplet[3]);
-			}
-			print($array[0]);
-			print($array[1]);
-			print($array[2]);
-			print($array[3]);
-			$i = 0 ; 
-			while ($i < count($array)) {
-				$service = $array[$i]; 
-				$creneau = $array[$i+1];
-				$personnel = $array[$i+2];
-				$secu = $array[$i+3];
-				#l'Update ne marcge pas !! 
-				$r = "UPDATE planning SET facture=\"1\" WHERE ID_service = \"$service\" AND ID_creneau = \"$creneau \" AND ID_personnel= \"$personnel\" AND num_secu=\"$secu\"";
-				$q = Query($r);
-				#writeInterventionLog()
-				#writeUserLog()
-				$i=$i+4; 
-			}
+			$r = "UPDATE planning SET facture=0 WHERE ID_service_int = \"$service\" AND ID_creneau = \"$creneau \" AND num_secu=\"$secu\""; 
+			$q = Query($r);
+
+			#On écrit dans le fichier de l'utilisateur
+			WriteUserLog("$date : facturation  de l'intervention $creneau du patient $secu \r\n"); 
+
+			#On écrit dans le fichier service
+			WriteInterventionLog("$date : facturation  de l'intervention $creneau du patient $secu \r\n", $service); 
+
 		} catch (Exception $e){
 			#Si il y a une erreur de query
 			echo $e -> getMessage();
@@ -299,21 +336,35 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 		#Si on regarde le matin 
 		if ($demi_journee == "matin"){
 			try {
-				$array_matin = []; #ecrire l'array 
-				foreach ($variable as $value) {
-					$r1 = "SELECT ID_service_int, ID_personnel, num_secu FROM planning NATURAL JOIN creneau WHERE jour=$date AND heure = $value"; 
-					$q1 = Query($r1); 
+				$r1 = "SELECT ID_service_int, ID_creneau, ID_personnel, num_secu FROM creneau NATURAL JOIN planning WHERE jour=\"$date\" AND heure BETWEEN \"08:30:00\" AND \"12:00:00\" "; 
+				$q1 = Query($r1); 
+
+				#On récupère les interventions du matin 
+				$array=[]; 
+				while ($nuplet = mysqli_fetch_array($q1)) {
+					array_push($array, $nuplet[0],$nuplet[1],$nuplet[2],$nuplet[3]);
 				}
-				#code 
+				return($array);
 			} catch (Exception $e){
 				#Si il y a une erreur de query
 				echo $e -> getMessage();
 			}
 		}
+		elseif ($demi_journee == "apres-midi") {
+			try {
+				$r1 = "SELECT ID_service_int, ID_creneau, ID_personnel, num_secu FROM creneau NATURAL JOIN planning WHERE jour=\"$date\" AND heure BETWEEN \"13:30:00\" AND \"17:30:00\" "; 
+				$q1 = Query($r1); 
 
-		#Si on regarde le soir 
-		elseif ($demi_journee == "apres-midi"){
-			#code
+				#On récupère les interventions du matin 
+				$array=[]; 
+				while ($nuplet = mysqli_fetch_array($q1)) {
+					array_push($array, $nuplet[0],$nuplet[1],$nuplet[2],$nuplet[3]);
+				}
+				return($array);
+			} catch (Exception $e){
+				#Si il y a une erreur de query
+				echo $e -> getMessage();
+			}
 		}
 	}
 ?>

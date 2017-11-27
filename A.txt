@@ -1,0 +1,2 @@
+27/11/2017 15:11 : ajout de l'intervention A pour le patient D 
+27/11/2017 15:12 : ajout de l'intervention B pour le patient D 
