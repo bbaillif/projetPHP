@@ -1,3 +1,0 @@
-27/11/2017 15:07 : facturation  de l'intervention LU46M3 du patient 111023370509701 
-27/11/2017 15:11 : ajout de l'intervention A pour le patient D 
-27/11/2017 15:12 : ajout de l'intervention A pour le patient D au créneau B 
