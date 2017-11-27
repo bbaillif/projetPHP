@@ -9,7 +9,8 @@
 	$_SESSION['uid'] = "X"; 
 	#Essai WriteUserLog 
 	#WriteUserLog("ça écrit!!");
-
+	#WriteInterventionLog("ça écrit!","Operation"); 
+	
 	#Essai CHECKID 
 	#try{
 	#	print(CheckID("PER001", "md1"));
@@ -42,12 +43,27 @@
 	#$r = query("SELECT num_secu FROM patient"); 
 	#printresults($r,"radio"); 
 
-	#Essai des Write
-	#WriteUserLog("ça écrit!"); 
-	#WriteInterventionLog("ça écrit!","Operation"); 
-
 	#Essai de SearchDay 
-	SearchDay("2017-11-15","apres-midi");
+	#SearchDay("2017-11-15","apres-midi");
+
+	#Essai Emergency 
+	#Emergency("num secu","INT004");
+
+	#Essai de CheckID 
+	$array_vide = array('name' => "Sylvie",
+		'surname' => "Blnchard", 
+		'ssNumber' => '3453', 
+		'gender' => 'F', 
+		'birthday' => '1969-03-06',
+		 'pathology' => 'rhume', 
+		 'emergencyNumber' => '3');
+	try{
+		CheckPatient($array_vide); 
+	}catch(Exception $e){
+		echo $e -> getMessage();
+	}
+
+
 	?> 
 
 	<p> Coucou </p>

@@ -89,7 +89,8 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 					WriteUserLog("$date : connection \r\n");
 
 					#On retourne son droit
-					return($row[0]);
+					$array_return= array('ID' => $ID, 'right' => $row[0]); 
+					return($array_return);
 				}
 				#Sinon, on continue 
 				$i = $i + 2;
@@ -367,4 +368,84 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 			}
 		}
 	}
+
+	function Emergency($numSecu, $service){
+		$jour = date("d/m/Y");
+		$heure = date("H:i:s"); 
+		$date = date("d/m/Y H:i"); 
+
+		try{
+			$r="SELECT ID_creneau FROM creneau WHERE jour = \"2017-11-14\" AND heure > \"$heure\"" ; 
+			$q = Query($r); 
+
+			#On récupère le premier créneau
+			$row = mysqli_fetch_array($q); 
+
+			#On ajoute l'intervention 
+			AddIntervention($service, $row[0], $_SESSION['uid'], $numSecu); 
+
+			#On écrit dans le fichier de l'utilisateur
+			WriteUserLog("$date : ajout de l'urgence du patient $numSecu pour intervention dans $service au créneau $row[0] \r\n"); 
+
+			#On écrit dans le fichier service
+			WriteInterventionLog("$date : ajout de l'urgence $row[0] pour le patient $numSecu \r\n", $service); 
+
+		} catch (Exception $e){
+				#Si il y a une erreur de query
+				echo $e -> getMessage();
+		}
+	}
+
+	function CheckPatient($patient_array)
+	{
+		#Vérifie que toutes les informations sont présentes dans le tableau
+		foreach ($patient_array as $key => $value) {
+			if (empty($value)){
+				throw new Exception("Il manque des infos."); 
+			}
+		}
+
+		try{
+			#Vérifie que  infos sont présentes 
+			$prenom = $patient_array['name']; 
+			$nom =  $patient_array['surname']; 
+			$secu = $patient_array['ssNumber']; 
+			$sexe = $patient_array['gender']; 
+			$date_naiss = $patient_array['birthday'];
+
+			$r1 = "SELECT num_secu FROM patient" ; 
+			$q1 = Query($r1); 
+
+			$array = []; 
+			while ($nuplet = mysqli_fetch_array($q1)){
+				array_push($array, $nuplet[0]);
+			}
+
+			if (in_array("$secu",$array)){
+				throw new Exception("Le patient existe déjà."); 
+			}
+		}catch (Exception $e){
+				#Si il y a une erreur de query
+				echo $e -> getMessage();
+		}
+		
+		#Verifie que le niveau d'urgence est compatible avec la pathologie 
+		try{
+			$patho = $patient_array['pathology'];
+			$NU = $patient_array['emergencyNumber']; 	
+
+			$r2 = "SELECT NU_defaut FROM pathologie WHERE pathologie = \"$patho\"";
+			$q2 = Query($r2);
+
+			$row = mysqli_fetch_array($q2); 
+			if ($row[0] != $NU ){
+				throw new Exception("Il y a une erreur dans l'état d'urgence");	
+			}
+		}catch (Exception $e){
+			#Si il y a une erreur de query
+			echo $e -> getMessage();
+		}
+	}
+
+
 ?>
