@@ -320,7 +320,7 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 		$date = date("d/m/Y H:i");
 
 		try{
-			$r = "UPDATE planning SET facture=0 WHERE ID_service_int = \"$service\" AND ID_creneau = \"$creneau \" AND num_secu=\"$secu\""; 
+			$r = "UPDATE planning SET facture=1 WHERE ID_service_int = \"$service\" AND ID_creneau = \"$creneau \" AND num_secu=\"$secu\""; 
 			$q = Query($r);
 
 			#On écrit dans le fichier de l'utilisateur
@@ -505,7 +505,7 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 			$duree = $row[0]; 
 
 			#MAJ du niveau d'urgence
-			$update = 10 - ($duree/10); 
+			$update = $duree/10; 
 			$new_NU = $NU + $update; 
 			$new_NU = round($new_NU); #On arrondit
 			if ($new_NU > 10){
@@ -587,22 +587,231 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 		PrintResults($array_creneau, "radio"); 
 	}
 
-	function UpdateIntervention($array, $new_array)
+	function SearchPatient($array)
 	{
 		try{
-			$secu = $array['ssNumber'];
+			$arraySQL = array('num_secu', 'nom', 'prenom', 'sexe', 'date_naiss', 'pathologie', 'NU'); 
+			$array_patient = array($array['ssNumber'], $array['surname'], $array['name'], $array['gender'], $array['birthday'], $array['pathology'], $array['emergencyNumber']); 
 
-			foreach ($new_array as $key => $value) {
-				$r = ; 
-				$q = Query($r);
+			$r = "SELECT * FROM Patient NATURAL JOIN Personne WHERE "; 
+			$i = 0; 
+
+			while ($i < count($arraySQL)) {
+				if (!empty($array_patient[$i])){
+					$new_arraySQL[] = $arraySQL[$i]; 
+					$new_array_patient[] = $array_patient[$i];
+				}
+				$i+=1; 
 			}
-			 
-			#writeInterventionLog()
-			#writeUserLog()
+
+			$r = $r.$new_arraySQL[0]." = \"".$new_array_patient[0]."\""; 
+
+			$j = 1;
+			while ($j < count($new_array_patient)) {
+				$r = $r." AND ".$new_arraySQL[$j]." = \"".$new_array_patient[$j]."\""; 
+				$j = $j +1; 
+			}
+			
+			$q = Query($r);
+			$result = []; 			
+			while ($nuplet = mysqli_fetch_array($q)) {
+				array_push($result, $nuplet[0], $nuplet[1], $nuplet[2], $nuplet[3], $nuplet[4], $nuplet[5], $nuplet[6]);
+			}
+			return($result);
+		}catch (Exception $e){
+			#Si il y a une erreur de query 
+			echo $e -> getMessage();
+		}
+	}
+
+	function SearchIntervention($info_inter)
+	{
+		try{
+			$r = "SELECT ID_creneau, ID_service_int FROM Planning NATURAL JOIN creneau NATURAL JOIN personne WHERE ";
+
+			if (!empty($info_inter['patientName'])){
+				$r1 = " nom = \"".$info_inter['patientName']."\""; 
+			}
+
+			if (!empty($info_inter['startingDate'])) {
+				if (!empty($info_inter['endingDate'])){
+					$r2 = " jour BETWEEN \"".$info_inter['startingDate']."\"AND \"".$info_inter['startingDate']."\"";
+				}
+				else {
+					$r2 = " jour > \"".$info_inter['startingDate']."\"";
+				}
+			}
+			elseif (empty($info_inter['startingDate'])) {
+				if (!empty($info_inter['endingDate'])) {
+					$r2 = " jour < \"".$info_inter['endingDate']."\"";
+				}
+			}
+
+			if ($r1!=""){
+				if ($r2!=""){
+					$r = $r.$r1." AND ".$r2 ; 
+				}else {
+					$r = $r.$r1; 
+				}
+			} else {
+				if($r2!=""){
+					$r = $r.$r2;
+				}else {
+					$r = "SELECT ID_creneau, ID_service_int FROM Planning";
+				}
+			}
+
+			$q = Query($r);
+			$result = []; 			
+			while ($nuplet = mysqli_fetch_array($q)) {
+				array_push($result, $nuplet[0], $nuplet[1]);
+			}
+			return($result);
 
 		}catch (Exception $e){
 			#Si il y a une erreur de query 
 			echo $e -> getMessage();
+		}
+	}
+
+	function DeleteIntervention($ID_service, $ID_creneau)
+	{
+		$date = date("d/m/Y H:i");
+
+		try {
+			$r="DELETE from planning WHERE ID_service_int=\"$ID_service\" AND ID_creneau = \"$ID_creneau\"";
+			$q=Query($r);
+
+			#On écrit dans le fichier de l'utilisateur
+			WriteUserLog("$date : Suppression de l'intervention du service $ID_service pour $ID_creneau \r\n");
+			#On écrit dans le fichier du service concerné
+			WriteInterventionLog("$date : Suppression de l'intervention du creneau $ID_creneau \r\n", $ID_service);
+		} catch (Exception $e) {
+			#Si il y a une erreur de query 
+			echo $e -> getMessage();
+		}
+	}
+
+	function UpdateIntervention($old_array, $new_array)
+	{
+		$date = date("d/m/Y H:i");
+
+		try {
+			if ($old_array['hour'] != $new_array['hour']){
+				#on recherche ID creneau pour le jour et le heure
+				$r1 = "SELECT ID_creneau FROM creneau WHERE jour =\"".$old_array['day']."\" AND heure = \"".$new_array['hour']."\"";
+
+				$q1 = Query($r1); 
+				$row = mysqli_fetch_array($q1); 
+				$creneau = $row[0]; 
+
+				$r = "UPDATE planning SET ID_creneau=\"$creneau\" WHERE ID_service_int = \"".$old_array['service_int']."\" AND num_secu=\"".$old_array['ssNumber']."\"";
+
+				$q = Query($r); 
+
+				#On écrit dans le fichier de l'utilisateur
+				WriteUserLog("$date : Modificiation du créneau de l'invervention du service".$old_array['service_int']."\r\n");
+				#On écrit dans le fichier du service concerné
+				WriteInterventionLog("$date : Modificiation du créneau $creneau \r\n", $old_array['service_int']);			
+			}
+		} catch (Exception $e) {
+			#Si il y a une erreur de query 
+			echo $e -> getMessage();
+		}
+	}
+
+	function CheckSurbooking($ID_service_int)
+	{
+		$heure = date("H:i:s");  
+		$heure = "14:00:00";
+
+		try{
+			if ($heure < "12:30:00"){
+				$r = "SELECT ID_creneau FROM planning NATURAL JOIN creneau WHERE ID_service_int = \"$ID_service_int\" AND jour = CURRENT_DATE() AND heure BETWEEN \"8:00:00\" AND \"12:30:00\""; 
+
+				$q = Query($r); 
+
+				$array = []; 
+				while ($nuplet = mysqli_fetch_array($q)) {
+					array_push($array, $nuplet[0]);
+				}
+
+				$i = 0; 
+				while ($i < count($array)){
+					$a = $array[$i]; 
+					$sum = 0; 
+					foreach ($array as $value) {
+						if ($value == $a){
+							$sum = $sum +1; 
+						}
+					}
+					if ($sum >=2) {
+						$r1 = "SELECT * FROM planning NATURAL JOIN creneau WHERE ID_service_int = \"$ID_service_int\" AND jour = CURRENT_DATE() AND heure BETWEEN \"08:00:00\" AND \"12:30:00\"";
+						$q1 = Query($r1);
+
+						$array_planning = []; 
+						while ($nuplet = mysqli_fetch_array($q1)) {
+							array_push($array_planning, $nuplet[0], $nuplet[1],$nuplet[2],$nuplet[3],$nuplet[4]);
+						}
+						return($array_planning);
+					}
+					else {
+						$i = $i+1; 
+					}
+				}
+
+
+			} elseif ("13:00:00" < $heure){
+				$r = "SELECT ID_creneau FROM planning NATURAL JOIN creneau WHERE ID_service_int = \"$ID_service_int\" AND jour = CURRENT_DATE() AND heure BETWEEN \"13:00:00\" AND \"18:00:00\""; 
+
+				$q = Query($r); 
+
+				$array = []; 
+				while ($nuplet = mysqli_fetch_array($q)) {
+					array_push($array, $nuplet[0]);
+				}
+
+				$i = 0; 
+				while ($i < count($array)){
+					$a = $array[$i]; 
+					$sum = 0; 
+					foreach ($array as $value) {
+						if ($value == $a){
+							$sum = $sum +1; 
+						}
+					}
+					if ($sum >=2) {
+						$r1 = "SELECT * FROM planning NATURAL JOIN creneau WHERE ID_service_int = \"$ID_service_int\" AND jour = CURRENT_DATE() AND heure BETWEEN \"13:00:00\" AND \"18:00:00\"";
+						$q1 = Query($r1);
+
+						$array_planning = []; 
+						while ($nuplet = mysqli_fetch_array($q1)) {
+							array_push($array_planning, $nuplet[0], $nuplet[1],$nuplet[2],$nuplet[3],$nuplet[4]);
+						}
+						return($array_planning);
+					}
+					else {
+						$i = $i+1; 
+					}
+				}
+			}
+		} catch (Exception $e) {
+			#Si il y a une erreur de query 
+			echo $e -> getMessage();
+		}
+	}
+
+	function UpdateDay ($old,$new){
+		foreach ($old as $array_o) {
+			$i = 0;
+			while ($i<count($new)){
+				$array_n = $new[$i]; 
+				print($i);
+				if ($array_o['service_int']==$array_n['service_int']&& $array_o['ssNumber']==$array_n['ssNumber'] && $array_o['day']==$array_n['day']) {
+					UpdateIntervetion($array_o,$array_n);
+				}
+				$i=$i+1;
+			}
 		}
 	}
 

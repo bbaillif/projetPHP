@@ -55,8 +55,8 @@
 		'ssNumber' => 'x', 
 		'gender' => 'F', 
 		'birthday' => '2000-01-01',
-		 'pathology' => 'rhume', 
-		 'emergencyNumber' => '6');
+		'pathology' => 'rhume', 
+		'emergencyNumber' => '6');
 	#try{
 	#	$r = CheckPatient($array_vide); 
 	#}catch(Exception $e){
@@ -90,6 +90,34 @@
 
 	#essai UpdatedUL
 	#print(UpdatedUL("111023370509701","4"));
+
+	#Search Patient 
+	#$array = array('name' => "",
+	#	'surname' => "", 
+	#	'ssNumber' => '269039584447537', 
+	#	'gender' => '', 
+	#	'birthday' => '',
+	#	'pathology' => '', 
+	#	'emergencyNumber' => '');
+	#SearchPatient($array);
+
+	#SearchIntervention 
+	#$array = array('startingDate' => '2017/11/10', 'endingDate' => '', 'patientName' => "Nadeau");
+	#SearchIntervention($array);
+
+	#Delete intervention 
+	#DeleteIntervention("A","B");
+
+	#Essai de Update intervention
+	#$array1 = array('hour' => "09:00:00", 'service_int' => "INT004" , 'ssNumber' => "111023370509701", 'day'=>"2017/11/13");
+	#$array2 = array('hour' => "17:00:00", 'service_int' => "INT004" , 'ssNumber' => "111023370509701", 'day'=>"2017/11/13");
+	#UpdateIntervention($array1,$array2);
+
+	#CheckSurbooking("INT004");
+
+	#$old = array(array('day'=>"1",'service_int'=>2,'ssNumber'=>3),array('day'=>"3",'service_int'=>5,'ssNumber'=>7));
+	#$new = array(array('day'=>"2",'service_int'=>2,'ssNumber'=>2),array('day'=>"3",'service_int'=>5,'ssNumber'=>7));
+	#UpdateDay($old,$new);
 	?> 
 
 	<p> Coucou </p>

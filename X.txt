@@ -6,3 +6,6 @@
 04/12/2017 11:16 : update du patient x 
 04/12/2017 11:18 : update du patient x 
 04/12/2017 11:30 : update du patient x 
+04/12/2017 15:18 : Suppression de l'intervention du service A pour B 
+ : Modificiation du créneau de l'invervention du serviceINT004
+04/12/2017 16:06 : Modificiation du créneau de l'invervention du serviceINT004
