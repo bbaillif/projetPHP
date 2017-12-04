@@ -16,25 +16,31 @@
 	<?php
 		CheckUID();
 		PrintHeader();
-
-		if isset($_POST['interventionEmergencyNumber']) {
-			$_SESSION['emergencyNumber'] = $_POST['interventionEmergencyNumber'];
+		if (isset($_POST['deleteIntervention'])) {
+			# DeleteIntervention()
+			header('Location: ./interventionDeleted.php');
+		}
+		else {
+			# Do nothing
 		}
 	?>
 
-	<h1>Résultats de la recherche de créneaux libres</h1>
+	<h1>Résultats de la recherche d'intervention</h1>
 
 	<form action="resultsIntervention.php" method="post">
 	<?php
-		# SearchFreeTime
-		# PrintFreeTime(tableau, true);
-		if ($_SESSION['action'] == 'searchPatient') {
-			echo '<input type="submit" name="updatePatient" value="Modifier patient" /><br>' . "\n";
-			echo '<input type="submit" name="deletePatient" value="Supprimer patient" /><br>' . "\n";
+		# PrintResults(tableau, true);
+		if ($_SESSION['action'] == 'searchIntervention') {
+			SearchIntervention();
+			PrintResults();
+			echo '<input type="submit" name="deleteIntervention" value="Supprimer intervention" /><br>' . "\n";
 		}
-		elseif ($_SESSION['action'] == 'addIntervention') {
-			echo '<input type="submit" name="choosePatient" value="Choisir le patient sélectionné" /><br>' . "\n";
-			echo '<input type="submit" name="addPatient" value="Créer un patient" /><br>' . "\n";
+		elseif ($_SESSION['action'] == 'seeFacturedIntervention') {
+			SearchInterventionF();
+			PrintResults();
+		}
+		else {
+			header('Location: ./index.php');
 		}
 	?>
 

@@ -29,3 +29,23 @@
 		$infoField['emergencyLevel'] = array('french' => 'Niveau d\'urgence','type' => 'number', 'DBentry' => 'NU');
 		return($infoField);
 	}
+
+	function listSelectHours($halfDay) {
+		if ($halfDay == 'morning') {
+			echo '<option value="9h00">9h00</option>' . "\n";
+			echo '<option value="9h30">9h30</option>' . "\n";
+			echo '<option value="10h00">10h00</option>' . "\n";
+			echo '<option value="10h30">10h30</option>' . "\n";
+			echo '<option value="11h00">11h00</option>' . "\n";
+			echo '<option value="11h30">11h30</option>' . "\n";
+		}
+		else {
+			echo '<option value="13h30">13h30</option>' . "\n";
+			echo '<option value="14h00">14h00</option>' . "\n";
+			echo '<option value="14h30">14h30</option>' . "\n";
+			echo '<option value="15h00">15h00</option>' . "\n";
+			echo '<option value="15h30">15h30</option>' . "\n";
+			echo '<option value="16h00">16h00</option>' . "\n";
+			echo '<option value="16h30">16h30</option>' . "\n";
+		}
+	}

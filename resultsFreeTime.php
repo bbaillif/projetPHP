@@ -16,33 +16,22 @@
 	<?php
 		CheckUID();
 		PrintHeader();
-		if (isset($_POST['updatePatient']) AND $_POST['ssNumber']) {
-			$_SESSION['patientID'] = $_POST['ssNumber'];
-			$_SESSION['action'] = 'updatePatient';
-			header('Location: ./patient.php');
-		}
-		elseif (isset($_POST['deletePatient'])){
-			# DeletePatient($_POST[patientID]);
-			header('Location: ./patientUpdated.php');
-		}
-		elseif (isset($_POST['choosePatient'])) {
-			$_SESSION['patientID'] = $_POST['ssNumber'];
-			header('Location: ./askIntervention.php');
-		}
-		elseif (isset($_POST['addPatient'])) {
-			$_SESSION['action'] = 'addPatientIntervetion';
-			header('Location: ./patient.php');
+
+		if isset($_POST['interventionEmergencyNumber']) {
+			$_SESSION['emergencyNumber'] = $_POST['interventionEmergencyNumber'];
+			$_SESSION['falseEmergencyNumber'] = $_POST['interventionEmergencyNumber'];
 		}
 		else {
-			# Do nothing
+			$_SESSION['falseEmergencyNumber'] += 1;
 		}
 	?>
 
-	<h1>Résultats de la recherche de patient</h1>
+	<h1>Résultats de la recherche de créneaux libres</h1>
 
-	<form action="resultsPatient.php" method="post">
+	<form action="resultsFreeTime.php" method="post">
 	<?php
-		# PrintResults(tableau, true);
+		# SearchFreeTime
+		# PrintFreeTime(tableau, true);
 		if ($_SESSION['action'] == 'searchPatient') {
 			echo '<input type="submit" name="updatePatient" value="Modifier patient" /><br>' . "\n";
 			echo '<input type="submit" name="deletePatient" value="Supprimer patient" /><br>' . "\n";
