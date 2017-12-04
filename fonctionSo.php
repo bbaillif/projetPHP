@@ -65,8 +65,9 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 
 	function CheckID($ID, $mdp)
 	{
-		$error = "Les informations saisies sont incorrectes. <br>Merci de bien vouloir vérifier les informations saisies.";
-		$date = date("d/m/Y H:i"); 
+		$date = date("d/m/Y H:i");
+		$error = "Les informations saisies sont incorrectes. <br>Merci de bien vouloir vérifier les informations saisies."; 
+
 		try{
 			#On récupère les couple (ID, mdp) de la bdd 
 			$r1 = "SELECT ID_personnel, MDP FROM personnel"; 
@@ -106,25 +107,26 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 	{
 		if ($type == "checkbox")
 		{
-			while($nuplet=mysqli_fetch_array($tableau))
+			foreach ($tableau as $value) 
 			{
-				print("<input type=\"checkbox\" name=\"value[]\" value=\"".$nuplet[0]."\" id =\"b\"> ");
-				print("<label for= \"b\">".$nuplet[0]."\n</label> <br><br>");
+				print("<input type=\"checkbox\" name=\"value[]\" value=\"".$value."\" id =\"b\"> ");
+				print("<label for= \"b\">".$value."\n</label> <br><br>");
 			}
 		}
 		else
 		{
-			while($nuplet=mysqli_fetch_array($tableau))
+			foreach ($tableau as $value) 
 			{
-				print("<input type=\"radio\" name=\"val\" value=\"".$nuplet[0]."\" id =\"b\"> ");
-				print("<label for= \"b\"> ".$nuplet[0]."\n</label><br><br>");
+				print("<input type=\"radio\" name=\"val\" value=\"".$value."\" id =\"b\"> ");
+				print("<label for= \"b\"> ".$value."\n</label><br><br>");
 			}
 		}
 	}
 			
 	function DeletePatient($numSecu)
 	{
-		$date = date("d/m/Y H:i"); 
+		$date = date("d/m/Y H:i");
+
 		try{
 			$r="DELETE from patient WHERE num_secu=\"$numSecu\"";
 			$q=Query($r);
@@ -139,7 +141,8 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 
 	function DeleteService($nom_service)
 	{
-		$date = date("d/m/Y H:i"); 
+		$date = date("d/m/Y H:i");
+
 		try{
 			#On sélectionne l'ID du service de la BDD 
 			$r2 = "SELECT ID_service_int FROM Service_intervention WHERE nom=\"$nom_service\"";
@@ -184,7 +187,7 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 
 	function AddService($nomService,$type)
 	{
-		$date = date("d/m/Y H:i"); 
+		$date = date("d/m/Y H:i");
 
 		#On veut ajouter un service d'intervention 
 		if ($type=="intervention")
@@ -314,7 +317,7 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 
 	function FactureIntervention($service, $creneau, $secu)
 	{
-		$date = date("d/m/Y H:i"); 
+		$date = date("d/m/Y H:i");
 
 		try{
 			$r = "UPDATE planning SET facture=0 WHERE ID_service_int = \"$service\" AND ID_creneau = \"$creneau \" AND num_secu=\"$secu\""; 
@@ -372,7 +375,7 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 	function Emergency($numSecu, $service){
 		$jour = date("d/m/Y");
 		$heure = date("H:i:s"); 
-		$date = date("d/m/Y H:i"); 
+		$date = date("d/m/Y H:i");
 
 		try{
 			$r="SELECT ID_creneau FROM creneau WHERE jour = \"2017-11-14\" AND heure > \"$heure\"" ; 
@@ -399,16 +402,9 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 	function CheckPatient($patient_array)
 	{
 		try{
-			#Vérifie que toutes les informations sont présentes dans le tableau
-			foreach ($patient_array as $key => $value) {
-				if (empty($value)){
-					throw new Exception("Il manque des infos."); 
-				}
-			}
-
-			#Vérifie que  infos sont présentes 
+			#Vérifie que le patient est pas dans la BDD
 			$secu = $patient_array['ssNumber']; 
-
+			
 			$r1 = "SELECT num_secu FROM patient" ; 
 			$q1 = Query($r1); 
 
@@ -418,10 +414,23 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 			}
 
 			if (in_array("$secu",$array)){
-				throw new Exception("Le patient existe déjà."); 
+				#throw new Exception("Le patient existe déjà."); 
+				return(False);
 			}
-				
+			return(True); 
+		}catch (Exception $e){
+			#Si il y a une erreur de query
+			echo $e -> getMessage();
+		}
+	}
+
+	function CheckNU($patient_array)
+	{
+		$date = date("d/m/Y H:i");
+
+		try{
 			#Verifie que le niveau d'urgence est compatible avec la pathologie 
+			$secu = $patient_array['ssNumber']; 
 			$patho = $patient_array['pathology'];
 			$NU = $patient_array['emergencyNumber']; 	
 
@@ -430,11 +439,172 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 
 			$row = mysqli_fetch_array($q2); 
 			if ($row[0] != $NU ){
-				throw new Exception("Il y a une erreur dans l'état d'urgence");	
+				if ($f = fopen("VerifNU.txt", "a")){
+					#On écrit la chaine
+					fwrite($f, "$date : $secu a un $patho avec NU=$NU"); 
+					#On ferme le fichier
+					fclose($f); 
+				}
 			}
 		}catch (Exception $e){
 			#Si il y a une erreur de query
 			echo $e -> getMessage();
 		}
 	}
+
+	function AddPatient ($patient_array)
+	{
+		$date = date("d/m/Y H:i");
+
+		try{
+			#Vérifie que toutes les informations sont présentes dans le tableau
+			foreach ($patient_array as $key => $value) {
+				if (empty($value)){
+					throw new Exception("Il manque des infos.");
+				}
+			}
+
+			#Vérifie que le patient n'existe pas déjà
+			if (CheckPatient($patient_array) == False) {
+				throw new Exception("Le patient existe déjà");
+			}
+
+			#Ajout dans la table Personne	
+			$secu = $patient_array['ssNumber']; 
+			$nom = $patient_array['surname'] ;
+			$prenom = $patient_array['name']; 
+			$sexe = $patient_array['gender']; 
+			$date_naiss = $patient_array['birthday']; 
+
+			$r_personne = "INSERT INTO personne VALUES (\"$secu\",\"$nom\",\"$prenom\",\"$sexe\",\"$date_naiss\")" ; 
+			$q_personne = query($r_personne); 
+
+			#Ajout dans la table Patient 
+			$patho = $patient_array['pathology'];
+			$NU = $patient_array['emergencyNumber']; 
+			$r_patient = "INSERT INTO patient VALUES (\"$secu\",\"$patho\", \"$NU\")"; 
+			$q_patient = query($r_patient); 
+
+			#Check son NU 
+			CheckNU($patient_array); 
+
+			WriteUserLog("$date : ajout du patient $secu \r\n");
+		} catch (Exception $e){
+			#Si il y a une erreur de query ou de CheckPatient
+			echo $e -> getMessage();
+		}
+	}
+
+	function UpdatedUL($secu, $NU)
+	{		
+		try{
+			#Query pour connaître la durée jusqu'à la prochaine intervention concernant le numéro de sécu dans la table Planning.  
+			$r = "SELECT DATEDIFF(jour,CURRENT_DATE()) FROM planning NATURAL JOIN creneau WHERE num_secu = \"$secu\" ORDER BY jour, heure";
+			$q = Query($r); 
+			$row = mysqli_fetch_array($q); 
+			$duree = $row[0]; 
+
+			#MAJ du niveau d'urgence
+			$update = 10 - ($duree/10); 
+			$new_NU = $NU + $update; 
+			$new_NU = round($new_NU); #On arrondit
+			if ($new_NU > 10){
+				$new_NU =10; #=10 si supérieur à 10, car 10 = le max
+			}
+
+			#Renvoie le niveau d'urgence mis-à-jour 
+			return($new_NU); 
+		}catch (Exception $e){
+			#Si il y a une erreur de query
+			echo $e -> getMessage();
+		}
+	}
+
+	function UpdatePatient ($secu, $patient_array)
+	{
+		$date = date("d/m/Y H:i");
+
+		try{
+			#Vérifie que toutes les informations sont présentes dans le tableau
+			foreach ($patient_array as $key => $value) {
+				if (empty($value)){
+					throw new Exception("Il manque des infos.");
+				}
+			}
+			
+			#Vérifie que le patient existe
+			if (CheckPatient($patient_array) == True) {
+				throw new Exception("Le patient n'existe pas");
+			}
+
+			#Update de la table patient 
+			$patho = $patient_array['pathology'];
+			$NU = $patient_array['emergencyNumber']; 
+			$r_patient = "UPDATE patient SET pathologie=\"$patho\",NU=\"$NU\" WHERE num_secu = \"$secu\"";
+			$q_patient = Query($r_patient); 
+
+			#Check son NU 
+			CheckNU($patient_array); 
+
+			#On écrit dans le fichier du personnel qui a modifié 
+			WriteUserLog("$date : update du patient $secu \r\n"); 
+		}catch (Exception $e){
+			#Si il y a une erreur de query ou de CheckPatient
+			echo $e -> getMessage();
+		}
+	}
+
+	function SearchFreeTime($Service_int)
+	{
+		try{
+			#Recherche tous les IDCreneau présents dans la table Créneau qui ne sont pas dans la table Planning pour un service d'intervention donné 
+			#ils sont classés par ordre chronologique grâce à ORDER BY
+			$r = "SELECT ID_creneau FROM creneau WHERE ID_creneau NOT IN (SELECT ID_creneau FROM planning WHERE ID_service_int = \"$Service_int\") ORDER BY jour, heure" ; 
+			$q = Query($r); 
+			$array = []; 			
+			while ($nuplet = mysqli_fetch_array($q)) {
+				array_push($array, $nuplet[0]);
+			}
+
+			return($array); 
+		}catch (Exception $e){
+			#Si il y a une erreur de query 
+			echo $e -> getMessage();
+		}
+	}  
+
+	function PrintFreeTime ($array, $NU)
+	{
+		#On veut que le Num urgence soit un chiffre
+		$NU =(int) $NU; 
+		#On divise le tableau des créneaux tous les 5 créneaux
+		$new = array_chunk($array, 5); 
+		#Le max du numéro d'urgence = 10, on calcule quel tableau divisé on veut
+		$n= 10 - $NU;  
+		#On créé un nouveau tableau avec les 5 créneaux selon le numéro d'urgence
+		$array_creneau = $new[$n]; 
+		#On affiche le résultat
+		PrintResults($array_creneau, "radio"); 
+	}
+
+	function UpdateIntervention($array, $new_array)
+	{
+		try{
+			$secu = $array['ssNumber'];
+
+			foreach ($new_array as $key => $value) {
+				$r = ; 
+				$q = Query($r);
+			}
+			 
+			#writeInterventionLog()
+			#writeUserLog()
+
+		}catch (Exception $e){
+			#Si il y a une erreur de query 
+			echo $e -> getMessage();
+		}
+	}
+
+
 ?>

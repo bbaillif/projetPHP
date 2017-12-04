@@ -1,0 +1,8 @@
+ : suppression du patient 170125410485276 
+04/12/2017 10:37 : suppression du patient 170125410485276 
+04/12/2017 10:40 : suppression du patient 170125410485276 
+04/12/2017 10:50 : ajout du patient x 
+ : update du patient x 
+04/12/2017 11:16 : update du patient x 
+04/12/2017 11:18 : update du patient x 
+04/12/2017 11:30 : update du patient x 

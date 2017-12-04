@@ -19,7 +19,7 @@
 	#}
 
 	#Essai Delete Patient
-	#DeletePatient("x");
+	#DeletePatient("170125410485276");
 
 	#Essai DeleteService
 	#DeleteService("blabla");
@@ -50,24 +50,46 @@
 	#Emergency("num secu","INT004");
 
 	#Essai de CheckID 
-	$array_vide = array('name' => "X",
-		'surname' => "Y", 
-		'ssNumber' => '170125410485276', 
+	$array_vide = array('name' => "A",
+		'surname' => "B", 
+		'ssNumber' => 'x', 
 		'gender' => 'F', 
-		'birthday' => '2017-03-06',
+		'birthday' => '2000-01-01',
 		 'pathology' => 'rhume', 
-		 'emergencyNumber' => '3');
-	try{
-		CheckPatient($array_vide); 
-	}catch(Exception $e){
-		echo $e -> getMessage();
-	}
+		 'emergencyNumber' => '6');
+	#try{
+	#	$r = CheckPatient($array_vide); 
+	#}catch(Exception $e){
+	#	echo $e -> getMessage();
+	#}
+	#if ($r == True){
+	#	print("ça marche");
+	#}else{
+#		print("nop");
+	#}
+
 
 	#Essai AddPatient 
-	AddPatient($array_vide);
+	#try{
+	#	AddPatient($array_vide);
+	#} catch (Exception $e){
+	#	echo $e -> getMessage();	
+	#}
 
+	#UpdatePatient
+	#try{
+	#	UpdatePatient("x",$array_vide); 
+	#}catch (Exception $e){
+	#	echo $e -> getMessage(); 
+	#}
 
+	#try SearchFreeTime
+	#$array = SearchFreeTime("INT004"); 
+	#essai PrintFreeTime
+	#PrintFreeTime($array,"10");
 
+	#essai UpdatedUL
+	#print(UpdatedUL("111023370509701","4"));
 	?> 
 
 	<p> Coucou </p>
