@@ -31,20 +31,29 @@
 			$username = $_POST['username'];
 			$password = $_POST['password'];
 
-			$_SESSION['uid'] = $username;
+			#$_SESSION['uid'] = $username;
 
-			#Try to connect : check password and username
+			# try to log : check password and username
 			$userInfoArray = CheckID($username, $password);
 
 			#If no error : user can access the website
-			if ($userInfoArray['right'] != ""){
+			if ($userInfoArray['right'] != "" && $userInfoArray['ID'] != ""){
 				$_SESSION['right'] = $userInfoArray['right'];
+				$_SESSION['uid'] = $username;
+
+				#Write in the user's file : 
+				WriteUserLog("$date : connection \r\n");
+
+				#Move onto next page
 				header('Location: ./index.php');
 			} 
 			#If an error : user needs to try again
 			else {
 				echo 'Les informations saisies sont incorrectes. <br>Merci de bien vouloir réessayer.';
 			}
+		}
+		else {
+			print_r(InfoFieldPatient());
 		}
 	?>
 

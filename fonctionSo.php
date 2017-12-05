@@ -94,9 +94,6 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 					$q2 = Query($r2); 
 					$row = mysqli_fetch_array($q2); 
 
-					#On écrit dans le fichier de l'utilisateur
-					WriteUserLog("$date : connection \r\n");
-
 					#On retourne son droit
 					$array_return= array('ID' => $ID, 'right' => $row[0]); 
 					return($array_return);
@@ -105,7 +102,7 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 				$i = $i + 2;
 			}
 			#Si le couple(ID,mdp) n'est pas dans la base de données
-			$array_return= array('right'=>''); 
+			$array_return= array('ID' => '', 'right'=>''); 
 			return($array_return);
 		}catch(Exception $e){
 			#Si erreur de la fonction Query() 

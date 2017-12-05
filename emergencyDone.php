@@ -1,5 +1,6 @@
 <?php
 	require("./fonctionsBen.php");
+	require("./fonctionSo.php");
 	session_start();
 ?>
 

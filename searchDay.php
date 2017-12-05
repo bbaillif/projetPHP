@@ -25,7 +25,7 @@
 			echo '<form action="searchDay.php" method="post">'. "\n";
 		}
 		elseif (isset($_POST['dayToChange'])) {
-			# A VOIR SI DATE VIDE ACTIVE CE IF
+			#If no date was choosen
 			header('Location: ./changeDay.php');
 		}
 		else {

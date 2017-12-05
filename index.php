@@ -25,21 +25,21 @@
 		if (isset($_GET['action'])) {
 			$_SESSION['action'] = $_GET['action'];
 
-			if ($_SESSION['right'] == 'doctor') {
+			if ($_SESSION['right'] == '1') {
 				if ($_SESSION['action'] == 'addPatient' 
 					OR $_SESSION['action'] == 'searchPatient') {
 					header('Location: ./patient.php');
 				}
-				elseif ($_SESSION['action'] == 'addIntervetion') {
-					header('Location: ./askIntervetion.php');
+				elseif ($_SESSION['action'] == 'addIntervention') {
+					header('Location: ./askIntervention.php');
 				}
-				elseif ($_SESSION['action'] == 'deleteIntervetion' 
+				elseif ($_SESSION['action'] == 'deleteIntervention' 
 					OR $_SESSION['action'] == 'seeFacturedIntervention') {
 					header('Location: ./searchIntervention.php');
 				}
 			}
 
-			if ($_SESSION['right'] == 'responsible') {
+			elseif ($_SESSION['right'] == '2') {
 				if ($_SESSION['action'] == 'changeDay') {
 					header('Location: ./searchDay.php');
 				}
@@ -58,15 +58,15 @@
 			}
 		}
 
-		if ($_SESSION['right'] == 'doctor') {
+		if ($_SESSION['right'] == '1') {
 			echo '<a href="?action=addPatient">Créer patient</a><br>' . "\n";
 			echo '<a href="?action=searchPatient">Rechercher patient</a><br>
 ' . "\n";
-			echo '<a href="?action=addIntervetion">Créer intervention</a><br>' . "\n";
-			echo '<a href="?action=deleteIntervetion">Supprimer intervention</a><br>' . "\n";
+			echo '<a href="?action=addIntervention">Créer intervention</a><br>' . "\n";
+			echo '<a href="?action=deleteIntervention">Supprimer intervention</a><br>' . "\n";
 			echo '<a href="?action=seeFacturedIntervention">Voir interventions facturées</a><br>' . "\n";
 		}
-		elseif ($_SESSION['right'] == 'responsible') {
+		elseif ($_SESSION['right'] == '2') {
 			echo '<a href="?action=changeDay">Modifier demi-journée</a><br>' . "\n";
 			echo '<p>Insérer urgence</p>';
 			echo '<a href="?action=emergencyWithoutPatient">Immédiate (sans patient)</a><br>' . "\n";
@@ -74,7 +74,7 @@
 			echo '<a href="?action=emergencyWithExistingPatient">Avec un patient connu</a><br>' . "\n";
 			echo '<a href="?action=addPatient">Facturer</a><br>' . "\n";
 		}
-		elseif ($_SESSION['right'] == 'admin') {
+		elseif ($_SESSION['right'] == '0') {
 			echo '<a href="?action=addPatient">Gérer service d\'accueil</a><br>' . "\n";
 			echo '<a href="?action=addPatient">Gérer service d\'intervention</a><br>' . "\n";
 			echo '<a href="?action=addPatient">Voir historique</a><br>' . "\n";

@@ -17,6 +17,9 @@
 		CheckUID();
 		PrintHeader();
 		print_r($_POST);
+	?>
+
+	<?php
 		# Following lines execute only if action = addPatient and first entry done
 		# TODO !!!!! if (CheckPatient($_POST)) {
 		if (isset($_POST['pathology'])) {
