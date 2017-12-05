@@ -1,5 +1,6 @@
 <?php
 	require("./fonctionsBen.php");
+	require("./fonctionSo.php");
 	session_start();
 ?>
 
@@ -29,25 +30,21 @@
 		if (isset($_POST['username']) AND isset($_POST['password'])) {
 			$username = $_POST['username'];
 			$password = $_POST['password'];
-			#$userInfoArray = CheckID($username, $password);
-			#if(isset($userInfoArray['error'])) {}
-			#$userID = $userInfoArray['uid'];
-			#$userRight = $userInfoArray['right'];
-			$idPersonnel = 17111995;
-			$right = 'doctor';
-			#if($idPersonnel != 0) {
-			if($username == 'username' AND $password == 'password') { 
-			// TODO !!! A remplacer dès qu'on a CheckID
-				$_SESSION['uid'] = $idPersonnel;
-				$_SESSION['right'] = $right;
+
+			$_SESSION['uid'] = $username;
+
+			#Try to connect : check password and username
+			$userInfoArray = CheckID($username, $password);
+
+			#If no error : user can access the website
+			if ($userInfoArray['right'] != ""){
+				$_SESSION['right'] = $userInfoArray['right'];
 				header('Location: ./index.php');
-			}
+			} 
+			#If an error : user needs to try again
 			else {
-				echo 'Identification incorrecte, veuillez réessayer';
+				echo 'Les informations saisies sont incorrectes. <br>Merci de bien vouloir réessayer.';
 			}
-		}
-		else {
-			print_r(InfoFieldPatient());
 		}
 	?>
 

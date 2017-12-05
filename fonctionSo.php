@@ -75,7 +75,6 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 	{
 		#Déclaration des variables 
 		$date = date("d/m/Y H:i");
-		$error = "Les informations saisies sont incorrectes. <br>Merci de bien vouloir vérifier les informations saisies."; 
 
 		try{
 			#On récupère les couples (ID, mdp) de la bdd 
@@ -106,7 +105,8 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 				$i = $i + 2;
 			}
 			#Si le couple(ID,mdp) n'est pas dans la base de données
-			throw new Exception($error); 
+			$array_return= array('right'=>''); 
+			return($array_return);
 		}catch(Exception $e){
 			#Si erreur de la fonction Query() 
 			echo $e -> getMessage();
