@@ -25,7 +25,6 @@
 		<select name = "nom">
 			<?php
 			$array = ReturnName(); 
-			print_r($array);
 			$i = 0; 
 			while ($i < count($array)){
 				$nom = $array[$i];

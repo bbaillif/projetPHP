@@ -1017,5 +1017,23 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 		}
 	}
 
+#ReturnPathology(...) = retourne les pathologies ;
+	function ReturnPathology ()
+	{
+		try{
+			$r = "SELECT pathologie FROM pathologie"; 
+			$q = Query($r); 
+
+			$array = []; 
+			while ($nuplet = mysqli_fetch_array($q)) {
+				array_push($array, $nuplet[0]);
+			}
+
+			return($array); 
+		}catch(Exception $e){
+			#Si erreur de la fonction Query() 
+			echo $e -> getMessage();
+		}
+	}
 
 ?>

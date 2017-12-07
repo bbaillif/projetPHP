@@ -18,6 +18,8 @@ Modification du 7/12/2017 :
 - Ecriture de la fonction SearchInterventionF : qui retourne les interventions facturées 
 - Rajout d'un type "list" dans la fonction printResults 
 - Ecriture d'une fonction WhichService : pour savoir de quel service est le responsable connecté
+- Modification du formulaire patient (ajout de maxlength pour le numéro social, de max pour le NU, d'un menu déroulant pour le sexe et la pathologie) 
+- Ecriture de la fonction ReturnPathology : qui retourne les pathologies 
 
 Remarque : dans resultsIntervention.php : il faut "traduire" le créneau de l'intervention en jour/date
 Remarque : pour recherche intervention le numéro de sécu n'est pas pris en compte 
