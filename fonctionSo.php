@@ -7,7 +7,8 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 	{
 		#Déclaration des erreurs
 		$error1 = "<p>ERROR.1: Impossible de se connecter à la base de données. Merci de contacter le service technique. </p>";
-		$error2 = "<p>ERROR.2: Impossible d'executer la requête. Merci de contacter le service technique. </p>";
+		$error2 = "<p>Aucun résultat ne correspond à votre recherche. </p>";
+		$error3 = "<p>ERROR.2: Impossible d'executer la requête. Merci de contacter le service technique. </p>";
 		#Déclaration des variables de la base de données 
 		$user = 'Lea'; 
 		$pwd = 'BDE20162017'; 
@@ -34,7 +35,7 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 		else {
 			#Si les query du type INSERT, UPDATE, ne marchent pas
 			if ($t == False){
-				throw new Exception($error2); 
+				throw new Exception($error3); 
 			}
 		}
 
@@ -124,14 +125,23 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 			}
 		}
 		#Si on veut un formulaire radio
-		else
-		{
+		elseif ($type == "radio") 
+		{		
 			#On affiche toutes les données du tableau
 			foreach ($tableau as $value) 
 			{
 				print("<input type=\"radio\" name=\"val\" value=\"".$value."\" id =\"b\"> ");
 				print("<label for= \"b\"> ".$value."\n</label><br><br>");
 			}
+		}
+		elseif ($type == "list") 
+		{
+			print("<ul>"); 
+			foreach ($tableau as $value) 
+			{
+				print("<li>".$value."</li><br>");
+			}
+			print("</ul>"); 
 		}
 	}
 			
@@ -312,7 +322,7 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 			}
 
 			#On print l'email (on considère qu'une seule personne a un nom+prénom)
-			return($array[0]);
+			print($array[0]);
 
 		} catch (Exception $e){
 			#Si il y a une erreur de query
@@ -695,6 +705,8 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 #SearchIntervention(...)= On recherche les interventions selon les infos données en entrée 
 	function SearchIntervention($info_inter)
 	{
+		$r1 = ""; 
+		$r2 = "";
 		try{
 			#Début de la requête 
 			$r = "SELECT ID_creneau, ID_service_int FROM Planning NATURAL JOIN creneau NATURAL JOIN personne WHERE ";
@@ -735,6 +747,68 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 					$r = $r.$r2;
 				}else {
 					$r = $r."jour >= CURRENT_DATE()";
+				}
+			}
+
+			$q = Query($r);
+			$result = []; 			
+			while ($nuplet = mysqli_fetch_array($q)) {
+				array_push($result, $nuplet[0], $nuplet[1]);
+			}
+			#On retourne le résultat
+			return($result);
+
+		}catch (Exception $e){
+			#Si il y a une erreur de query 
+			echo $e -> getMessage();
+		}
+	}
+
+#SearchInterventionF(...)= On recherche les interventions facturées selon les infos données en entrée 
+	function SearchInterventionF($info_inter)
+	{	
+		$r1 = ""; 
+		$r2 = "";
+		try{
+			#Début de la requête 
+			$r = "SELECT ID_creneau, ID_service_int FROM Planning NATURAL JOIN creneau NATURAL JOIN personne WHERE facture = 1 ";
+
+			#Si on a le nom du patient
+			if (!empty($info_inter['patientName'])){
+				$r1 = " nom = \"".$info_inter['patientName']."\""; 
+			}
+
+			#Si on a une date de début  
+			if (!empty($info_inter['startingDate'])) {
+				#Si on a une date de fin 
+				if (!empty($info_inter['endingDate'])){
+					$r2 = " jour BETWEEN \"".$info_inter['startingDate']."\"AND \"".$info_inter['startingDate']."\"";
+				}
+				#Si on a pas de date de fin 
+				else {
+					$r2 = " jour > \"".$info_inter['startingDate']."\"";
+				}
+			}
+			#Si on a pas de date de début 
+			elseif (empty($info_inter['startingDate'])) {
+				#Si on a une date de fin 
+				if (!empty($info_inter['endingDate'])) {
+					$r2 = " jour BETWEEN CURRENT_DATE() AND \"".$info_inter['endingDate']."\"";
+				}
+			}
+
+			#On fait les concaténations 
+			if ($r1!=""){
+				if ($r2!=""){
+					$r = $r." AND ".$r1." AND ".$r2 ; 
+				}else {
+					$r = $r." AND ".$r1; 
+				}
+			} else {
+				if($r2!=""){
+					$r = $r." AND ".$r2;
+				}else {
+					$r = $r." AND "."jour >= CURRENT_DATE()";
 				}
 			}
 
@@ -906,5 +980,42 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 			}
 		}
 	}
+
+#ReturnName(...)= retourne les noms du personnel 
+	function ReturnName ()
+	{
+		try{
+			$r = "SELECT nom, prenom FROM personne NATURAL JOIN personnel"; 
+			$q = Query($r); 
+
+			$array = []; 
+			while ($nuplet = mysqli_fetch_array($q)) {
+				array_push($array, $nuplet[0],$nuplet[1]);
+			}
+
+			return($array); 
+		}catch(Exception $e){
+			#Si erreur de la fonction Query() 
+			echo $e -> getMessage();
+		}
+	}
+
+#WhichService($ID)= retourne le service du responsable
+	function WhichService($ID)
+	{
+		try{
+			$r = "SELECT ID_service_int FROM respo_intervention WHERE ID_personnel = \"$ID\""; 
+			$q = Query($r); 
+
+			$row = mysqli_fetch_array($q); 
+			$row = $row[0]; 
+
+			return($row); 
+		}catch(Exception $e){
+			#Si erreur de la fonction Query() 
+			echo $e -> getMessage();
+		}
+	}
+
 
 ?>

@@ -15,21 +15,22 @@
 <body>
 
 	<?php
-		CheckUID();
 		PrintHeader();
-		if ($_SESSION['action'] == 'emergencyWithoutPatient') {
-			Emergency("",$_SESSION['service']);
-		}
 	?>
 
-	<h1>Urgence prise en compte</h1>
+	<h1>Annuaire électronique</h1>
 
 	<?php
-		$_SESSION['action'] = '';
-		print_r($_SESSION);
-		echo '<br>'. "\n";
-		PrintFooter();
+		$p = $_POST["nom"]; 
+		$array = explode(" ", $p);
+		SearchEmail($array[0], $array[1]);
 	?>
+
+	<br> <br>
+	
+	<?php
+    	PrintFooter();
+    ?>
 
 </body>
 

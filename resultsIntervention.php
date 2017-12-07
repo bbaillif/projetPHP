@@ -1,5 +1,6 @@
 <?php
 	require("./fonctionsBen.php");
+	require("./fonctionSo.php");
 	session_start();
 ?>
 
@@ -16,8 +17,10 @@
 	<?php
 		CheckUID();
 		PrintHeader();
+		print_r($_POST);
 		if (isset($_POST['deleteIntervention'])) {
-			# DeleteIntervention()
+			#AJOUTER LES ARGUMENTS DE DELETE INTERVENTION
+			DeleteIntervention();
 			header('Location: ./interventionDeleted.php');
 		}
 		else {
@@ -30,14 +33,16 @@
 	<form action="resultsIntervention.php" method="post">
 	<?php
 		# PrintResults(tableau, true);
-		if ($_SESSION['action'] == 'searchIntervention') {
-			SearchIntervention();
-			PrintResults();
+		if ($_SESSION['action'] == 'deleteIntervention') {
+			$result = SearchIntervention($_POST);
+			PrintResults($result, "radio");
 			echo '<input type="submit" name="deleteIntervention" value="Supprimer intervention" /><br>' . "\n";
 		}
 		elseif ($_SESSION['action'] == 'seeFacturedIntervention') {
-			SearchInterventionF();
-			PrintResults();
+			$result = SearchInterventionF($_POST);
+			if (!empty($result)){
+				PrintResults($result,"list");
+			}
 		}
 		else {
 			header('Location: ./index.php');

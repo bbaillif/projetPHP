@@ -21,6 +21,7 @@
 	<h1> Résumé patient choisi </h1>
 
 	<?php 
+		#InfoFieldPatient();
 		$infoField = InfoFieldPatient();
 		$infoPatient = FetchInfoPatient($_SESSION['patientID']);
 		foreach ($infoField as $infoName => $relatedInfo) {

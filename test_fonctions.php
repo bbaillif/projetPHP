@@ -118,6 +118,16 @@
 	#$old = array(array('day'=>"1",'service_int'=>2,'ssNumber'=>3),array('day'=>"3",'service_int'=>5,'ssNumber'=>7));
 	#$new = array(array('day'=>"2",'service_int'=>2,'ssNumber'=>2),array('day'=>"3",'service_int'=>5,'ssNumber'=>7));
 	#UpdateDay($old,$new);
+
+	#Test ReturnMail 
+	#ReturnName();
+
+	#Test SearchInterventionF
+	#$array = array('startingDate' => '2017-11-10', 'endingDate' => '', 'patientName' => "");
+	#print_r(SearchInterventionF($array)); 
+
+	print(WhichService("PER001")); 
+
 	?> 
 
 	<p> Coucou </p>

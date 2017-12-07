@@ -1,5 +1,6 @@
 <?php
 	require("./fonctionsBen.php");
+	require("./fonctionSo.php");
 	session_start();
 ?>
 
@@ -21,10 +22,10 @@
 
 	<?php
 		# Following lines execute only if action = addPatient and first entry done
-		# TODO !!!!! if (CheckPatient($_POST)) {
-		if (isset($_POST['pathology'])) {
+		if (CheckPatient($_POST)) {
+		#if (isset($_POST['pathology'])) {
 			if($_POST['pathology'] != "") {
-				#	AddPatient($_POST);
+					AddPatient($_POST);
 				if ($_SESSION['action'] == 'addPatient') {
 					header('Location: ./patientUpdated.php');
 				}

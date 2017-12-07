@@ -16,10 +16,11 @@
 	<?php
 		CheckUID();
 		PrintHeader();
-		print_r($_POST);
+		print_r($_SESSION);
 	?>
 
 	<?php
+
 		if ($_SESSION['action'] == 'deleteIntervention') {
 			echo '<h1>Recherche d\'une intervention à supprimer</h1>' . "\n";
 			echo '<form action="resultsIntervention.php" method="post">'. "\n";
@@ -28,9 +29,9 @@
 			echo '<h1>Recherche d\'une intervention facturée</h1>' . "\n";
 			echo '<form action="resultsIntervention.php" method="post">'. "\n";
 		}
-		else {
-			header('Location: ./index.php');
-		}
+		#else {
+		#	header('Location: ./index.php');
+		#}
 
 	?>
 

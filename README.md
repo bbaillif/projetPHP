@@ -10,3 +10,14 @@ Modification du 5/12/2017 :
 - modification de la fonction CheckID() = on enlève le writeUserLog et on le met dans la page login.php
 - modification de index.php : changement des droits 'doctor', 'responsible', 'admin' deviennent (1,2,0) comme la BDD
 - modification de index.php : correction "intervetion" en "intervention" 
+
+Modification du 7/12/2017 : 
+- Créer la page searchMail.php : fait un formulaire avec les noms du personnel 
+- Créer la fonction ReturnName : qui retourne les noms du personnel
+- Créer la page resultsSearchMail.php : qui print l'adresse mail 
+- Ecriture de la fonction SearchInterventionF : qui retourne les interventions facturées 
+- Rajout d'un type "list" dans la fonction printResults 
+- Ecriture d'une fonction WhichService : pour savoir de quel service est le responsable connecté
+
+Remarque : dans resultsIntervention.php : il faut "traduire" le créneau de l'intervention en jour/date
+Remarque : pour recherche intervention le numéro de sécu n'est pas pris en compte 

@@ -31,7 +31,6 @@
 			$username = $_POST['username'];
 			$password = $_POST['password'];
 
-			#$_SESSION['uid'] = $username;
 
 			# try to log : check password and username
 			$userInfoArray = CheckID($username, $password);
@@ -39,7 +38,11 @@
 			#If no error : user can access the website
 			if ($userInfoArray['right'] != "" && $userInfoArray['ID'] != ""){
 				$_SESSION['right'] = $userInfoArray['right'];
-				$_SESSION['uid'] = $username;
+				$_SESSION['uid'] = $username; 
+
+				if ($_SESSION['right']==2){
+					$_SESSION['service'] = WhichService($username);
+				}
 
 				#Write in the user's file : 
 				WriteUserLog("$date : connection \r\n");
