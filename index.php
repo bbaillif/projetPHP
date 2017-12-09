@@ -108,12 +108,12 @@
 
 			echo '<form action="hospitalServiceDeleted.php" method="post">' . "\n";
 			echo 'Supprimer service d\'accueil : <select name = "hospitalServiceToDetele">' . "\n";
-			$array = ReturnHospitalService();
-			$i = 0; 
-			while ($i < count($array)){
-			 	print("<option value = \"$array[$i]\">".$array[$i]."</option>"); 
-			 	$i=$i+1;
-			 }
+			#$array = ReturnHospitalService();
+			#$i = 0; 
+			#while ($i < count($array)){
+			# 	print("<option value = \"$array[$i]\">".$array[$i]."</option>"); 
+			# 	$i=$i+1;
+			# }
 			echo '</select>' . "\n";
 			echo '<input type="submit" value="Supprimer">' . "\n";
 			echo '</form>' . "\n";
@@ -125,12 +125,12 @@
 
 			echo '<form action="interventionServiceDeleted.php" method="post">' . "\n";
 			echo 'Supprimer service d\'accueil : <select name = "interventionServiceToDetele">' . "\n";
-			$array = ReturnInterventionService(); 
-			$i = 0; 
-			while ($i < count($array)){
-			 	print("<option value = \"$array[$i]\">".$array[$i]."</option>"); 
-			 	$i=$i+1;
-			 }
+			#$array = ReturnInterventionService(); 
+			#$i = 0; 
+			#while ($i < count($array)){
+			# 	print("<option value = \"$array[$i]\">".$array[$i]."</option>"); 
+			#	$i=$i+1;
+			#}
 			echo '</select>' . "\n";
 			echo '<input type="submit" value="Supprimer">' . "\n";
 			echo '</form>' . "\n";
@@ -148,11 +148,6 @@
 		echo '<br>'. "\n";
 		PrintFooter();
 	?>
-
-	<form action="addHospitalService.php">
-		Ajouter service d'accueil : <input type="text" name="serviceName">
-		<input type="submit" value="Ajouter">
-	</form>
 
 </body>
 
