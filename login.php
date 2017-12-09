@@ -21,6 +21,7 @@
 				echo 'Deconnexion effectuée' . "\n";
 			}
 		}
+
 		# check if arrived here by mistake (example : previous page)
 		if (isset($_SESSION['uid']) AND isset($_SESSION['right'])) {
 			header('Location: ./index.php');
@@ -29,7 +30,6 @@
 		if (isset($_POST['username']) AND isset($_POST['password'])) {
 			$username = $_POST['username'];
 			$password = $_POST['password'];
-
 
 			# try to log : check password and username
 			$userInfoArray = CheckID($username, $password);

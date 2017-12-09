@@ -74,10 +74,7 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 #CheckID($ID, $mdp)= Vérifie - avant connexion - que l'utilisateur est dans la bdd
 	function CheckID($ID, $mdp)
 	{
-		$date = date("d/m/Y H:i");
-
-		try{
-			#On récupère les couples (ID, mdp) de la bdd 
+		try {
 			$r1 = "SELECT ID_personnel, MDP FROM personnel"; 
 			$q1 = Query($r1);
 			$array = []; 			

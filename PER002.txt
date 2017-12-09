@@ -1,8 +1,0 @@
- : connection 
-06/12/2017 23:07 : ajout du patient BKDJFH000 
- : connection 
- : connection 
-07/12/2017 15:35 : Suppression de l'intervention du service  pour  
-07/12/2017 15:36 : Suppression de l'intervention du service  pour  
- : connection 
-07/12/2017 16:36 : ajout du patient 00000000000000000000 
