@@ -16,12 +16,14 @@
 	<?php
 		CheckUID();
 		PrintHeader();
+		DeleteInterventionService();
 	?>
 
-	<h1>Patient mis-à-jour</h1>
+	<h1>Service d'intervention supprimé</h1>
 
 	<?php
 		$_SESSION['action'] = '';
+		print_r($_SESSION);
 		echo '<br>'. "\n";
 		PrintFooter();
 	?>

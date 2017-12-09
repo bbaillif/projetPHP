@@ -15,13 +15,18 @@
 <body>
 
 	<?php
+		CheckUID();
 		PrintHeader();
+
+		if ($_SESSION['action'] == 'searchMail') {
+			echo '<h1>Rechercher de personnel (mail) </h1><br><br>' . "\n";
+		}
+		elseif ($_SESSION['action'] == 'seeLogs') {
+			echo '<h1>Rechercher de personnel (historique) </h1><br><br>' . "\n";
+		}
 	?>
 
-	<h1>Annuaire électronique</h1>
-
-	<form method="post" action="resultsSearchMail.php">
-		Rechercher la personne à qui vous voulez envoyer un mail<br><br>
+	<form method="post" action="resultsUser.php">
 		<select name = "nom">
 			<?php
 			$array = ReturnName(); 

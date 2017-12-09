@@ -18,10 +18,11 @@
 		PrintHeader();
 	?>
 
-	<h1>Patient mis-à-jour</h1>
+	<h1>Service d'accueil ajouté</h1>
 
 	<?php
 		$_SESSION['action'] = '';
+		print_r($_SESSION);
 		echo '<br>'. "\n";
 		PrintFooter();
 	?>

@@ -18,10 +18,11 @@
 		PrintHeader();
 	?>
 
-	<h1>Patient mis-à-jour</h1>
+	Print le fichier correpondant à l'utilisateur choisi par resultsUser.php
 
 	<?php
 		$_SESSION['action'] = '';
+		print_r($_SESSION);
 		echo '<br>'. "\n";
 		PrintFooter();
 	?>

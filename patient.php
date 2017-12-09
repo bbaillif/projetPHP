@@ -1,6 +1,5 @@
 <?php
-	require("./fonctionsBen.php");
-	require("./fonctionSo.php");
+	require("./fonctions.php");
 	session_start();
 ?>
 
@@ -17,34 +16,44 @@
 	<?php
 		CheckUID();
 		PrintHeader();
-		print_r($_POST);
 	?>
 
 	<?php
-		# Following lines execute only if action = addPatient 
+		# Following lines execute only after patient.php submitted from
+		# addPatient, addPatientIntervention, ou updatePatient
+		# TODO : ajouter plus de conditions 
 		if (isset($_POST['pathology'])) {
-			#Execute only if there is an entry 
 			if (CheckPatient($_POST)) {
+				if ($_SESSION['action'] == 'updatePatient') {
+					# UpdatePatient
+					header('Location: ./patientUpdated.php');
+				}
 				AddPatient($_POST);
-				#Add Patient
 				if ($_SESSION['action'] == 'addPatient') {
 					header('Location: ./patientUpdated.php');
+				}
+				elseif ($_SESSION['action'] == 'emergencyWithNewPatient') {
+					header('Location: ./emergencyDone.php');
 				}
 				elseif ($_SESSION['action'] == 'addPatientIntervention') 
 				{
 					$_SESSION['patientID'] = $_POST['ssNumber'];
-					header('Location: ./askIntervetion.php');
+					header('Location: ./askIntervention.php');
 				}
 			}
 		}
 	?>
 
 	<?php
-		if ($_SESSION['action'] == 'addPatient' OR $_SESSION['action'] == 'addPatientIntervention') {
+		if ($_SESSION['action'] == 'addPatient' 
+			OR $_SESSION['action'] == 'addPatientIntervention' 
+			OR $_SESSION['action'] == 'emergencyWithNewPatient') {
 			echo '<h1>Rédaction de fiche patient</h1>' . "\n";
 			echo '<form action="patient.php" method="post">'. "\n";
 		}
-		elseif ($_SESSION['action'] == 'searchPatient' OR $_SESSION['action'] == 'addIntervention') {
+		elseif ($_SESSION['action'] == 'searchPatient' 
+			OR $_SESSION['action'] == 'addIntervention'
+			OR $_SESSION['action'] == 'emergencyWithExistingPatient') {
 			echo '<h1>Recherche de patient</h1>'. "\n";
 			echo '<form action="resultsPatient.php" method="post">'. "\n";
 		}

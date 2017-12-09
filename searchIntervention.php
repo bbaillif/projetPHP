@@ -29,9 +29,13 @@
 			echo '<h1>Recherche d\'une intervention facturée</h1>' . "\n";
 			echo '<form action="resultsIntervention.php" method="post">'. "\n";
 		}
-		#else {
-		#	header('Location: ./index.php');
-		#}
+		elseif ($_SESSION['action'] == 'factureIntervention') {
+			echo '<h1>Recherche d\'une intervention à facturer</h1>' . "\n";
+			echo '<form action="resultsIntervention.php" method="post">'. "\n";
+		}
+		else {
+			header('Location: ./index.php');
+		}
 
 	?>
 

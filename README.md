@@ -23,3 +23,11 @@ Modification du 7/12/2017 :
 
 Remarque : dans resultsIntervention.php : il faut "traduire" le créneau de l'intervention en jour/date
 Remarque : pour recherche intervention le numéro de sécu n'est pas pris en compte 
+
+Modifications du 9/12/2017 :
+- searchMail renommé en searchUser et resultsSearchMail renommé en resultsUser, car il sert aussi à trouver l'historique de l'utilisateur en question
+- TODO : fonctions SearchInterventionNF qui retoure les intervetions non facturées (ou trouver une autre solution)
+	- comment ajouter et supprimer facilement les services d'intervention/accueil
+	- configurer la recherche de mail ou historique avec ID d'utilisateur
+- lignes pour l'accès à la recherche de mail bougé de fonctionsBen.PrintHeader à la page index.php
+- squelette du site terminé

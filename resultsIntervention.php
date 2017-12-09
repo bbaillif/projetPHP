@@ -19,9 +19,13 @@
 		PrintHeader();
 		print_r($_POST);
 		if (isset($_POST['deleteIntervention'])) {
-			#AJOUTER LES ARGUMENTS DE DELETE INTERVENTION
-			DeleteIntervention();
+			# AJOUTER LES ARGUMENTS DE DELETE INTERVENTION
+			# DeleteIntervention();
 			header('Location: ./interventionDeleted.php');
+		}
+		elseif (isset($_POST['deleteIntervention'])) {
+			# FactureIntervention();
+			header('Location: ./interventionFactured.php');
 		}
 		else {
 			# Do nothing
@@ -43,6 +47,13 @@
 			if (!empty($result)){
 				PrintResults($result,"list");
 			}
+		}
+		elseif ($_SESSION['action'] == 'factureIntervention') {
+			#$result = SearchInterventionNF($_POST);
+			#if (!empty($result)){
+			#	PrintResults($result,"list");
+			#}
+			echo '<input type="submit" name="factureIntervention" value="Supprimer intervention" /><br>' . "\n";
 		}
 		else {
 			header('Location: ./index.php');

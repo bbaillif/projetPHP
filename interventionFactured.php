@@ -1,6 +1,5 @@
 <?php
 	require("./fonctionsBen.php");
-	require("./fonctionSo.php");
 	session_start();
 ?>
 
@@ -15,22 +14,18 @@
 <body>
 
 	<?php
+		CheckUID();
 		PrintHeader();
 	?>
 
-	<h1>Annuaire électronique</h1>
+	<h1>Intervention facturée</h1>
 
 	<?php
-		$p = $_POST["nom"]; 
-		$array = explode(" ", $p);
-		SearchEmail($array[0], $array[1]);
+		$_SESSION['action'] = '';
+		print_r($_SESSION);
+		echo '<br>'. "\n";
+		PrintFooter();
 	?>
-
-	<br> <br>
-	
-	<?php
-    	PrintFooter();
-    ?>
 
 </body>
 
