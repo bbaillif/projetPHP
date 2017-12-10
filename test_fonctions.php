@@ -7,6 +7,7 @@
 	require("C:/xampp/htdocs/Cours_PHP/projetPHP/fonctions.php"); 
 	
 	$_SESSION['uid'] = "X"; 
+	$_SESSION['service'] = "INT004"; 
 	#Essai WriteUserLog 
 	#WriteUserLog("ça écrit!!");
 	#WriteInterventionLog("ça écrit!","Operation"); 
@@ -132,6 +133,10 @@
 	$pieces = explode(" ", $chaine);
 	print($pieces[0]); 
 	print($pieces[1]);
+
+	#Test FactureIntervention 
+	$c = "MA46A9 D";
+	FactureIntervention($c);
 	?> 
 
 	<p> Coucou </p>

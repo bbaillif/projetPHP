@@ -164,28 +164,36 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 		}
 	}
 
-#DeleteService($nom_service): On supprime le service donnée en entrée 
-	function DeleteService($nom_service)
+#DeleteService($nom_service, $type): On supprime le service donnée en entrée 
+	function DeleteService($ID_service,$type)
 	{
 		#Déclaration variables
 		$date = date("d/m/Y H:i");
 
 		try{
-			#On sélectionne l'ID du service de la BDD 
-			$r2 = "SELECT ID_service_int FROM Service_intervention WHERE nom=\"$nom_service\"";
-			$q2 = Query($r2); 
-			$row = mysqli_fetch_array($q2); 
+			if ($type == "service"){
+				#On supprime le service de la BDD
+				$r="DELETE from Service_intervention WHERE ID_service_int=\"$ID_service\"";
+				$q=Query($r);
 
-			#On supprime le service de la BDD
-			$r="DELETE from Service_intervention WHERE nom=\"$nom_service\"";
-			$q=Query($r);
+				#On écrit dans le fichier de l'utilisateur
+				WriteUserLog("$date : suppression du service d'intervention $ID_service \r\n"); 
 
-			#On écrit dans le fichier de l'utilisateur
-			WriteUserLog("$date : suppression du service $nom_service \r\n"); 
+				#On écrit dans le fichier service
+				WriteInterventionLog("$date : suppression du service d'intervention $ID_service \r\n", $ID_service); 
+			}
 
-			#On écrit dans le fichier service
-			WriteInterventionLog("$date : suppression du service $nom_service \r\n", $row[0]); 
+			elseif ($type == "accueil") {
+				#On supprime le service de la BDD
+				$r="DELETE from service_accueil WHERE ID_service_acc =\"$ID_service\"";
+				$q=Query($r);
 
+				#On écrit dans le fichier de l'utilisateur
+				WriteUserLog("$date : suppression du service d'accueil $ID_service \r\n"); 
+
+				#On écrit dans le fichier service
+				WriteInterventionLog("$date : suppression du service d'accueil $ID_service \r\n", $ID_service); 
+			}
 		}catch (Exception $e){
 			#Si il y a une erreur de query
 			echo $e -> getMessage();
@@ -308,11 +316,11 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 	}
 
 #SearchEmail($nom,$prenom)= Cherche l'email d'un mbre du personnel
-	function SearchEmail($nom,$prenom)
+	function SearchEmail($ID)
 	{
 		try {
 			#On essaye d'effectuer la requête
-			$r = "SELECT mail FROM personnel NATURAL JOIN personne WHERE prenom =\"$prenom\" AND nom=\"$nom\"";
+			$r = "SELECT mail FROM personnel NATURAL JOIN personne WHERE ID_personnel=\"$ID\"";
 			$q = Query($r); 
 
 			#On lit le résultat de la requête
@@ -321,7 +329,7 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 				array_push($array, $nuplet[0]);
 			}
 
-			#On print l'email (on considère qu'une seule personne a un nom+prénom)
+			#On print l'email 
 			print($array[0]);
 
 		} catch (Exception $e){
@@ -361,21 +369,26 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 	}
 
 #FactureIntervention(...)= On met l'intervention comme facturé (passe de 0 à 1)
-	function FactureIntervention($service, $creneau, $secu)
+	function FactureIntervention($chaine)
 	{
 		#Déclaration des variables 
 		$date = date("d/m/Y H:i");
 
 		try{
+			#On découpe la chaine
+			$pieces = explode(" ", $chaine);
+			$creneau = $pieces[0]; 
+			$secu = $pieces[1];
+
 			#On essaye de changer de non-facturé à facturé
-			$r = "UPDATE planning SET facture=1 WHERE ID_service_int = \"$service\" AND ID_creneau = \"$creneau \" AND num_secu=\"$secu\""; 
+			$r = "UPDATE planning SET facture=1 WHERE ID_service_int = \"".$_SESSION['service']."\" AND ID_creneau = \"$creneau \" AND num_secu=\"$secu\""; 
 			$q = Query($r);
 
 			#On écrit dans le fichier de l'utilisateur
 			WriteUserLog("$date : facturation  de l'intervention $creneau du patient $secu \r\n"); 
 
 			#On écrit dans le fichier service
-			WriteInterventionLog("$date : facturation  de l'intervention $creneau du patient $secu \r\n", $service); 
+			WriteInterventionLog("$date : facturation  de l'intervention $creneau du patient $secu \r\n", $_SESSION['service']); 
 
 		} catch (Exception $e){
 			#Si il y a une erreur de query
@@ -503,7 +516,7 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 			if ($row[0] != $NU ){
 				if ($f = fopen("VerifNU.txt", "a")){
 					#On écrit la chaine suivante
-					fwrite($f, "$date : $secu a un $patho avec NU=$NU"); 
+					fwrite($f, "$date : $secu a un $patho avec NU=$NU\r\n"); 
 					#On ferme le fichier
 					fclose($f); 
 				}
@@ -764,14 +777,19 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 		}
 	}
 
-#SearchInterventionF(...)= On recherche les interventions facturées selon les infos données en entrée 
-	function SearchInterventionF($info_inter)
+#SearchIntervention_Facture(...)= On recherche les interventions facturées (1) ou non_facturés(0) selon les infos données en entrée 
+	function SearchIntervention_Facture($info_inter, $facture)
 	{	
 		$r1 = ""; 
 		$r2 = "";
 		try{
 			#Début de la requête 
-			$r = "SELECT ID_creneau, ID_service_int FROM Planning NATURAL JOIN creneau NATURAL JOIN personne WHERE facture = 1 ";
+			if ($facture == 1){
+				$r = "SELECT ID_creneau, ID_service_int FROM Planning NATURAL JOIN creneau NATURAL JOIN personne WHERE facture = 1 ";
+			} 
+			elseif ($facture == 0) {
+				$r = "SELECT ID_creneau FROM Planning NATURAL JOIN creneau NATURAL JOIN personne WHERE facture = 0 and ID_service_int = \"".$_SESSION['service']."\" ";
+			}
 
 			#Si on a le nom du patient
 			if (!empty($info_inter['patientName'])){
@@ -813,9 +831,17 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 			}
 
 			$q = Query($r);
-			$result = []; 			
-			while ($nuplet = mysqli_fetch_array($q)) {
-				array_push($result, $nuplet[0], $nuplet[1]);
+			$result = []; 	
+
+			if ($facture == 1){		
+				while ($nuplet = mysqli_fetch_array($q)) {
+					array_push($result, $nuplet[0], $nuplet[1]);
+				}
+			}
+			elseif ($facture == 0) {
+				while ($nuplet = mysqli_fetch_array($q)) {
+					array_push($result, $nuplet[0]);
+				}
 			}
 			#On retourne le résultat
 			return($result);
@@ -835,8 +861,8 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 		try {
 			#On découpe la chaine
 			$pieces = explode(" ", $chaine);
-			$ID_service = print($pieces[0]); 
-			$ID_creneau = print($pieces[1]);
+			$ID_service = $pieces[1]; 
+			$ID_creneau = $pieces[0];
 
 			#On essaye de supprimer l'intervention 
 			$r="DELETE from planning WHERE ID_service_int=\"$ID_service\" AND ID_creneau = \"$ID_creneau\"";
@@ -990,12 +1016,12 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 	function ReturnName ()
 	{
 		try{
-			$r = "SELECT nom, prenom FROM personne NATURAL JOIN personnel"; 
+			$r = "SELECT nom, prenom, ID_personnel FROM personne NATURAL JOIN personnel"; 
 			$q = Query($r); 
 
 			$array = []; 
 			while ($nuplet = mysqli_fetch_array($q)) {
-				array_push($array, $nuplet[0],$nuplet[1]);
+				array_push($array, $nuplet[0],$nuplet[1],$nuplet[2]);
 			}
 
 			return($array); 
@@ -1022,6 +1048,38 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 		}
 	}
 
+#ReturnService(...) = retourne les pathologies ;
+	function ReturnService ($type)
+	{
+		try{
+			if ($type == "intervention"){
+				$r = "SELECT ID_service_int, nom FROM service_intervention"; 
+				$q = Query($r); 
+
+				$array = []; 
+				while ($nuplet = mysqli_fetch_array($q)) {
+					array_push($array, $nuplet[0], $nuplet[1]);
+				}
+				return($array);
+			}
+
+			elseif ($type == "accueil") {
+				$r = "SELECT ID_service_acc, nom FROM service_accueil"; 
+				$q = Query($r); 
+
+				$array = []; 
+				while ($nuplet = mysqli_fetch_array($q)) {
+					array_push($array, $nuplet[0], $nuplet[1]);
+				}
+				return($array);
+			}
+		}catch(Exception $e){
+			#Si erreur de la fonction Query() 
+			echo $e -> getMessage();
+		}
+	}
+
+
 #ReturnPathology(...) = retourne les pathologies ;
 	function ReturnPathology ()
 	{
@@ -1041,30 +1099,31 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 		}
 	}
 
-#ReturnIntervention(...) = retourne les interventions ; 
+#ReturnIntervention(...) = retourne les interventions selon ID_creneau
 	function ReturnIntervention($result_search)
 	{
 		try{
 			$i= 0; 
 			$result= []; 
 			while ($i < count($result_search)){
-				$IDcreneau = $result_search[$i]; $i=$i+1;
-				$IDintervention = $result_search[$i];
+				$IDcreneau = $result_search[$i]; 
 	
-				$r_int = "SELECT nom FROM service_intervention WHERE ID_service_int = \"$IDintervention\"";
 				$r_date = "SELECT jour, heure FROM creneau WHERE ID_creneau = \"$IDcreneau\"";
-
-				$q_int = Query($r_int); 
-				$row_int = mysqli_fetch_array($q_int); 
-				$service = $row_int[0]; 
 
 				$q_date = Query($r_date);
 				$row_date = mysqli_fetch_array($q_date); 
 				$jour = $row_date[0]; 
 				$heure = $row_date[1];
 
+				$i=$i+1;
+				$IDintervention = $result_search[$i];
+
+				$r_int = "SELECT nom FROM service_intervention WHERE ID_service_int = \"$IDintervention\"";
+				$q_int = Query($r_int); 
+				$row_int = mysqli_fetch_array($q_int); 
+				$service = $row_int[0]; 
+
 				$phrase ="Intervention du $jour à $heure en $service";
-				
 				$result[]=$phrase;
 				$result[]="$IDcreneau $IDintervention";
 				$i = $i+1; 
@@ -1076,16 +1135,49 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 		}
 	}
 
+#ReturnInterventionNF(...) = retourne les interventions non-facturées avec le NS; 
+	function ReturnInterventionNF($result_search)
+	{
+		try{
+			$i= 0; 
+			$result= []; 
+			while ($i < count($result_search)){
+				$IDcreneau = $result_search[$i]; 
+				$r_date = "SELECT jour, heure FROM creneau WHERE ID_creneau = \"$IDcreneau\"";
+				$q_date = Query($r_date);
+				$row_date = mysqli_fetch_array($q_date); 
+				$jour = $row_date[0]; 
+				$heure = $row_date[1];
+
+				$r_NS = "SELECT num_secu FROM planning WHERE ID_creneau = \"$IDcreneau\" AND facture = 0 AND ID_service_int = \"".$_SESSION["service"]."\"";
+				$q_NS = Query($r_NS);
+				while ($nuplet = mysqli_fetch_array($q_NS)) {
+					$phrase = "Intervention du $jour à $heure pour le patient $nuplet[0]";; 
+					$result[]=$phrase;
+					$result[]="$IDcreneau $nuplet[0]";
+				}
+				$i = $i+1; 
+			}
+			return($result);
+		}catch(Exception $e){
+			#Si erreur de la fonction Query() 
+			echo $e -> getMessage();
+		}
+	}
+
 	function PrintHeader() {
-		echo '<a href="./index.php">Menu principal</a>' . "\n";
-		echo '<br>'. "\n";
+		echo '<br>'; 
+		echo '<a href="./index.php" class="lien">Menu principal</a>' . "\n";
+		echo '<br><br>'. "\n";
+		echo '<a href="./?action=searchMail" class="lien">Rechercher adresse mail</a>'. "\n";
+		echo '<br><br>'. "\n";
+		echo '<a href="./login.php?action=logout" class="lien">Deconnexion</a><br>'. "\n";
 	}
 
 	function PrintFooter() {
 		echo '<br>'. "\n";
-		echo '<a href="./index.php">Menu principal</a>'. "\n";
-		echo '<br><br>'. "\n";
-		echo 'Site créé pour le projet de base de données'. "\n";
+		echo '<div id = "footer"> 2017 - projet HTML/CSS/PHP <br>';
+		echo 'Benoit Baillif - Solène Guiglion - Léa Wadbled</div>';
 	}
 
 	function CheckUID() {

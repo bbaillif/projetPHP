@@ -9,23 +9,26 @@
 <head>
 	<title>Intranet Hopital Polytech</title>
 	<meta charset= "utf-8">
+	<link rel = "stylesheet" href = "aesthetic.css" > 
 </head>
 
 <body>
+	<div id = "header"> 
+		<?php 
+			CheckUID();
+			PrintHeader();
+		?>
+	</div>
 
-	<?php
-		CheckUID();
-		PrintHeader();
-	?>
-
+	<div id = "body">
 	<h1>Patient mis-à-jour</h1>
 
-	<?php
-		$_SESSION['action'] = '';
-		echo '<br>'. "\n";
-		PrintFooter();
-	?>
-
+	</div>
 </body>
+
+<?php
+	$_SESSION['action'] = '';
+	PrintFooter();
+?>
 
 </html>

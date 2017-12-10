@@ -8,16 +8,18 @@
 
 <head>
 	<title>Intranet Hopital Polytech</title>
-	<meta charset= "utf-8">
+	<meta charset= "utf-8"><link rel = "stylesheet" href = "aesthetic.css" > 
 </head>
 
 <body>
+	<div id = "header"> 
+		<?php 
+			CheckUID();
+			PrintHeader();
+		?>
+	</div>
 
-	<?php
-		CheckUID();
-		PrintHeader();
-	?>
-
+	<div id = "body">
 	<h1>Demi-journée à modifier</h1>
 
 	<form action="dayChanged.php" method="post">
@@ -39,14 +41,11 @@
 			header('Location: ./index.php');
 		}
 	?>
-
-	<?php
-		echo '<br>'. "\n";
-		print_r($_SESSION);
-		echo '<br>'. "\n";
-		PrintFooter();
-	?>
-
+	</div>
 </body>
+
+<?php
+	PrintFooter();
+?>
 
 </html>

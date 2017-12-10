@@ -9,42 +9,44 @@
 <head>
 	<title>Intranet Hopital Polytech</title>
 	<meta charset= "utf-8">
+	<link rel = "stylesheet" href = "aesthetic.css" > 
 </head>
 
 <body>
+	<div id = "header"> 
+		<?php 
+			CheckUID();
+			PrintHeader();
+		?>
+	</div>
 
+	<div id = "body">
 	<?php
-		CheckUID();
-		PrintHeader();
+		if ($_SESSION['action'] == 'searchMail') {
+			echo '<h1>Résultat de la recherche de personnel (mail) </h1><br><br>' . "\n";
+		}
+		elseif ($_SESSION['action'] == 'seeLogs') {
+			echo '<h1>Résultat de la recherche de personnel (historique) </h1><br><br>' . "\n";
+		}
 	?>
-
-	<h1>Résultat de la recherche de personnel</h1>
 
 	<?php
 		if ($_SESSION['action'] == 'searchMail') {
-			$p = $_POST["nom"];
-			$array = explode(" ", $p);
-			SearchEmail($array[0], $array[1]);
+			SearchEmail($_POST["ID"]);
 		}
 		elseif ($_SESSION['action'] == 'seeLogs') {
-			SearchUser();
-			echo '<form action="logUser.php" method="post">' . "\n";
-			# Faire une liste pour choisir un User
-			# PrintUser();
-			echo '<input type="submit" value = "Choisir utilisateur">' . "\n";
+			print("Historique : <br>");
+			PrintArchive($_POST["ID"].".txt"); 
 		}
 	?>
 
-	<form action="logUser.php" method="post">
-		
-	</form>
-
 	<br> <br>
 	
-	<?php
-    	PrintFooter();
-    ?>
-
+	</div>
 </body>
+
+<?php
+	PrintFooter();
+?>
 
 </html>

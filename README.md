@@ -41,8 +41,28 @@ Modifications du 10/12/2017:
 - correction le NU marche quand on ajoute un patient ! 
 - traduction du créneau en jour/date par la fonction ReturnIntervention() 
 - changement dans printResult() while au lieu d'un foreach ; changement dans DeleteIntervention (on prend en entrée une chaine "ID_service ID_inter") 
+- changement de SearchInterventionF() en SearchIntervention_Facture qui renvoie soit les interventions facturées soit les interventions non-facturées
+- écriture de ReturnInterventionNF() 
+- modification de FactureIntervention : ne prend plus le service en entrée (on va le chercher dans $_Session) et prend une chaine en entrée $_POST[value]
+- suppression du fichier logUser puisque on affiche l'historique dans le fichier resultUser.php
+- création de la fonctionnalité : voir l'historique pour les services (création du fichier searchService.php et archiveService.php) 
+- modification de l'apparence du site (il se peut qu'il y ait des $_Session['action']='' qui manquent ou soient mis en trop :/)
 
 Tests = 
 - rechercher patient : rien ne marche 
 - créer intervention ne marche pas non plus 
-- delete intervention = le post ne se remplit pas?? 
+- aucun emergency ne marche pas 
+- modifier intervention ne marche pas non plus 
+
+Ce qui marche : 
+> Médecin 
+- ajout d'un patient (MAIS ne renvoie pas d'erreur si vide, même si ajoute pas)
+- supprimer une intervention 
+- voir intervention facturée 
+
+> Respo 
+- facturer une intervention 
+
+> Admin 
+- tout marche = ajout intervention, suppression intervention, historique du personnel et des services et verif NU 
+

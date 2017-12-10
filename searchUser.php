@@ -9,14 +9,19 @@
 <head>
 	<title>Intranet Hopital Polytech</title>
 	<meta charset= "utf-8">
+	<link rel = "stylesheet" href = "aesthetic.css" > 
 </head>
 
 <body>
+	<div id = "header"> 
+		<?php 
+			CheckUID();
+			PrintHeader();
+		?>
+	</div>
 
+	<div id = "body">
 	<?php
-		CheckUID();
-		PrintHeader();
-
 		if ($_SESSION['action'] == 'searchMail') {
 			echo '<h1>Rechercher de personnel (mail) </h1><br><br>' . "\n";
 		}
@@ -26,7 +31,7 @@
 	?>
 
 	<form method="post" action="resultsUser.php">
-		<select name = "nom">
+		<select name = "ID">
 			<?php
 			$array = ReturnName(); 
 			$i = 0; 
@@ -34,20 +39,22 @@
 				$nom = $array[$i];
 				$i = $i+1;
 				$prenom = $array[$i];
-			 	print("<option value = \"$nom $prenom\">".$nom." ".$prenom."</option>"); 
+				$i=$i+1; 
+				$ID = $array[$i];
+			 	print("<option value = \"$ID\">".$nom." ".$prenom."</option>"); 
 			 	$i=$i+1;
 			 } 
 			?>
-			Rajouter la fonction qui va imprimer tous les noms dans le formulaire 
 		</select>
 		<input type="submit" value="Valider">
 	</form>
 	
-	<?php
-    	PrintFooter();
-    ?>
-
+	</div>
 </body>
+
+<?php
+	PrintFooter();
+?>
 
 </html>
 

@@ -21,13 +21,16 @@
 	</div>
 
 	<div id = "body">
+	<h1>Résultat de la recherche d'un service </h1>
+
 	<?php
-		DeleteService($_POST["interventionServiceToDelete"], "service");
+		print("Historique : <br>");
+		PrintArchive($_POST["ID"].".txt"); 
 	?>
 
-	<h1>Service d'intervention supprimé</h1>
-
-	</div>
+	<br> <br>
+	
+		</div>
 </body>
 
 <?php

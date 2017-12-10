@@ -21,12 +21,11 @@
 	</div>
 
 	<div id = "body">
-	<?php
-		DeleteService($_POST["interventionServiceToDelete"], "service");
+	<h1>Anomalies des numéros d'urgence par rapport aux pathologies</h1>
+
+	<?php 
+		PrintArchive("VerifNU.txt");
 	?>
-
-	<h1>Service d'intervention supprimé</h1>
-
 	</div>
 </body>
 

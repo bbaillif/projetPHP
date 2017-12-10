@@ -9,15 +9,18 @@
 <head>
 	<title>Intranet Hopital Polytech</title>
 	<meta charset= "utf-8">
+	<link rel = "stylesheet" href = "aesthetic.css" > 
 </head>
 
 <body>
+	<div id = "header"> 
+		<?php 
+			CheckUID();
+			PrintHeader();
+		?>
+	</div>
 
-	<?php
-		CheckUID();
-		PrintHeader();
-	?>
-
+	<div id = "body">
 	<?php
 		# Following lines execute only after patient.php submitted from
 		# addPatient, addPatientIntervention, ou updatePatient
@@ -105,10 +108,11 @@
         <input type="submit" value="Valider" /><br>
     </form>
 
-    <?php
-    	PrintFooter();
-    ?>
-
+    </div>
 </body>
+
+<?php
+	PrintFooter();
+?>
 
 </html>

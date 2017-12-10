@@ -9,9 +9,13 @@
 <head>
 	<title>Intranet Hopital Polytech</title>
 	<meta charset= "utf-8">
+	<link rel = "stylesheet" href = "aesthetic.css" > 
 </head>
 
+<h1>Page d'identification à l'Intranet</h1>
+
 <body>
+	<center>
 
 	<?php
 		# check if arrived here from logout
@@ -44,6 +48,7 @@
 				}
 
 				#Write in the user's file : 
+				$date = date("d/m/Y H:i");
 				WriteUserLog("$date : connection \r\n");
 
 				#Move onto next page
@@ -51,7 +56,7 @@
 			} 
 			#If an error : user needs to try again
 			else {
-				echo 'Les informations saisies sont incorrectes. <br>Merci de bien vouloir réessayer.';
+				echo 'Les informations saisies sont incorrectes. <br>Merci de bien vouloir réessayer. <br> <br>';
 			}
 		}
 		else {
@@ -59,13 +64,13 @@
 		}
 	?>
 
-	<h1>Page d'identification à l'Intranet</h1>
-
 	<form action="login.php" method="post">
 		<input type="text" name="username" />
         <input type="password" name="password" />
         <input type="submit" value="Valider" />
     </form>
+
+    </center>
 
 </body>
 

@@ -9,16 +9,18 @@
 <head>
 	<title>Intranet Hopital Polytech</title>
 	<meta charset= "utf-8">
+	<link rel = "stylesheet" href = "aesthetic.css" > 
 </head>
 
 <body>
+	<div id = "header"> 
+		<?php 
+			CheckUID();
+			PrintHeader();
+		?>
+	</div>
 
-	<?php
-		CheckUID();
-		PrintHeader();
-		print_r($_SESSION);
-	?>
-
+	<div id = "body">
 	<?php
 
 		if ($_SESSION['action'] == 'deleteIntervention') {
@@ -47,10 +49,11 @@
         <input type="submit" value="Valider" /><br>
     </form>
 
-    <?php
-    	PrintFooter();
-    ?>
-
+    </div>
 </body>
+
+<?php
+	PrintFooter();
+?>
 
 </html>

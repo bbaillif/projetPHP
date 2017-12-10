@@ -9,19 +9,19 @@
 <head>
 	<title>Intranet Hopital Polytech</title>
 	<meta charset= "utf-8">
+	<link rel = "stylesheet" href = "aesthetic.css" > 
 </head>
 
 <body>
+	<div id = "header"> 
+		<?php 
+			CheckUID();
+			PrintHeader();
+		?>
+	</div>
 
-	<?php
-		CheckUID();
-		PrintHeader();
-		echo '<a href="./?action=searchMail">Rechercher adresse mail</a>'. "\n";
-		echo '<br>'. "\n";
-		echo '<a href="./login.php?action=logout">Deconnexion</a><br>'. "\n";
-	?>
-
-	<h1>Bienvenue sur le site en construction.</h1>
+	<div id = "body">
+	<h1>Intranet Hopital Polytech</h1>
 
 	<?php
 		if (isset($_GET['action'])) {
@@ -65,18 +65,20 @@
 			}
 
 			elseif ($_SESSION['right'] == '0') {
-				if ($_SESSION['action'] == 'addHospitalService') {
-					# verifier que le nom est valide
-					# AddHospitalService($_POST($hospitalServiceToAdd));
-					header('Location: ./hospitalServiceAdded.php');
-				}
-				elseif ($_SESSION['action'] == 'addInterventionService') {
-					# verifier que le nom est valide
-					# AddInterventionService($_POST($interventionServiceToAdd));
-					header('Location: ./interventionServiceAdded.php');
-				}
-				elseif ($_SESSION['action'] == 'seeLogs') {
+				if ($_SESSION['action'] == 'seeLogs') {
 					header('Location: ./searchUser.php');
+				}
+				elseif ($_SESSION['action'] == 'seeServiceArchive') {
+					header('Location: ./searchService.php');
+				}
+				elseif ($_SESSION['action'] == 'checkEmergencyNumber') {
+					header('Location: ./checkEmergencyNumber.php');
+				}
+				elseif ($_SESSION['action'] == 'deleteService') {
+					header('Location: ./deleteService.php');
+				}
+				elseif ($_SESSION['action'] == 'addService') {
+					header('Location: ./addService.php');
 				}
 			}
 
@@ -87,58 +89,28 @@
 		}
 
 		if ($_SESSION['right'] == '1') {
-			echo '<a href="?action=addPatient">Créer patient</a><br>' . "\n";
-			echo '<a href="?action=searchPatient">Rechercher patient</a><br>
-' . "\n";
-			echo '<a href="?action=addIntervention">Créer intervention</a><br>' . "\n";
-			echo '<a href="?action=deleteIntervention">Supprimer intervention</a><br>' . "\n";
-			echo '<a href="?action=seeFacturedIntervention">Voir interventions facturées</a><br>' . "\n";
+			echo '<br><br>';
+			echo '<p class = "bouton"> <a href="?action=addPatient">Créer patient</a> </p>' . "\n";
+			echo '<p class = "bouton"> <a href="?action=searchPatient">Rechercher patient</a> </p>' . "\n";
+			echo '<p class = "bouton"> <a href="?action=addIntervention">Créer intervention</a> </p>' . "\n";
+			echo '<p class = "bouton"> <a href="?action=deleteIntervention">Supprimer intervention</a> </p>' . "\n";
+			echo '<p class = "bouton"> <a href="?action=seeFacturedIntervention">Voir interventions facturées</a> </p>' . "\n";
 		}
 		elseif ($_SESSION['right'] == '2') {
-			echo '<a href="?action=changeDay">Modifier demi-journée</a><br>' . "\n";
-			echo '<p>Insérer urgence</p>';
-			echo '<a href="?action=emergencyWithoutPatient">Immédiate (sans patient)</a><br>' . "\n";
-			echo '<a href="?action=emergencyWithNewPatient">Avec un nouveau</a><br>' . "\n";
-			echo '<a href="?action=emergencyWithExistingPatient">Avec un patient connu</a><br>' . "\n";
-			echo '<a href="?action=factureIntervention">Facturer</a><br>' . "\n";
+			echo '<br>';
+			echo '<p class = "bouton"> <a href="?action=changeDay">Modifier demi-journée</a> </p>' . "\n";
+			echo '<p class = "bouton"> <a href="?action=emergencyWithoutPatient">Insérer une urgence immédiate (sans patient)</a> </p>' . "\n";
+			echo '<p class = "bouton"> <a href="?action=emergencyWithNewPatient"> Insérer une urgence avec un nouveau</a> </p>' . "\n";
+			echo '<p class = "bouton"> <a href="?action=emergencyWithExistingPatient"> Insérer une urgence avec un patient connu</a> </p>' . "\n";
+			echo '<p class = "bouton"> <a href="?action=factureIntervention">Facturer</a> </p><br>' . "\n";
 		}
 
 		elseif ($_SESSION['right'] == '0') {
-			echo '<form action="?addHospitalService" method="post">' . "\n";
-			echo 'Ajouter service d\'accueil : <input type="text" name="hospitalServiceToAdd">' . "\n";
-			echo '<input type="submit" value="Ajouter">' . "\n";
-			echo '</form>' . "\n";
-
-			echo '<form action="hospitalServiceDeleted.php" method="post">' . "\n";
-			echo 'Supprimer service d\'accueil : <select name = "hospitalServiceToDetele">' . "\n";
-			#$array = ReturnHospitalService();
-			#$i = 0; 
-			#while ($i < count($array)){
-			# 	print("<option value = \"$array[$i]\">".$array[$i]."</option>"); 
-			# 	$i=$i+1;
-			# }
-			echo '</select>' . "\n";
-			echo '<input type="submit" value="Supprimer">' . "\n";
-			echo '</form>' . "\n";
-
-			echo '<form action="?addInterventionService" method="post">' . "\n";
-			echo 'Ajouter service d\'accueil : <input type="text" name="interventionServiceToAdd">' . "\n";
-			echo '<input type="submit" value="Ajouter">' . "\n";
-			echo '</form>' . "\n";
-
-			echo '<form action="interventionServiceDeleted.php" method="post">' . "\n";
-			echo 'Supprimer service d\'accueil : <select name = "interventionServiceToDetele">' . "\n";
-			#$array = ReturnInterventionService(); 
-			#$i = 0; 
-			#while ($i < count($array)){
-			# 	print("<option value = \"$array[$i]\">".$array[$i]."</option>"); 
-			#	$i=$i+1;
-			#}
-			echo '</select>' . "\n";
-			echo '<input type="submit" value="Supprimer">' . "\n";
-			echo '</form>' . "\n";
-
-			echo '<a href="?action=seeLogs">Voir historique</a><br>' . "\n";
+			echo '<p class = "bouton"> <a href="?action=addService">Ajouter un service</a> </p>';
+			echo '<p class = "bouton"> <a href="?action=deleteService">Supprimer un service</a> </p>';		
+			echo '<p class = "bouton"> <a href="?action=seeLogs">Voir historique du personnel</a> </p>' . "\n";
+			echo '<p class = "bouton"> <a href="?action=seeServiceArchive">Voir historique des services</p></a> </p>' . "\n";
+			echo '<p class = "bouton"><a href="?action=checkEmergencyNumber">Vérifier la cohérence pathologie/numéro d\'urgence</a> </p>' . "\n";
 		}
 		else {
 			echo 'ERREUR, A DEBUGER';
@@ -149,9 +121,13 @@
 		echo '<br>'. "\n";
 		print_r($_SESSION);
 		echo '<br>'. "\n";
-		PrintFooter();
 	?>
 
+</div>
 </body>
+
+<?php
+	PrintFooter();
+?>
 
 </html>
