@@ -35,3 +35,14 @@ Modifications du 9/12/2017 :
 	- configurer la recherche de mail ou historique avec ID d'utilisateur
 - premier tests sur cas classique :
 	- NU ne marche pas quand on ajoute un patient
+
+Modifications du 10/12/2017:
+- correction de recherche adresse mail qui ne marchait plus 
+- correction le NU marche quand on ajoute un patient ! 
+- traduction du créneau en jour/date par la fonction ReturnIntervention() 
+- changement dans printResult() while au lieu d'un foreach ; changement dans DeleteIntervention (on prend en entrée une chaine "ID_service ID_inter") 
+
+Tests = 
+- rechercher patient : rien ne marche 
+- créer intervention ne marche pas non plus 
+- delete intervention = le post ne se remplit pas?? 

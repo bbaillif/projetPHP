@@ -24,6 +24,8 @@
 		$_SESSION['action'] = '';
 		print_r($_SESSION);
 		echo '<br>'. "\n";
+		DeleteIntervention($_POST["value"]);
+		echo '<br>'. "\n";
 		PrintFooter();
 	?>
 

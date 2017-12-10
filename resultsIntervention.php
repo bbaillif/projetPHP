@@ -38,13 +38,17 @@
 		# PrintResults(tableau, true);
 		if ($_SESSION['action'] == 'deleteIntervention') {
 			$result = SearchIntervention($_POST);
-			PrintResults($result, "radio");
-			echo '<input type="submit" name="deleteIntervention" value="Supprimer intervention" /><br>' . "\n";
+			if (!empty($result)){
+				$result2 = ReturnIntervention($result); 
+				PrintResults($result2, "radio");
+				echo '<input type="submit" name="deleteIntervention" value="Supprimer intervention" /><br>' . "\n";
+			}
 		}
 		elseif ($_SESSION['action'] == 'seeFacturedIntervention') {
 			$result = SearchInterventionF($_POST);
 			if (!empty($result)){
-				PrintResults($result,"list");
+				$result2 = ReturnIntervention($result); 
+				PrintResults($result2,"list");
 			}
 		}
 		elseif ($_SESSION['action'] == 'factureIntervention') {
@@ -58,6 +62,7 @@
 			header('Location: ./index.php');
 		}
 	?>
+	</form>
 
 	<?php
 		echo '<br>'. "\n";

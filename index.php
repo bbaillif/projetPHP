@@ -16,7 +16,7 @@
 	<?php
 		CheckUID();
 		PrintHeader();
-		echo '<a href="./?action="searchMail">Rechercher adresse mail</a>'. "\n";
+		echo '<a href="./?action=searchMail">Rechercher adresse mail</a>'. "\n";
 		echo '<br>'. "\n";
 		echo '<a href="./login.php?action=logout">Deconnexion</a><br>'. "\n";
 	?>
@@ -28,6 +28,9 @@
 			$_SESSION['action'] = $_GET['action'];
 
 			if ($_SESSION['action'] == 'addIntervention') {
+				header('Location: ./searchUser.php');
+			}
+			elseif ($_SESSION['action'] == 'searchMail') {
 				header('Location: ./searchUser.php');
 			}
 

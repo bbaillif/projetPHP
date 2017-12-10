@@ -4,7 +4,7 @@
 	<p> OK </p>
 
 	<?php
-	require("C:/xampp/htdocs/Cours_PHP/projetPHP/fonctionSo.php"); 
+	require("C:/xampp/htdocs/Cours_PHP/projetPHP/fonctions.php"); 
 	
 	$_SESSION['uid'] = "X"; 
 	#Essai WriteUserLog 
@@ -124,10 +124,14 @@
 
 	#Test SearchInterventionF
 	#$array = array('startingDate' => '2017-11-10', 'endingDate' => '', 'patientName' => "");
-	#print_r(SearchInterventionF($array)); 
+	#$res = SearchInterventionF($array); 
+	#print(WhichService("PER001")); 
 
-	print(WhichService("PER001")); 
-
+	#print_r(ReturnIntervention($res));
+	$chaine = "A B" ;
+	$pieces = explode(" ", $chaine);
+	print($pieces[0]); 
+	print($pieces[1]);
 	?> 
 
 	<p> Coucou </p>

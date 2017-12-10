@@ -10,9 +10,9 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 		$error2 = "<p>Aucun résultat ne correspond à votre recherche. </p>";
 		$error3 = "<p>ERROR.2: Impossible d'executer la requête. Merci de contacter le service technique. </p>";
 		#Déclaration des variables de la base de données 
-		$user = 'root'; 
-		$pwd = '1711alphaben1995'; 
-		$bdd = 'hopital';
+		$user = 'Lea'; 
+		$pwd = 'BDE20162017'; 
+		$bdd = 'projetPHP';
 
 		#On essaye de se connecter à la base de données
 		$r=mysqli_connect('localhost',$user,$pwd,$bdd);
@@ -110,32 +110,36 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 #PrintResults($tableau, $type) = Créer les lignes d'un formulaire HTML (radio ou checkbox) 
 	function PrintResults($tableau,$type)
 	{
+		$i = 0;
 		#Si on veut un formulaire checkbox 
 		if ($type == "checkbox")
 		{
 			#On affiche toutes les données du tableau
-			foreach ($tableau as $value) 
+			while($i < count($tableau))
 			{
-				print("<input type=\"checkbox\" name=\"value[]\" value=\"".$value."\" id =\"b\"> ");
-				print("<label for= \"b\">".$value."\n</label> <br><br>");
+				echo("<input type=\"checkbox\" name=\"value\" value=\"".$tableau[$i+1]."\" id=\"case\"> ");
+				echo("<label for=\"case\">".$tableau[$i]."\n</label> <br><br>");
+				$i=$i+2;
 			}
 		}
 		#Si on veut un formulaire radio
 		elseif ($type == "radio") 
 		{		
 			#On affiche toutes les données du tableau
-			foreach ($tableau as $value) 
+			while($i < count($tableau))
 			{
-				print("<input type=\"radio\" name=\"val\" value=\"".$value."\" id =\"b\"> ");
-				print("<label for= \"b\"> ".$value."\n</label><br><br>");
+				echo("<input type=\"radio\" name=\"value\" value=\"".$tableau[$i+1]."\" id =\"case\"> ");
+				echo("<label for= \"case\"> ".$tableau[$i]."\n</label><br><br>");
+				$i=$i+2;
 			}
 		}
 		elseif ($type == "list") 
 		{
 			print("<ul>"); 
-			foreach ($tableau as $value) 
+			while($i < count($tableau))
 			{
-				print("<li>".$value."</li><br>");
+				print("<li>".$tableau[$i]."</li><br>");
+				$i=$i+2;
 			}
 			print("</ul>"); 
 		}
@@ -488,7 +492,7 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 		try{
 			$secu = $patient_array['ssNumber']; 
 			$patho = $patient_array['pathology'];
-			$NU = $patient_array['emergencyNumber']; 	
+			$NU = $patient_array['emergencyLevel']; 	
 
 			#On récupère le niveau urgence par défaut de la pathologie
 			$r2 = "SELECT NU_defaut FROM pathologie WHERE pathologie = \"$patho\"";
@@ -541,7 +545,7 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 
 			#Ajout dans la table Patient 
 			$patho = $patient_array['pathology'];
-			$NU = $patient_array['emergencyNumber']; 
+			$NU = $patient_array['emergencyLevel']; 
 			$r_patient = "INSERT INTO patient VALUES (\"$secu\",\"$patho\", \"$NU\")"; 
 			$q_patient = query($r_patient); 
 
@@ -602,7 +606,7 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 
 			#Update de la table patient 
 			$patho = $patient_array['pathology'];
-			$NU = $patient_array['emergencyNumber']; 
+			$NU = $patient_array['emergencyLevel']; 
 			$r_patient = "UPDATE patient SET pathologie=\"$patho\",NU=\"$NU\" WHERE num_secu = \"$secu\"";
 			$q_patient = Query($r_patient); 
 
@@ -658,7 +662,7 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 		try{
 			#Déclaration de deux tableaux (avec nom colonnes SQL et infos du tableau en entrée pour remettre dans l'ordre)
 			$arraySQL = array('num_secu', 'nom', 'prenom', 'sexe', 'date_naiss', 'pathologie', 'NU'); 
-			$array_patient = array($array['ssNumber'], $array['surname'], $array['name'], $array['gender'], $array['birthday'], $array['pathology'], $array['emergencyNumber']); 
+			$array_patient = array($array['ssNumber'], $array['surname'], $array['name'], $array['gender'], $array['birthday'], $array['pathology'], $array['emergencyLevel']); 
 
 			#création du début de la requête
 			$r = "SELECT * FROM Patient NATURAL JOIN Personne WHERE "; 
@@ -822,13 +826,18 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 		}
 	}
 
-#DeleteIntervention(...)= On supprime une intervention 
-	function DeleteIntervention($ID_service, $ID_creneau)
+#DeleteIntervention(...)= On supprime une intervention
+	function DeleteIntervention($chaine)
 	{
 		#Déclaration des variables 
 		$date = date("d/m/Y H:i");
 
 		try {
+			#On découpe la chaine
+			$pieces = explode(" ", $chaine);
+			$ID_service = print($pieces[0]); 
+			$ID_creneau = print($pieces[1]);
+
 			#On essaye de supprimer l'intervention 
 			$r="DELETE from planning WHERE ID_service_int=\"$ID_service\" AND ID_creneau = \"$ID_creneau\"";
 			$q=Query($r);
@@ -1026,6 +1035,41 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 			}
 
 			return($array); 
+		}catch(Exception $e){
+			#Si erreur de la fonction Query() 
+			echo $e -> getMessage();
+		}
+	}
+
+#ReturnIntervention(...) = retourne les interventions ; 
+	function ReturnIntervention($result_search)
+	{
+		try{
+			$i= 0; 
+			$result= []; 
+			while ($i < count($result_search)){
+				$IDcreneau = $result_search[$i]; $i=$i+1;
+				$IDintervention = $result_search[$i];
+	
+				$r_int = "SELECT nom FROM service_intervention WHERE ID_service_int = \"$IDintervention\"";
+				$r_date = "SELECT jour, heure FROM creneau WHERE ID_creneau = \"$IDcreneau\"";
+
+				$q_int = Query($r_int); 
+				$row_int = mysqli_fetch_array($q_int); 
+				$service = $row_int[0]; 
+
+				$q_date = Query($r_date);
+				$row_date = mysqli_fetch_array($q_date); 
+				$jour = $row_date[0]; 
+				$heure = $row_date[1];
+
+				$phrase ="Intervention du $jour à $heure en $service";
+				
+				$result[]=$phrase;
+				$result[]="$IDcreneau $IDintervention";
+				$i = $i+1; 
+			}
+			return($result);
 		}catch(Exception $e){
 			#Si erreur de la fonction Query() 
 			echo $e -> getMessage();
