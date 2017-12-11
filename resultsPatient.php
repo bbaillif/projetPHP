@@ -22,9 +22,11 @@
 
 	<div id = "body">
 	<?php
+		print_r($_SESSION); 
+		print_r($_POST);
 		if (isset($_POST['updatePatient'])) {
 			$_SESSION['action'] = 'updatePatient';
-			$_SESSION['value'] = $_POST['value'];
+			$_SESSION['patientID'] = $_POST['value'];
 			header('Location: ./patient.php');
 		}
 		elseif (isset($_POST['deletePatient'])) {
@@ -32,11 +34,11 @@
 			header('Location: ./patientUpdated.php');
 		}
 		elseif (isset($_POST['choosePatientIntervention'])) {
-			# $_SESSION['patientID'] =
+			$_SESSION['patientID'] = $_POST['value'];
 			header('Location: ./askIntervention.php');
 		}
 		elseif (isset($_POST['choosePatientEmergency'])) {
-			# $_SESSION['patientID'] =
+			# $_SESSION['patientID'] =$_POST['value'];
 			header('Location: ./emergencyDone.php');
 		}
 	?>
@@ -63,7 +65,7 @@
 			echo '</form>';
 		}
 		elseif ($_SESSION['action'] == 'addIntervention') {
-			#rajouter form
+			echo '<form method="post">';
 			while ($i < count($tab)){
 				$result=returnPatient($tab[$i]);
 				PrintResults($result,'radio');
@@ -71,6 +73,7 @@
 			}
 			echo '<input type="submit" name="choosePatientIntervention" value="Choisir le patient sélectionné" /><br>' . "\n";
 			echo '<input type="submit" name="addPatient" value="Créer un patient" /><br>' . "\n";
+			echo '</form>';
 		}
 		elseif ($_SESSION['action'] == 'emergencyWithExistingPatient') {
 			#rajouter form

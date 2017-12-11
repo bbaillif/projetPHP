@@ -24,15 +24,34 @@
 	<h1> Résumé patient choisi </h1>
 
 		<?php 
-			$infoField = InfoFieldPatient();
-			#$infoPatient = FetchInfoPatient($_SESSION['patientID']);
-			foreach ($infoField as $infoName => $relatedInfo) {
-				echo($relatedInfo['french'] . ' : ' . $infoPatient[$infoName] . "\n");
-			}
+			$array = array('name' => "", 'surname' => "", 
+				'ssNumber' => $_SESSION['patientID'], 'gender' => '', 
+				'birthday' => '', 'pathology' => '', 'emergencyLevel' => '');
+			$infosPatient = searchPatient($array);
+			$infoPatient = $infosPatient[0];
+			print '<p> Nom : '.$infoPatient['surname'].'</p>';
+			print '<p> Prénom : '.$infoPatient['name'].'</p>';
+			print '<p> Sexe : '.$infoPatient['gender'].' <p>'; 
+			print '<p> Numéro de sécurité sociale '.$infoPatient['ssNumber'].'</p> ';
+			print '<p> Date de naissance : '.$infoPatient['birthday'].' </p>'; 
+			print '<p> Pathologie : '.$infoPatient['pathology'].' </p>'; 
 		?>
 
 		<form action="resultsFreeTime.php" method="post">
-		Numéro d'urgence lié à l'intervention <input type="number" name="interventionEmergencyNumber" value=<?php $infoPatient['ssNumber']?> >
+
+		Intervention demandée <select name = "intervention"> 
+		<?php 
+			$array = ReturnService("intervention"); 
+			$i = 0; 
+			while ($i < count($array)){
+			 	print("<option value = \"$array[$i]\">".$array[$i+1]."</option>"); 
+			 	$i=$i+2;
+			} 
+		?>
+		</select> <br> <br>
+
+		Numéro d'urgence lié à l'intervention <input type="number" name="interventionEmergencyNumber" value=<?php print("\"".$infoPatient['emergencyLevel']."\"")?> min = "0" max="10">
+
 		<input type="submit" value="Valider" /><br>
 		</form>
 

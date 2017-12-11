@@ -22,13 +22,11 @@
 
 	<div id = "body">
 	<?php
-		# Following lines execute only after patient.php submitted from
-		# addPatient, addPatientIntervention, ou updatePatient
-		# TODO : ajouter plus de conditions 
+		# Following lines execute only after patient.php submitted from addPatient, addPatientIntervention, ou updatePatient
 		if (isset($_POST['pathology'])) {
 			if ($_SESSION['action'] == 'updatePatient') {
 				print('uuu');
-				$arrayPatient=array('ssNumber' => $_SESSION['value'],
+				$arrayPatient=array('ssNumber' => $_SESSION['patientID'],
 				'pathology' => $_POST['pathology'], 
 				'emergencyLevel' => $_POST['emergencyLevel']);
 				print_r($arrayPatient);
@@ -62,13 +60,13 @@
 		elseif ($_SESSION['action'] == 'searchPatient' 
 			OR $_SESSION['action'] == 'addIntervention'
 			OR $_SESSION['action'] == 'emergencyWithExistingPatient') {
-			echo '<h1>Recherche de patient</h1>'. "\n";
+			echo '<h1>Recherche de patient</h1>'. "\n"; 
 			echo '<form action="resultsPatient.php" method="post">'. "\n";
 		}
 		elseif ($_SESSION['action'] == 'updatePatient') {
 			$array = array('name' => "",
 			'surname' => "", 
-			'ssNumber' => $_SESSION['value'], 
+			'ssNumber' => $_SESSION['patientID'], 
 			'gender' => '', 
 			'birthday' => '',
 			'pathology' => '', 

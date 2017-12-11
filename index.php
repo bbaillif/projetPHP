@@ -27,10 +27,7 @@
 		if (isset($_GET['action'])) {
 			$_SESSION['action'] = $_GET['action'];
 
-			if ($_SESSION['action'] == 'addIntervention') {
-				header('Location: ./searchUser.php');
-			}
-			elseif ($_SESSION['action'] == 'searchMail') {
+			if ($_SESSION['action'] == 'searchMail') {
 				header('Location: ./searchUser.php');
 			}
 
@@ -40,14 +37,14 @@
 					header('Location: ./patient.php');
 				}
 				elseif ($_SESSION['action'] == 'addIntervention') {
-					header('Location: ./askIntervention.php');
+					header('Location: ./patient.php');
 				}
 				elseif ($_SESSION['action'] == 'deleteIntervention' 
 					OR $_SESSION['action'] == 'seeFacturedIntervention') {
 					header('Location: ./searchIntervention.php');
 				}
 			}
-
+			
 			elseif ($_SESSION['right'] == '2') {
 				if ($_SESSION['action'] == 'changeDay') {
 					header('Location: ./searchDay.php');

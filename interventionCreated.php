@@ -21,14 +21,13 @@
 	</div>
 
 	<div id = "body">
-	<h1>Patient mis-à-jour</h1>
+	<h1>Intervention créée</h1>
 
 	</div>
 </body>
 
 <?php
 	$_SESSION['action'] = '';
-	$_SESSION['patientID'] = '';
 	PrintFooter();
 ?>
 

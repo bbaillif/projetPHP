@@ -10,8 +10,8 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 		$error2 = "<p>Aucun résultat ne correspond à votre recherche. </p>";
 		$error3 = "<p>ERROR.2: Impossible d'executer la requête. Merci de contacter le service technique. </p>";
 		#Déclaration des variables de la base de données 
-		$user = 'root'; 
-		$pwd = '';
+		$user = 'Lea'; 
+		$pwd = 'BDE20162017';
 		$bdd = 'projetPHP';
 
 		#On essaye de se connecter à la base de données
@@ -640,7 +640,7 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 		try{
 			#Recherche tous les IDCreneau présents dans la table Créneau qui ne sont pas dans la table Planning pour un service d'intervention donné 
 			#Ils sont classés par ordre chronologique grâce à ORDER BY
-			$r = "SELECT ID_creneau FROM creneau WHERE ID_creneau NOT IN (SELECT ID_creneau FROM planning WHERE ID_service_int = \"$Service_int\") ORDER BY jour, heure" ; 
+			$r = "SELECT ID_creneau FROM creneau WHERE ID_creneau NOT IN (SELECT ID_creneau FROM planning WHERE ID_service_int = \"$Service_int\") AND jour > CURRENT_DATE() ORDER BY jour, heure" ; 
 			$q = Query($r); 
 			$array = []; 			
 			while ($nuplet = mysqli_fetch_array($q)) {
@@ -1232,6 +1232,5 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 			$tableau[]=$phrase;
 		    $tableau[]=$value;
 			return($tableau);
-			
-
 	}
+?>

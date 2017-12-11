@@ -4,7 +4,7 @@
 	<p> OK </p>
 
 	<?php
-	require("C:/xampp/htdocs/CoursPHP/projetPHP/fonctions.php"); 
+	require("./fonctions.php"); 
 	
 	$_SESSION['uid'] = "X"; 
 	$_SESSION['service'] = "INT004"; 
