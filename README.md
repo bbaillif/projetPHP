@@ -66,3 +66,6 @@ Ce qui marche :
 > Admin 
 - tout marche = ajout intervention, suppression intervention, historique du personnel et des services et verif NU 
 
+Modification Solène du 11/12/17: 
+-Creation fonction returnPatient
+-Modifier & suppimer patient OK 

@@ -10,8 +10,8 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 		$error2 = "<p>Aucun résultat ne correspond à votre recherche. </p>";
 		$error3 = "<p>ERROR.2: Impossible d'executer la requête. Merci de contacter le service technique. </p>";
 		#Déclaration des variables de la base de données 
-		$user = 'Lea'; 
-		$pwd = 'BDE20162017'; 
+		$user = 'root'; 
+		$pwd = '';
 		$bdd = 'projetPHP';
 
 		#On essaye de se connecter à la base de données
@@ -705,7 +705,15 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 			$q = Query($r);
 			$result = []; 			
 			while ($nuplet = mysqli_fetch_array($q)) {
-				array_push($result, $nuplet[0], $nuplet[1], $nuplet[2], $nuplet[3], $nuplet[4], $nuplet[5], $nuplet[6]);
+				$tableau=[];
+				$tableau['surname']=$nuplet[3];
+				$tableau['name']=$nuplet[4];
+				$tableau['ssNumber']=$nuplet[0];
+				$tableau['gender']=$nuplet[5];
+				$tableau['birthday']=$nuplet[6];
+				$tableau['pathology']=$nuplet[1];
+				$tableau['emergencyLevel']=$nuplet[2];
+				array_push($result, $tableau);
 			}
 			return($result);
 
@@ -1215,4 +1223,15 @@ mysqli_report(MYSQLI_REPORT_STRICT);
 			echo '<option value="16h00">16h00</option>' . "\n";
 			echo '<option value="16h30">16h30</option>' . "\n";
 		}
+	}
+	
+	function returnPatient($array){
+			$tableau=[];
+			$phrase=$array['surname']." ".$array['name']." (numero de securite sociale : ".$array['ssNumber'].")";
+			$value=$array['ssNumber'];
+			$tableau[]=$phrase;
+		    $tableau[]=$value;
+			return($tableau);
+			
+
 	}

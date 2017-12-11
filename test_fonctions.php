@@ -4,7 +4,7 @@
 	<p> OK </p>
 
 	<?php
-	require("C:/xampp/htdocs/Cours_PHP/projetPHP/fonctions.php"); 
+	require("C:/xampp/htdocs/CoursPHP/projetPHP/fonctions.php"); 
 	
 	$_SESSION['uid'] = "X"; 
 	$_SESSION['service'] = "INT004"; 
@@ -51,13 +51,14 @@
 	#Emergency("num secu","INT004");
 
 	#Essai de CheckID 
-	$array_vide = array('name' => "A",
-		'surname' => "B", 
-		'ssNumber' => 'x', 
-		'gender' => 'F', 
-		'birthday' => '2000-01-01',
-		'pathology' => 'rhume', 
-		'emergencyNumber' => '6');
+	#$array_vide = array('name' => "A",
+	#	'surname' => "B", 
+	#	'ssNumber' => 'x', 
+	#	'gender' => 'F', 
+	#	'birthday' => '2000-01-01',
+	#	'pathology' => 'rhume', 
+	#	'emergencyNumber' => '6');
+	
 	#try{
 	#	$r = CheckPatient($array_vide); 
 	#}catch(Exception $e){
@@ -99,9 +100,9 @@
 	#	'gender' => '', 
 	#	'birthday' => '',
 	#	'pathology' => '', 
-	#	'emergencyNumber' => '');
+	#	'emergencyLevel' => '');
 	#SearchPatient($array);
-
+	
 	#SearchIntervention 
 	#$array = array('startingDate' => '2017/11/10', 'endingDate' => '', 'patientName' => "Nadeau");
 	#SearchIntervention($array);
@@ -129,14 +130,14 @@
 	#print(WhichService("PER001")); 
 
 	#print_r(ReturnIntervention($res));
-	$chaine = "A B" ;
-	$pieces = explode(" ", $chaine);
-	print($pieces[0]); 
-	print($pieces[1]);
+	#$chaine = "A B" ;
+	#$pieces = explode(" ", $chaine);
+	#print($pieces[0]); 
+	#print($pieces[1]);
 
 	#Test FactureIntervention 
-	$c = "MA46A9 D";
-	FactureIntervention($c);
+	#$c = "MA46A9 D";
+	#FactureIntervention($c);
 	?> 
 
 	<p> Coucou </p>

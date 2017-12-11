@@ -28,6 +28,7 @@
 
 <?php
 	$_SESSION['action'] = '';
+	$_SESSION['value'] = '';
 	PrintFooter();
 ?>
 
