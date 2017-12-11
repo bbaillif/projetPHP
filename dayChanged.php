@@ -25,7 +25,7 @@
 
 	<?php
 		$_SESSION['action'] = '';
-		print_r($_SESSION);
+		$_SESSION['appointments'] = '';
 	?>
 	</div>
 </body>
