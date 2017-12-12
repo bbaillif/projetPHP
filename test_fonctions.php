@@ -146,7 +146,7 @@
 	}
 	#print(date('W',strtotime("2018-01-01")));
 
-	#changeWindow(30);
+	changeWindow(30);
 	?> 
 
 	<p> Coucou </p>

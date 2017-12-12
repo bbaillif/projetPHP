@@ -28,7 +28,6 @@
 
 <?php
 	$_SESSION['action'] = '';
-	$_SESSION['patientID'] = '';
 	PrintFooter();
 ?>
 

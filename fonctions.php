@@ -3,16 +3,15 @@
 mysqli_report(MYSQLI_REPORT_STRICT);
 
 #Query($query) : Execute la requête ; renvoie une erreur si ça ne marche pas
-function Query($query)
-{
+function Query($query) {
 		#Déclaration des erreurs
 	$error1 = "<p>ERROR.1: Impossible de se connecter à la base de données. Merci de contacter le service technique. </p>";
 	$error2 = "<p>Aucun résultat ne correspond à votre recherche. </p>";
 	$error3 = "<p>ERROR.2: Impossible d'executer la requête. Merci de contacter le service technique. </p>";
 		#Déclaration des variables de la base de données 
-		$user = 'Lea'; 
-		$pwd = 'BDE20162017';
-		$bdd = 'projetPHP';
+		$user = 'root'; 
+		$pwd = '1711alphaben1995';
+		$bdd = 'hopital';
 
 		#On essaye de se connecter à la base de données
 	$r=mysqli_connect('localhost',$user,$pwd,$bdd);
@@ -46,8 +45,7 @@ function Query($query)
 }
 
 #WriteUserLog($chaine)= Ecrit dans un fichier au nom de l'utilisateur
-function WriteUserLog($chaine)
-{
+function WriteUserLog($chaine) {
 		#On récupère l'ID de l'utilisateur 
 	$user = $_SESSION['uid']; 
 		#On ouvre le fichier ; Si pas créé, on le crée
@@ -60,8 +58,7 @@ function WriteUserLog($chaine)
 } 
 
 #WriteInterventionLog($chaine)= Ecrit dans un fichier selon le service intervention
-function WriteInterventionLog($chaine, $service)
-{
+function WriteInterventionLog($chaine, $service) {
 		#On ouvre le fichier ; Si pas créé, on le crée
 	if ($f = fopen("$service.txt", "a")){
 			#On écrit la chaine
@@ -72,8 +69,7 @@ function WriteInterventionLog($chaine, $service)
 }
 
 #CheckID($ID, $mdp)= Vérifie - avant connexion - que l'utilisateur est dans la bdd
-function CheckID($ID, $mdp)
-{
+function CheckID($ID, $mdp) {
 	try {
 		$r1 = "SELECT ID_personnel, MDP FROM personnel"; 
 		$q1 = Query($r1);
@@ -107,58 +103,8 @@ function CheckID($ID, $mdp)
 	}
 }    
 
-#PrintResults($tableau, $type) = Créer les lignes d'un formulaire HTML (radio ou checkbox) 
-function PrintResults($array,$type)
-{
-	if ($type == "checkbox") {
-		foreach ($array as $idx => $info_array) {
-			echo '<input type="checkbox" name="array" value="' . $idx . '" id="case">' . "\n";
-			foreach ($info_array as $info => $value) {
-				echo $value . '  ';
-			}
-		}
-	}
-		#Si on veut un formulaire radio
-	elseif ($type == "radio") 
-	{		
-		$i = 0;
-			#On affiche toutes les données du tableau
-		while($i < count($array))
-		{
-			echo("<input type=\"radio\" name=\"value\" value=\"".$array[$i+1]."\" id =\"case\"> ");
-			echo("<label for= \"case\"> ".$array[$i]."\n</label><br><br>");
-			$i=$i+2;
-		}
-	}
-
-	elseif ($type == "list") 
-	{
-		print("<ul>");
-		foreach ($array as $idx => $info_array) {
-			echo '<li>';
-			foreach ($info_array as $info => $value) {
-				echo $value . '  ';
-			}
-			echo '</li><br>';
-		}
-		print("</ul>"); 
-	}
-
-	elseif ($type == "liste") 
-	{
-		$i = 0; 
-		print("<ul>");
-		while ($i < count($array)) {
-			echo '<li>'.$array[$i].'</li><br>';
-			$i=$i+2;
-		}
-		print("</ul>"); 
-	}
-}
-
 #DeletePatient($numSecu)= On supprime un patient selon son N° SECU 
-function DeletePatient($numSecu)
-{
+function DeletePatient($numSecu) {
 		#Déclaration des variables 
 	$date = date("d/m/Y H:i");
 
@@ -176,15 +122,14 @@ function DeletePatient($numSecu)
 }
 
 #DeleteService($nom_service, $type): On supprime le service donnée en entrée 
-function DeleteService($ID_service,$type)
-{
+function DeleteService($ID_service,$type) {
 		#Déclaration variables
 	$date = date("d/m/Y H:i");
 
 	try{
 		if ($type == "service"){
 				#On supprime le service de la BDD
-			$r="DELETE from Service_intervention WHERE ID_service_int=\"$ID_service\"";
+			$r="DELETE from service_intervention WHERE ID_service_int=\"$ID_service\"";
 			$q=Query($r);
 
 				#On écrit dans le fichier de l'utilisateur
@@ -212,8 +157,7 @@ function DeleteService($ID_service,$type)
 }
 
 #AddIntervention(...)= On ajoute l'intervention selon les données en entrée
-function AddIntervention($serviceI, $creneau, $Idpers, $numSecu)
-{
+function AddIntervention($serviceI, $creneau, $Idpers, $numSecu) {
 		#Déclaration des variables 
 	$date = date("d/m/Y H:i");
 
@@ -235,8 +179,7 @@ function AddIntervention($serviceI, $creneau, $Idpers, $numSecu)
 }
 
 #AddService(...)= Ajout d'un service dans la base de données
-function AddService($nomService,$type)
-{
+function AddService($nomService,$type) {
 		#Déclaration des variables 
 	$date = date("d/m/Y H:i");
 
@@ -245,7 +188,7 @@ function AddService($nomService,$type)
 	{
 		try{
 				#On récupère les ID des services d'intervention
-			$r1 = "SELECT ID_service_int FROM Service_intervention";
+			$r1 = "SELECT ID_service_int FROM service_intervention";
 			$q1 = Query($r1);
 			$array = [];
 			while ($nuplet = mysqli_fetch_array($q1)) {
@@ -268,7 +211,7 @@ function AddService($nomService,$type)
 			}
 
 				#Ajout dans la base de données
-			$r2 = "INSERT INTO Service_intervention VALUES (\"".$IDservice."\",\"".$nomService."\")";
+			$r2 = "INSERT INTO service_intervention VALUES (\"".$IDservice."\",\"".$nomService."\")";
 			$q2 = Query($r2);
 
 				#On écrit dans le fichier de l'utilisateur
@@ -287,7 +230,7 @@ function AddService($nomService,$type)
 	elseif ($type == "accueil") {
 			#On récupère les ID des services d'accueil
 		try{
-			$r1 = "SELECT ID_service_acc FROM Service_accueil";
+			$r1 = "SELECT ID_service_acc FROM service_accueil";
 			$q1 = Query($r1);
 			$array = [];
 			while ($nuplet = mysqli_fetch_array($q1)) {
@@ -310,7 +253,7 @@ function AddService($nomService,$type)
 			}
 
 				#Ajout dans la base de données
-			$r2 = "INSERT INTO Service_accueil VALUES (\"".$IDservice."\",\"".$nomService."\")";
+			$r2 = "INSERT INTO service_accueil VALUES (\"".$IDservice."\",\"".$nomService."\")";
 			$q2 = Query($r2);
 
 				#On écrit dans le fichier de l'utilisateur
@@ -327,8 +270,7 @@ function AddService($nomService,$type)
 }
 
 #SearchEmail($nom,$prenom)= Cherche l'email d'un mbre du personnel
-function SearchEmail($ID)
-{
+function SearchEmail($ID) {
 	try {
 			#On essaye d'effectuer la requête
 		$r = "SELECT mail FROM personnel NATURAL JOIN personne WHERE ID_personnel=\"$ID\"";
@@ -350,8 +292,7 @@ function SearchEmail($ID)
 }
 
 #PrintArchive($fichier)= permet l'affichage de l'historique d'un service ou d'un membre du personnel 
-function PrintArchive($fichier)
-{
+function PrintArchive($fichier) {
 		#On regarde si le fichier existe
 	if (!file_exists($fichier)){
 		print("Pas d'historique disponible <br> \n"); 
@@ -380,8 +321,7 @@ function PrintArchive($fichier)
 }
 
 #FactureIntervention(...)= On met l'intervention comme facturé (passe de 0 à 1)
-function FactureIntervention($chaine)
-{
+function FactureIntervention($chaine) {
 		#Déclaration des variables 
 	$date = date("d/m/Y H:i");
 
@@ -431,27 +371,6 @@ function SearchDay($date,$halfDay) {
 			$query = $query . '"13:30:00" AND "17:30:00"';
 		}
 
-		$attributes = array('ID_service_int', 'mail', 'nom', 'prenom', 'planning.num_secu', 'jour', 'heure');
-		#Attributes must be in comprehensive order to print further
-		$query = 'SELECT ';
-
-		foreach ($attributes as $key => $attribute) {
-			#Comma between each attribute, except the first one
-			if ($key != 0) {
-				$query = $query . ", ";
-			}
-			$query = $query . $attribute;
-		}
-
-		$query = $query . ' FROM (creneau NATURAL JOIN planning NATURAL JOIN personne) JOIN personnel ON personnel.ID_personnel = planning.ID_personnel WHERE jour = "' . $date . '" AND heure BETWEEN ';
-
-		if ($halfDay == "morning"){
-			$query = $query . '"08:30:00" AND "12:00:00"';
-		} 
-		elseif ($halfDay == "afternoon") {
-			$query = $query . '"13:30:00" AND "17:30:00"';
-		}
-
 			$results = Query($query);
 
 			$appointmentsArray = [];
@@ -471,8 +390,7 @@ function SearchDay($date,$halfDay) {
 }
 
 #Emergency($numSecu, $service)= Quand on a une urgence, on prend le premier créneau libre ou non
-function Emergency($numSecu, $service)
-{
+function Emergency($numSecu, $service) {
 		#Déclaration de variables 
 	$jour = date("Y-m-d");
 	$heure = date("H:i:s"); 
@@ -480,19 +398,15 @@ function Emergency($numSecu, $service)
 
 	try{
 			#On sélectionne les créneaux du jour après l'heure 
-		$r="SELECT ID_creneau FROM creneau WHERE jour = \"$jour\" AND heure > \"$heure\"" ; 
-		$q = Query($r); 
+		$r="SELECT ID_creneau FROM creneau WHERE jour = \"$jour\" AND heure > \"$heure\"" ;
+		$q = Query($r);
 
-			#On récupère le premier créneau
 		$row = mysqli_fetch_array($q); 
 
-			#On ajoute l'intervention 
 		AddIntervention($service, $row[0], $_SESSION['uid'], $numSecu); 
 
-			#On écrit dans le fichier de l'utilisateur
 		WriteUserLog("$date : ajout de l'urgence du patient $numSecu pour intervention dans $service au créneau $row[0] \r\n"); 
 
-			#On écrit dans le fichier service
 		WriteInterventionLog("$date : ajout de l'urgence $row[0] pour le patient $numSecu \r\n", $service); 
 
 	} catch (Exception $e){
@@ -501,9 +415,8 @@ function Emergency($numSecu, $service)
 	}
 }
 
-#CheckPatient($patient_array)= on vérifie si le patient n'existe pas déjà 
-function CheckPatient($patient_array)
-{
+#PatientUnknown($patient_array)= on vérifie si le patient n'existe pas déjà 
+function PatientUnknown($patient_array) {
 	try{
 		$secu = $patient_array['ssNumber']; 
 
@@ -516,7 +429,6 @@ function CheckPatient($patient_array)
 		}
 
 		if (in_array("$secu",$array)){
-			#Le patient existe déjà (il est déjà dans la BDD)
 			return(False);
 		}
 			#Le patient n'existe pas
@@ -529,8 +441,7 @@ function CheckPatient($patient_array)
 }
 
 #CheckNU($patient_array)= On écrit dans un fichier quand on a un NU anormal (supérieur à ce qui a été prévu)
-function CheckNU($patient_array)
-{
+function CheckNU($patient_array) {
 		#Declaration des variables
 	$date = date("d/m/Y H:i");
 
@@ -560,8 +471,7 @@ function CheckNU($patient_array)
 }
 
 #AddPatient(...)= Ajout d'un patient dans la base de données
-function AddPatient ($patient_array)
-{
+function AddPatient ($patient_array) {
 		#Déclaration des variables 
 	$date = date("d/m/Y H:i");
 
@@ -587,14 +497,13 @@ function AddPatient ($patient_array)
 
 		WriteUserLog("$date : ajout du patient $secu \r\n");
 	} catch (Exception $e){
-			#Si il y a une erreur de query ou de CheckPatient
+			#Si il y a une erreur de query ou de PatientUnknown
 		echo $e -> getMessage();
 	}
 }
 
 #UpdatedUL($secu, $NU)= met à jour le niveau d'urgence selon le temps avant l'intervention 
-function UpdatedUL($secu, $NU)
-{		
+function UpdatedUL($secu, $NU) {		
 	try {
 			#Query pour connaître la durée jusqu'à la prochaine intervention concernant le numéro de sécu dans la table Planning.  
 		$r = "SELECT DATEDIFF(jour,CURRENT_DATE()) FROM planning NATURAL JOIN creneau WHERE num_secu = \"$secu\" ORDER BY jour, heure";
@@ -617,37 +526,37 @@ function UpdatedUL($secu, $NU)
 	}
 }
 
-function UpdatePatient ($secu, $patient_array)
-{
+function UpdatePatient ($patient_array) {
 		#Déclaration des variables 
 	$date = date("d/m/Y H:i");
+	$secu = $patient_array['ssNumber'];
 
 	try{
 			#Vérifie que le patient existe
-		if (CheckPatient($patient_array) == True) {
+		if (PatientUnknown($patient_array)) {
 			throw new Exception("Le patient n'existe pas");
 		}
 
 			#Update de la table patient 
 		$patho = $patient_array['pathology'];
 		$NU = $patient_array['emergencyLevel']; 
-		$r_patient = "UPDATE patient SET pathologie=\"$patho\",NU=\"$NU\" WHERE num_secu = \"$secu\"";
+		$r_patient = "UPDATE patient SET pathologie = \"$patho\", NU = \"$NU\" WHERE num_secu = \"$secu\"";
+		$_SESSION['r_patient'] = $r_patient;
 		$q_patient = Query($r_patient); 
 
 			#Check son NU 
-		CheckNU($patient_array); 
+		CheckNU($patient_array);
 
 			#On écrit dans le fichier du personnel qui a modifié 
-		WriteUserLog("$date : update du patient $secu \r\n"); 
-	}catch (Exception $e){
-			#Si il y a une erreur de query ou de CheckPatient
+		WriteUserLog("$date : update du patient $secu \r\n");
+	} catch (Exception $e){
+			#Si il y a une erreur de query ou de PatientUnknown
 		echo $e -> getMessage();
 	}
 }
 
 #SearchFreeTime($service_int)= retourne tous les créneaux libres
-function SearchFreeTime($Service_int)
-{
+function SearchFreeTime($Service_int) {
 	try{
 			#Recherche tous les IDCreneau présents dans la table Créneau qui ne sont pas dans la table Planning pour un service d'intervention donné 
 			#Ils sont classés par ordre chronologique grâce à ORDER BY
@@ -666,8 +575,7 @@ function SearchFreeTime($Service_int)
 }  
 
 #PrintFreeTime(...)= affiche seulement 5 créneaux libres selon le NU 
-function PrintFreeTime ($array, $NU)
-{	
+function PrintFreeTime ($array, $NU) {	
 		#On veut que le Num urgence soit un chiffre
 	$NU =(int) $NU; 
 		#On divise le tableau des créneaux tous les 5 créneaux
@@ -678,20 +586,27 @@ function PrintFreeTime ($array, $NU)
 	$array_creneau = $new[$n]; 
 		#On affiche le résultat
 	$result = ReturnIntervention($array_creneau); 
-	PrintResults($result, "radio"); 
+	print_r($result);
+	$i = 0;
+			#On affiche toutes les données du tableau
+		while($i < count($result))
+		{
+			echo("<input type=\"radio\" name=\"value\" value=\"".$result[$i+1]."\" id =\"case\"> ");
+			echo("<label for= \"case\"> ".$result[$i]."\n</label><br><br>");
+			$i=$i+2;
+		}
 	#return($array_creneau);
 }
 
 #SearchPatient($array)= Recherche un patient selon les infos données en entrée 
-function SearchPatient($array)
-{
+function SearchPatient($array) {
 	try{
 			#Déclaration de deux tableaux (avec nom colonnes SQL et infos du tableau en entrée pour remettre dans l'ordre)
 		$arraySQL = array('num_secu', 'nom', 'prenom', 'sexe', 'date_naiss', 'pathologie', 'NU'); 
-		$array_patient = array($array['ssNumber'], $array['surname'], $array['name'], $array['gender'], $array['birthday'], $array['pathology'], $array['emergencyLevel']); 
+		$array_patient = array($array['ssNumber'], $array['surname'], $array['name'], $array['gender'], $array['birthday'], $array['pathology'], $array['emergencyLevel']);
 
 			#création du début de la requête
-		$r = "SELECT * FROM Patient NATURAL JOIN Personne WHERE "; 
+		$r = "SELECT * FROM patient NATURAL JOIN personne WHERE "; 
 
 			#On récupère les infos non-vides
 		$i = 0; 
@@ -737,145 +652,108 @@ function SearchPatient($array)
 }
 
 #SearchIntervention(...)= On recherche les interventions selon les infos données en entrée 
-function SearchIntervention($info_inter)
-{
+function SearchIntervention($info_inter, $facturation, $inter_service, $personnel_ID) {
 	$r1 = ""; 
 	$r2 = "";
 	try{
-			#Début de la requête 
-		$r = "SELECT ID_creneau, ID_service_int FROM Planning NATURAL JOIN creneau NATURAL JOIN personne WHERE ";
+		
+		$attributes = array('ID_creneau', 'ID_service_int', 'ID_personnel', 'num_secu', 'facture');
+		$r = 'SELECT DISTINCT ';
+		foreach ($attributes as $key => $attribute) {
+			if ($key != 0) {
+				$r = $r . ', ';
+			}
+			$r = $r . $attribute;
+		}
+		$r = $r . ' FROM planning NATURAL JOIN creneau NATURAL JOIN personne WHERE ';
 
-			#Si on a le nom du patient
-		if (!empty($info_inter['patientName'])){
-			$r1 = " nom = \"".$info_inter['patientName']."\""; 
+		if ($inter_service != "") {
+			$r = $r . 'ID_service_int = "' . $inter_service . '" AND ';
 		}
 
-			#Si on a une date de début  
+		if ($personnel_ID != "") {
+			$r = $r . 'ID_personnel = "' . $personnel_ID . '" AND ';
+		}
+
+		if (!empty($info_inter['ssNumber'])) {
+			$r = $r . 'num_secu = "' . $info_inter['ssNumber'] . '" AND ';
+		}
+
+			#Si on a une date de début
 		if (!empty($info_inter['startingDate'])) {
 				#Si on a une date de fin 
 			if (!empty($info_inter['endingDate'])){
-				$r2 = " jour BETWEEN \"".$info_inter['startingDate']."\"AND \"".$info_inter['startingDate']."\"";
+				$r2 = " jour BETWEEN \"".$info_inter['startingDate']."\"AND \"".$info_inter['endingDate']."\"";
 			}
 				#Si on a pas de date de fin 
 			else {
 				$r2 = " jour > \"".$info_inter['startingDate']."\"";
 			}
 		}
-			#Si on a pas de date de début 
+
 		elseif (empty($info_inter['startingDate'])) {
-				#Si on a une date de fin 
 			if (!empty($info_inter['endingDate'])) {
 				$r2 = " jour BETWEEN CURRENT_DATE() AND \"".$info_inter['endingDate']."\"";
 			}
-		}
-
-			#On fait les concaténations 
-		if ($r1!=""){
-			if ($r2!=""){
-				$r = $r.$r1." AND ".$r2 ; 
-			}else {
-				$r = $r.$r1; 
-			}
-		} else {
-			if($r2!=""){
-				$r = $r.$r2;
-			}else {
-				$r = $r."jour >= CURRENT_DATE()";
+			else {
+				#Do Nothing
 			}
 		}
 
-		$q = Query($r);
-		$result = []; 			
-		while ($nuplet = mysqli_fetch_array($q)) {
-			array_push($result, $nuplet[0], $nuplet[1]);
-		}
-			#On retourne le résultat
-		return($result);
-
-	}catch (Exception $e){
-			#Si il y a une erreur de query 
-		echo $e -> getMessage();
-	}
-}
-
-#SearchIntervention_Facture(...)= On recherche les interventions facturées (1) ou non_facturés(0) selon les infos données en entrée 
-function SearchIntervention_Facture($info_inter, $facture)
-{	
-	$r1 = ""; 
-	$r2 = "";
-	try{
-			#Début de la requête 
-		if ($facture == 1){
-			$r = "SELECT ID_creneau, ID_service_int FROM Planning NATURAL JOIN creneau NATURAL JOIN personne WHERE facture = 1 ";
+			#concatenate
+		if ($r1 != ""){
+			if ($r2 != ""){
+				$r = $r . $r1 . " AND " . $r2 ; 
+			} 
+			else {
+				$r = $r . $r1; 
+			}
 		} 
-		elseif ($facture == 0) {
-			$r = "SELECT ID_creneau FROM Planning NATURAL JOIN creneau NATURAL JOIN personne WHERE facture = 0 and ID_service_int = \"".$_SESSION['service']."\" ";
-		}
-
-			#Si on a le nom du patient
-		if (!empty($info_inter['patientName'])){
-			$r1 = " nom = \"".$info_inter['patientName']."\""; 
-		}
-
-			#Si on a une date de début  
-		if (!empty($info_inter['startingDate'])) {
-				#Si on a une date de fin 
-			if (!empty($info_inter['endingDate'])){
-				$r2 = " jour BETWEEN \"".$info_inter['startingDate']."\"AND \"".$info_inter['startingDate']."\"";
+		else {
+			if($r2 != ""){
+				$r = $r . $r2;
 			}
-				#Si on a pas de date de fin 
 			else {
-				$r2 = " jour > \"".$info_inter['startingDate']."\"";
-			}
-		}
-			#Si on a pas de date de début 
-		elseif (empty($info_inter['startingDate'])) {
-				#Si on a une date de fin 
-			if (!empty($info_inter['endingDate'])) {
-				$r2 = " jour BETWEEN CURRENT_DATE() AND \"".$info_inter['endingDate']."\"";
-			}
-		}
-
-			#On fait les concaténations 
-		if ($r1!=""){
-			if ($r2!=""){
-				$r = $r." AND ".$r1." AND ".$r2 ; 
-			}else {
-				$r = $r." AND ".$r1; 
-			}
-		} else {
-			if($r2!=""){
-				$r = $r." AND ".$r2;
-			}else {
-				$r = $r." AND "."jour >= CURRENT_DATE()";
+				if ($facturation == "NF" OR $facturation == "F") {
+					$r = $r . "jour <= CURRENT_DATE()";
+				}
+				else {
+					$r = $r . "jour >= CURRENT_DATE()";
+				}
 			}
 		}
 
+		if ($facturation == "F") {
+			$r = $r . ' AND facture = 1';
+		}
+		elseif ($facturation == "NF") {
+			$r = $r . ' AND facture = 0';
+		}
+		else {
+			# no more conditions
+		}
+
+		$_SESSION['query'] = $r;
 		$q = Query($r);
-		$result = []; 	
 
-		if ($facture == 1){		
-			while ($nuplet = mysqli_fetch_array($q)) {
-				array_push($result, $nuplet[0], $nuplet[1]);
+		$result = [];
+		$line = 0;
+		while ($nuplet = mysqli_fetch_array($q)) {
+			$result[$line] = [];
+			foreach ($attributes as $key => $attribute) {
+				$result[$line][$attribute] = $nuplet[$key];
 			}
+			$line = $line + 1;
 		}
-		elseif ($facture == 0) {
-			while ($nuplet = mysqli_fetch_array($q)) {
-				array_push($result, $nuplet[0]);
-			}
-		}
-			#On retourne le résultat
 		return($result);
 
 	}catch (Exception $e){
-			#Si il y a une erreur de query 
 		echo $e -> getMessage();
 	}
 }
 
 #DeleteIntervention(...)= On supprime une intervention
-function DeleteIntervention($chaine)
-{
+function DeleteIntervention($chaine) {
 		#Déclaration des variables 
 	$date = date("d/m/Y H:i");
 
@@ -901,8 +779,7 @@ function DeleteIntervention($chaine)
 }
 
 #UpdateIntervention(...)= On met à jour une intervention (notamment son heure)
-function UpdateIntervention($old_array, $new_array)
-{
+function UpdateIntervention($old_array, $new_array) {
 		#Déclaration des variables 
 	$date = date("d/m/Y H:i");
 
@@ -931,8 +808,7 @@ function UpdateIntervention($old_array, $new_array)
 }
 
 #CheckSurbooking(...) = on regarde si il y a du surbooking (2 rdv pour un créneau)
-function CheckSurbooking($ID_service_int)
-{
+function CheckSurbooking($ID_service_int) {
 		#Déclaration des variables 
 	$heure = date("H:i:s");
 
@@ -1034,8 +910,7 @@ function UpdateDay ($old,$new){
 }
 
 #ReturnName(...)= retourne les noms du personnel 
-function ReturnName ()
-{
+function ReturnName () {
 	try{
 		$r = "SELECT nom, prenom, ID_personnel FROM personne NATURAL JOIN personnel"; 
 		$q = Query($r); 
@@ -1053,8 +928,7 @@ function ReturnName ()
 }
 
 #WhichService($ID)= retourne le service du responsable
-function WhichService($ID)
-{
+function WhichService($ID) {
 	try{
 		$r = "SELECT ID_service_int FROM respo_intervention WHERE ID_personnel = \"$ID\""; 
 		$q = Query($r); 
@@ -1070,8 +944,7 @@ function WhichService($ID)
 }
 
 #ReturnService(...) = retourne les pathologies ;
-function ReturnService ($type)
-{
+function ReturnService ($type) {
 	try{
 		if ($type == "intervention"){
 			$r = "SELECT ID_service_int, nom FROM service_intervention"; 
@@ -1100,10 +973,8 @@ function ReturnService ($type)
 	}
 }
 
-
 #ReturnPathology(...) = retourne les pathologies ;
-function ReturnPathology ()
-{
+function ReturnPathology () {
 	try{
 		$r = "SELECT pathologie FROM pathologie"; 
 		$q = Query($r); 
@@ -1121,8 +992,7 @@ function ReturnPathology ()
 }
 
 #ReturnIntervention(...) = retourne les interventions selon ID_creneau
-function ReturnIntervention($result_search)
-{
+function ReturnIntervention($result_search) {
 	try{
 		$i= 0; 
 		$result= []; 
@@ -1140,6 +1010,7 @@ function ReturnIntervention($result_search)
 			$IDintervention = $result_search[$i];
 
 			$r_int = "SELECT nom FROM service_intervention WHERE ID_service_int = \"$IDintervention\"";
+			$_SESSION['query'] = $r_date;
 			$q_int = Query($r_int); 
 			$row_int = mysqli_fetch_array($q_int); 
 			$service = $row_int[0]; 
@@ -1156,53 +1027,36 @@ function ReturnIntervention($result_search)
 	}
 }
 
-#ReturnInterventionNF(...) = retourne les interventions non-facturées avec le NS; 
-function ReturnInterventionNF($result_search)
-{
-	try{
-		$i= 0; 
-		$result= []; 
-		while ($i < count($result_search)){
-			$IDcreneau = $result_search[$i]; 
-			$r_date = "SELECT jour, heure FROM creneau WHERE ID_creneau = \"$IDcreneau\"";
-			$q_date = Query($r_date);
-			$row_date = mysqli_fetch_array($q_date); 
-			$jour = $row_date[0]; 
-			$heure = $row_date[1];
-
-			$r_NS = "SELECT num_secu FROM planning WHERE ID_creneau = \"$IDcreneau\" AND facture = 0 AND ID_service_int = \"".$_SESSION["service"]."\"";
-			$q_NS = Query($r_NS);
-			while ($nuplet = mysqli_fetch_array($q_NS)) {
-				$phrase = "Intervention du $jour à $heure pour le patient $nuplet[0]";; 
-				$result[]=$phrase;
-				$result[]="$IDcreneau $nuplet[0]";
-			}
-			$i = $i+1; 
-		}
-		return($result);
-	}catch(Exception $e){
-			#Si erreur de la fonction Query() 
-		echo $e -> getMessage();
-	}
-}
-
+# PrintHeader() prints out all menu links
+# Return nothing
 function PrintHeader() {
 	echo '<a href="./index.php" class="lien">Menu principal</a><br>' . "\n";
 	echo '<a href="./?action=searchMail" class="lien">Rechercher adresse mail</a><br>'. "\n";
 	echo '<a href="./login.php?action=logout" class="lien">Deconnexion</a><br>'. "\n";
 }
 
+# PrintFooter() prints out all footer infos
+# Return nothing
 function PrintFooter() {
 	echo '<div id="footer"> 2017 - projet HTML/CSS/PHP <br>';
+	Debugage();
 	echo 'Benoit Baillif - Solène Guiglion - Léa Wadbled</div>';
 }
 
+# CheckUID() checks if the user is connected, meaning he has a UID
+# if not he is redirected to login
+# Return : Nothing
 function CheckUID() {
 	if (!isset($_SESSION['uid'])) {
 		header('Location: ./login.php');
 	}
 }
 
+# OptionHours() genererate a <option> list of hours, depending on day time.
+	# String day : format is YYYY-mm-dd
+	# String halfDay : 'morning' or 'afternoon'
+	# String pre_selected_hour : define the default (selected) option ; format is hh:mm:ss
+# Return : Nothing
 function OptionHours($day, $halfDay, $pre_selected_hour) {
 	if ($halfDay == 'morning') {
 		$query = 'SELECT * FROM creneau WHERE jour = "' . $day . '" AND heure BETWEEN "08:30:00" AND "12:00:00"';
@@ -1233,37 +1087,51 @@ function returnPatient($array){
 
 # PrintSchedule prints out the schedule for the given service
 	# String service : intervention service
+# Return Nothing
 function PrintSchedule($service) {
 			# date A CHANGER EN VERSION FINALE
-		$date = date("2017-11-13");
-		$query1 = 'SELECT nom, prenom, jour, heure, ID_service_int, mail FROM (creneau NATURAL JOIN planning NATURAL JOIN personne) JOIN personnel ON planning.ID_personnel = personnel.ID_personnel WHERE jour = "' . $date . '"';
-		$results1 = Query($query1);
-
-		while($nuplet = mysqli_fetch_array($results1)) {
+	$date = date("2017-11-13");
+	$query1 = 'SELECT nom, prenom, jour, heure, ID_service_int, mail FROM (creneau NATURAL JOIN planning NATURAL JOIN personne) JOIN personnel ON planning.ID_personnel = personnel.ID_personnel WHERE jour = "' . $date . '" AND ID_service_int = "' . $service . '"';
+	try {
+		$results = Query($query1);
+		while($nuplet = mysqli_fetch_array($results)) {
 			echo $nuplet[0] . ' ' . $nuplet[1] . ' ' . $nuplet[2] . ' ' . $nuplet[3] . ' ' . $nuplet[4] . ' ' . $nuplet[5];
 			echo '<br>' . "\n";
 		}
+	} catch (Exception $e){
+			#Si erreur de la fonction Query() 
+		echo $e -> getMessage();
+	}
 }
 
+# ChangeHalfDay change the hours of interventions
+	# Array appointments_array : all infos about interventions ; format is appointments_array[line_idx][info_name] = String info_value
+	# Array newHours : all the new hours, for each appointment ; format is newHours['appointment' . idx] = String newHour ; newHour format is hh:mm:ss
+# Return Nothing
 function ChangeHalfDay($appointments_array, $newHours) {
 	foreach ($appointments_array as $line => $info_array) {
 		$previous_hour = $info_array['heure'];
 		$day = $info_array['jour'];
 		$query1 = 'SELECT ID_creneau FROM creneau WHERE jour = "' . $day . '" AND heure = "' . $previous_hour . '"';
-		$results1 = Query($query1);
-		while ($nuplet = mysqli_fetch_array($results1)) {
-			$previous_ID_creneau = $nuplet[0];
-		}
+		try {
+			$results1 = Query($query1);
+			while ($nuplet = mysqli_fetch_array($results1)) {
+				$previous_ID_creneau = $nuplet[0];
+			}
 
-		$next_hour = $newHours['appointment' . $line];
-		$query2 = 'SELECT ID_creneau FROM creneau WHERE jour = "' . $day . '" AND heure = "' . $next_hour . '"';
-		$results2 = Query($query2);
-		while ($nuplet = mysqli_fetch_array($results2)) {
-			$next_ID_creneau = $nuplet[0];
-		}
+			$next_hour = $newHours['appointment' . $line];
+			$query2 = 'SELECT ID_creneau FROM creneau WHERE jour = "' . $day . '" AND heure = "' . $next_hour . '"';
+			$results2 = Query($query2);
+			while ($nuplet = mysqli_fetch_array($results2)) {
+				$next_ID_creneau = $nuplet[0];
+			}
 
-		$query3 = 'UPDATE planning SET ID_creneau = "' . $next_ID_creneau . '" WHERE num_secu = "' . $info_array['planning.num_secu'] . '" AND ID_creneau = "' . $previous_ID_creneau . '"' ;
-		$re = Query($query3);
+			$query3 = 'UPDATE planning SET ID_creneau = "' . $next_ID_creneau . '" WHERE num_secu = "' . $info_array['planning.num_secu'] . '" AND ID_creneau = "' . $previous_ID_creneau . '"' ;
+			$re = Query($query3);
+		} catch (Exception $e){
+			#Si erreur de la fonction Query() 
+			echo $e -> getMessage();
+		}
 	}
 }
 
@@ -1328,17 +1196,29 @@ function ChangeHalfDay($appointments_array, $newHours) {
 		return $jour_semaine[$njour];
 	}
 
-	function emptyPOST($array){
-		$somme = 0; 
-		foreach ($array as $key => $value) {
-			if(!empty($value)){
-				$somme = $somme +1; 
-			}
-		}
-		if ($somme == count($array)) {
-			return False; 
-		}
-		else {
-			return True;
+# EmptyValuePOST() returns True if at least one field of $_POST is empty
+	# Array array
+# Return boolean
+function EmptyValue($array){
+	$empty = False; 
+	foreach ($post as $key => $value) {
+		if(empty($value)){
+			$empty = True;
 		}
 	}
+	return $empty;
+}
+
+# Debugage() prints out $_SESSION and $_POST
+# Return Nothing
+function Debugage() {
+	echo '$_SESSION : ';
+	if (isset($_SESSION)) {
+		print_r($_SESSION);
+	}
+	echo '<br>$_POST : ';
+	if (isset($_POST)) {
+		print_r($_POST);
+	}
+	echo '<br>\n';
+}

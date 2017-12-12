@@ -21,14 +21,14 @@
 	</div>
 
 	<div id = "body">
-	<h1>Emergency done</h1>
+	<h1>Urgence prise en compte</h1>
 	<?php
 		if ($_SESSION['action'] == 'emergencyWithoutPatient') {
-			Emergency("",$_SESSION['service']);
-			echo "Urgence prise en compte";
+			Emergency("", $_SESSION['service']);
 		}
-		elseif ($_SESSION['action'] == '') {
-			# code...
+		elseif ($_SESSION['action'] == 'emergencyWithExistingPatient'
+			OR $_SESSION['action'] == 'emergencyWithNewPatient') {
+			Emergency($_SESSION['patientID'], $_SESSION['service']);
 		}
 	?>
 

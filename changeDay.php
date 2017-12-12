@@ -24,7 +24,6 @@
 
 	<form action="changeDay.php" method="post">
 	<?php
-		print_r($_SESSION);
 		if ($_SESSION['action'] == 'changeDay') {
 			if (!isset($_POST['dayToChange']) AND !isset($_POST['halfDay'])) {
 				ChangeHalfDay($_SESSION['appointments'], $_POST);
@@ -43,6 +42,7 @@
 				echo '<select name="appointment' . $line . '">';
 				OptionHours($dayToChange, $halfDay, $attributes_array['heure']);
 				echo '</select>';
+				echo '<br>';
 			}
 			echo '<input type="submit" value="Valider les changements" /><br>' . "\n";
 			echo '</form>';

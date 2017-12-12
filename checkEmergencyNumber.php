@@ -27,11 +27,10 @@
 		PrintArchive("VerifNU.txt");
 	?>
 	</div>
-</body>
 
 <?php
 	$_SESSION['action'] = '';
 	PrintFooter();
 ?>
-
+</body>
 </html>

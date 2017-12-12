@@ -31,11 +31,10 @@
 	<br> <br>
 	
 		</div>
-</body>
 
 <?php
 	$_SESSION['action'] = '';
 	PrintFooter();
 ?>
-
+</body>
 </html>

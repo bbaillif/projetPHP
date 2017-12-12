@@ -34,10 +34,10 @@
 			echo '</form>' . "\n";
 		?>
 	</div>
-</body>
 
-<?php
-	PrintFooter();
-?>
+	<?php
+		PrintFooter();
+	?>
+</body>
 
 </html>

@@ -79,3 +79,11 @@ Modifications Léa du 12/12 (matin) :
 - fonctionnalité créer intervention : ça marche maintenant 
 - tout marche parfaitement pour le médecin (commit 'all ok pour les fonctions du médecin")
 
+Modifications Benoit 12/12 (aprem/ debut de soirée) :
+- renommer EmptyPOST en EmptyValuePOST
+- renommer CheckPatient en PatientUnknown
+- remaniement de certaines fonctions utilisant des i / i+=1
+- suppression de PrintResults, sa fonction est assurée dans chacune des pages HTML (trop de risques de s'embrouiller sinon)
+- fusion des fonctions SearchIntervention
+- suppression de ReturnInterventionNF, la selection de la NF s'effectue dans le SearchIntervention
+- ajout des commentaires avant les fonctions, pour identifier plus clairement leur rôle (entrée, sortie)

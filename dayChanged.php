@@ -28,10 +28,9 @@
 		$_SESSION['appointments'] = '';
 	?>
 	</div>
-</body>
 
 <?php
 	PrintFooter();
 ?>
-
+</body>
 </html>

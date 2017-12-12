@@ -22,7 +22,6 @@
 
 	<div id = "body">
 	<?php
-		print_r($_SESSION);
 		if (isset($_POST['deleteIntervention'])) {
 			DeleteIntervention($_POST['value']);
 			header('Location: ./interventionDeleted.php');
@@ -36,34 +35,46 @@
 		}
 	?>
 
-	<h1>Résultats de la recherche d'intervention</h1>
-
 	<form action="resultsIntervention.php" method="post">
 	<?php
-		# PrintResults(tableau, true);
 		if ($_SESSION['action'] == 'deleteIntervention') {
-			$result = SearchIntervention($_POST);
-			if (!empty($result)){
-				$result2 = ReturnIntervention($result); 
-				PrintResults($result2, "radio");
-				echo '<input type="submit" name="deleteIntervention" value="Supprimer intervention" /><br>' . "\n";
+			echo "<h1>Recherche terminée. Choisir quelle(s) intervention(s) supprimer : </h1>";
+			$interventions = SearchIntervention($_POST, "", "", $_SESSION['uid']);
+			foreach ($interventions as $idx => $info_array) {
+				$ID_intervention = $interventions[$idx]['ID_creneau'] . ' ' . $interventions[$idx]['ID_service_int'];
+				echo '<input type="radio" name="value" value="' . $ID_intervention . '">' . "\n";
+				foreach ($info_array as $info => $value) {
+					echo $value . '  ';
+				}
 			}
+			echo '<input type="submit" name="deleteIntervention" value="Supprimer intervention" /><br>' . "\n";
 		}
 		elseif ($_SESSION['action'] == 'seeFacturedIntervention') {
-			$result = SearchIntervention_Facture($_POST, 1);
-			if (!empty($result)){
-				$result2 = ReturnIntervention($result); 
-				print_r($result2);
-				PrintResults($result2,"liste");
+			echo "<h1>Recherche terminée. Interventions facturées :</h1>";
+			$interventions = SearchIntervention($_POST, "F", "", $_SESSION['uid']);
+			echo "<ul>";
+			foreach ($interventions as $idx => $info_array) {
+				echo '<li>';
+				foreach ($info_array as $info => $value) {
+					echo $value . '  ';
+				}
+				echo '</li><br>';
 			}
+			echo "</ul>";
 		}
 		elseif ($_SESSION['action'] == 'factureIntervention') {
-			$result = SearchIntervention_Facture($_POST,0);
-			if (!empty($result)){
-				$result2 = ReturnInterventionNF($result); 
-				PrintResults($result2,"checkbox");
-				echo '<input type="submit" name="factureIntervention" value="Facturer" /><br>' . "\n";
+			echo "<h1>Recherche terminée. CHoisir quelle(s) intervention(s) facturer : </h1>";
+			$interventions = SearchIntervention($_POST, "NF", $_SESSION['service'], "");
+			foreach ($interventions as $idx => $info_array) {
+				$ID_intervention = $interventions[$idx]['ID_creneau'] . ' ' . $interventions[$idx]['num_secu'];
+				echo '<input type="radio" name="value" value="' . $ID_intervention . '">' . "\n";
+				foreach ($info_array as $info => $value) {
+					echo $value . '  ';
+				}
+
 			}
+			echo '<input type="submit" name="factureIntervention" value="Facturer" /><br>' . "\n";
+
 		}
 		else {
 			header('Location: ./index.php');
@@ -71,10 +82,9 @@
 	?>
 	</form>
 	</div>
-</body>
 
 <?php
 	PrintFooter();
 ?>
-
+</body>
 </html>
