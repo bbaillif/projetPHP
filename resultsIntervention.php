@@ -22,7 +22,7 @@
 
 	<div id = "body">
 	<?php
-		print_r($_POST);
+		print_r($_SESSION);
 		if (isset($_POST['deleteIntervention'])) {
 			DeleteIntervention($_POST['value']);
 			header('Location: ./interventionDeleted.php');
@@ -53,7 +53,8 @@
 			$result = SearchIntervention_Facture($_POST, 1);
 			if (!empty($result)){
 				$result2 = ReturnIntervention($result); 
-				PrintResults($result2,"list");
+				print_r($result2);
+				PrintResults($result2,"liste");
 			}
 		}
 		elseif ($_SESSION['action'] == 'factureIntervention') {
@@ -73,7 +74,6 @@
 </body>
 
 <?php
-	$_SESSION['action'] = '';
 	PrintFooter();
 ?>
 

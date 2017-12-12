@@ -24,6 +24,9 @@
 	<h1> Résumé patient choisi </h1>
 
 		<?php 
+			$_SESSION['action']="addIntervention";
+			print_r($_POST); 
+			print_r($_SESSION);
 			$array = array('name' => "", 'surname' => "", 
 				'ssNumber' => $_SESSION['patientID'], 'gender' => '', 
 				'birthday' => '', 'pathology' => '', 'emergencyLevel' => '');

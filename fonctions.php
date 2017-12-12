@@ -143,6 +143,17 @@ function PrintResults($array,$type)
 		}
 		print("</ul>"); 
 	}
+
+	elseif ($type == "liste") 
+	{
+		$i = 0; 
+		print("<ul>");
+		while ($i < count($array)) {
+			echo '<li>'.$array[$i].'</li><br>';
+			$i=$i+2;
+		}
+		print("</ul>"); 
+	}
 }
 
 #DeletePatient($numSecu)= On supprime un patient selon son N° SECU 
@@ -505,7 +516,7 @@ function CheckPatient($patient_array)
 		}
 
 		if (in_array("$secu",$array)){
-				#Le patient existe déjà (il est déjà dans la BDD)
+			#Le patient existe déjà (il est déjà dans la BDD)
 			return(False);
 		}
 			#Le patient n'existe pas
@@ -555,18 +566,6 @@ function AddPatient ($patient_array)
 	$date = date("d/m/Y H:i");
 
 	try{
-			#Vérifie que toutes les informations sont présentes dans le tableau
-		foreach ($patient_array as $key => $value) {
-			if (empty($value)){
-				throw new Exception("Il manque des infos.");
-			}
-		}
-
-			#Vérifie que le patient n'existe pas déjà
-		if (CheckPatient($patient_array) == False) {
-			throw new Exception("Le patient existe déjà");
-		}
-
 			#Ajout dans la table Personne	
 		$secu = $patient_array['ssNumber']; 
 		$nom = $patient_array['surname'] ;
@@ -624,13 +623,6 @@ function UpdatePatient ($secu, $patient_array)
 	$date = date("d/m/Y H:i");
 
 	try{
-			#Vérifie que toutes les informations sont présentes dans le tableau
-		foreach ($patient_array as $key => $value) {
-			if (empty($value)){
-				throw new Exception("Il manque des infos.");
-			}
-		}
-
 			#Vérifie que le patient existe
 		if (CheckPatient($patient_array) == True) {
 			throw new Exception("Le patient n'existe pas");
@@ -1336,5 +1328,17 @@ function ChangeHalfDay($appointments_array, $newHours) {
 		return $jour_semaine[$njour];
 	}
 
-
-
+	function emptyPOST($array){
+		$somme = 0; 
+		foreach ($array as $key => $value) {
+			if(!empty($value)){
+				$somme = $somme +1; 
+			}
+		}
+		if ($somme == count($array)) {
+			return False; 
+		}
+		else {
+			return True;
+		}
+	}
