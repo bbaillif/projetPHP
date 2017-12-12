@@ -5,3 +5,8 @@
 12/12/2017 12:12 : 269039584447537 a un angine avec NU=2
 12/12/2017 12:12 :  a un angine avec NU=2
 12/12/2017 12:38 : 269039584447537 a un tumeur avec NU=2
+12/12/2017 13:43 : 111023370509701 a un rhume avec NU=3
+12/12/2017 13:49 : 111023370509701 a un AVC avec NU=2
+12/12/2017 13:50 : try_askInt a un os casse avec NU=4
+12/12/2017 13:56 : mam a un os casse avec NU=3
+12/12/2017 13:57 : non a un angine avec NU=2

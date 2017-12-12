@@ -43,7 +43,6 @@
 
 		Début de la recherche <input type="date" name="startingDate"/><br>
 		Fin de la recherche <input type="date" name="endingDate"/><br>
-		Patient <input type="text" name="patientName"/><br>
 		Numéro de sécurité sociale <input type="text" name="ssNumber"/><br>
 
         <input type="submit" value="Valider" /><br>

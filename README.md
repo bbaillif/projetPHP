@@ -77,5 +77,5 @@ Modifications Léa du 12/12 (matin) :
 - création des deux fonctions : changeWindow (pour changer la taille des créneaux de l'emploi-du-temps) et nom_jour (pour donner à une date son jour de la semaine) ; 
 - modification de printFreeTime et searchFreeTime ; 
 - fonctionnalité créer intervention : ça marche maintenant 
-
+- tout marche parfaitement pour le médecin (commit 'all ok pour les fonctions du médecin")
 

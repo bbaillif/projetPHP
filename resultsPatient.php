@@ -74,17 +74,6 @@
 				echo '<input type="submit" name="deletePatient" value="Supprimer patient" /><br>' . "\n";
 				echo '</form>';
 			}
-			elseif ($_SESSION['action'] == 'addIntervention') {
-				echo '<form method="post">';
-				while ($i < count($tab)){
-					$result=returnPatient($tab[$i]);
-					PrintResults($result,'radio');
-					$i=$i+1;
-				}
-				echo '<input type="submit" name="choosePatientIntervention" value="Choisir le patient sélectionné" /><br>' . "\n";
-				echo '<input type="submit" name="addPatient" value="Créer un patient" /><br>' . "\n";
-				echo '</form>';
-			}
 			elseif ($_SESSION['action'] == 'emergencyWithExistingPatient') {
 				#rajouter form
 				while ($i < count($tab)){
