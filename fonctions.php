@@ -332,7 +332,7 @@ function FactureIntervention($chaine) {
 		$secu = $pieces[1];
 
 			#On essaye de changer de non-facturé à facturé
-		$r = "UPDATE planning SET facture=1 WHERE ID_service_int = \"".$_SESSION['service']."\" AND ID_creneau = \"$creneau \" AND num_secu=\"$secu\""; 
+		$r = "UPDATE planning SET facture = 1 WHERE ID_service_int = \"".$_SESSION['service']."\" AND ID_creneau = \"$creneau \" AND num_secu=\"$secu\""; 
 		$q = Query($r);
 
 			#On écrit dans le fichier de l'utilisateur
@@ -1201,8 +1201,8 @@ function ChangeHalfDay($appointments_array, $newHours) {
 # Return boolean
 function EmptyValue($array){
 	$empty = False; 
-	foreach ($post as $key => $value) {
-		if(empty($value)){
+	foreach ($array as $key => $value) {
+		if($value == ''){
 			$empty = True;
 		}
 	}

@@ -24,8 +24,11 @@
 	<?php
 		# Following lines execute only after patient.php submitted from addPatient, addPatientIntervention, ou updatePatient
 		if (isset($_GET['filled'])) {
-			if (!EmptyValue($_POST)) {
-				if ($_SESSION['action'] == 'updatePatient') {
+			if ($_SESSION['action'] == 'updatePatient') {
+				if (EmptyValue($_POST)) {
+					echo "Veuillez remplir tous les champs";
+				}
+				else { # all fields are OK
 					$arrayPatient = array(
 					'ssNumber' => $_SESSION['patientID'],
 					'pathology' => $_POST['pathology'],
@@ -34,70 +37,72 @@
 					header('Location: ./patientUpdated.php');
 					exit();
 				}
-				else {
-					if (PatientUnknown($_POST)){
-						#On regarde si le patient existe pas 
+			}
+			elseif ($_SESSION['action'] == 'addPatient'
+				OR $_SESSION['action'] == 'emergencyWithNewPatient'
+				OR $_SESSION['action'] == 'addPatientIntervention') {
+				if (!EmptyValue($_POST)) {
+					if (!PatientUnknown($_POST) AND $_SESSION['action'] == 'addPatient') {
+						$_SESSION['action'] = 'updatePatient';
+						$_SESSION['patientID'] = $_POST['ssNumber'];
+					}
+					else {
 						AddPatient($_POST);
 						if ($_SESSION['action'] == 'addPatient') {
 							header('Location: ./patientUpdated.php');
 							exit();
 						}
 						elseif ($_SESSION['action'] == 'emergencyWithNewPatient') {
+							$_SESSION['patientID'] = $_POST['ssNumber'];
 							header('Location: ./emergencyDone.php');
 							exit();
 						}
 						elseif ($_SESSION['action'] == 'addPatientIntervention') {
 							$_SESSION['patientID'] = $_POST['ssNumber'];
-							header('Location: ./askIntervention.php');
+							header('Location: ./emergencyDone.php');
 							exit();
 						}
-						elseif ($_SESSION['action'] == 'addIntervention') {
-							$_SESSION['patientID'] = $_POST['ssNumber'];
-							header('Location: ./askIntervention.php');
-							exit();
-						}
-					} 
-					else {
-						#Si il existe, on update sa fiche
-						$_SESSION['action'] = 'updatePatient';
-						$_SESSION['patientID'] = $_POST['ssNumber'];
 					}
 				}
-			}
-			else { # at least one value of POST is empty
-				if (!empty($_POST['ssNumber'])){
-					if(!PatientUnknown($_POST)){
-						echo "Patient déjà existant (retrouvé par le numéro de sécurité sociale : affichage de sa fiche";
+				elseif (!empty($_POST['ssNumber'])) {
+					if (!PatientUnknown($_POST) AND $_SESSION['action'] == 'addPatient') {
 						$_SESSION['action'] = 'updatePatient';
 						$_SESSION['patientID'] = $_POST['ssNumber'];
 					}
 					else {
-						echo 'Veuillez remplir toutes les entrées du formulaire';
-						$_SESSION['action'] = 'addPatient';
-					} 
+						echo "Veuillez remplir tous les champs";
+					}
 				}
 				else {
-					echo 'Veuillez remplir tous les champs ci-dessous';
-					$_SESSION['action'] = 'addPatient';
+					echo "Veuillez remplir tous les champs";
 				}
 			}
 		} # end if (isset($_GET['filled']))
 	?>
 
 	<?php
-		if ($_SESSION['action'] == 'addPatient' 			 
-			OR $_SESSION['action'] == 'addPatientIntervention' 
-			OR $_SESSION['action'] == 'emergencyWithNewPatient') {
+		if ($_SESSION['action'] == 'addPatient') {
 			echo '<h1>Rédaction de fiche patient</h1>' . "\n";
 			echo '<form action="patient.php?filled=True" method="post">'. "\n";
 		}
-		elseif ($_SESSION['action'] == 'searchPatient' 
-			OR $_SESSION['action'] == 'emergencyWithExistingPatient') {
+		elseif ($_SESSION['action'] == 'addPatientIntervention') {
+			echo '<h1>Rédaction de fiche patient pour une intervention</h1>' . "\n";
+			echo '<form action="patient.php?filled=True" method="post">'. "\n";
+		}
+		elseif ($_SESSION['action'] == 'emergencyWithNewPatient') {
+			echo '<h1>Rédaction de fiche patient pour une urgence</h1>' . "\n";
+			echo '<form action="patient.php?filled=True" method="post">'. "\n";
+		}
+		elseif ($_SESSION['action'] == 'searchPatient' ) {
 			echo '<h1>Recherche de patient</h1>'. "\n"; 
 			echo '<form action="resultsPatient.php" method="post">'. "\n";
 		}
 		elseif ($_SESSION['action'] == 'addIntervention') {
 			echo '<h1>Recherche de patient pour une intervention</h1>'. "\n"; 
+			echo '<form action="resultsPatient.php" method="post">'. "\n";
+		}
+		elseif ($_SESSION['action'] == 'emergencyWithExistingPatient') {
+			echo '<h1>Recherche de patient pour une urgence</h1>'. "\n"; 
 			echo '<form action="resultsPatient.php" method="post">'. "\n";
 		}
 		elseif ($_SESSION['action'] == 'updatePatient') {
