@@ -28,6 +28,9 @@
 
 <?php
 	$_SESSION['action'] = '';
+	$_SESSION['intervention'] = ''; 
+	$_SESSION['patientID'] = '';
+	$_SESSION['EL'] = '';
 	PrintFooter();
 ?>
 

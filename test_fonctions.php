@@ -88,7 +88,9 @@
 	#try SearchFreeTime
 	#$array = SearchFreeTime("INT004"); 
 	#essai PrintFreeTime
-	#PrintFreeTime($array,"10");
+	#$a = PrintFreeTime($array,"10");
+	#print_r($a);
+	#print_r(ReturnIntervention($a));
 
 	#essai UpdatedUL
 	#print(UpdatedUL("111023370509701","4"));
@@ -138,6 +140,13 @@
 	#Test FactureIntervention 
 	#$c = "MA46A9 D";
 	#FactureIntervention($c);
+
+	if ("08:00:00" < "08:10:00"){
+		print("ok");
+	}
+	#print(date('W',strtotime("2018-01-01")));
+
+	#changeWindow(30);
 	?> 
 
 	<p> Coucou </p>

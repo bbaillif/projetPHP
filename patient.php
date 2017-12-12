@@ -22,6 +22,7 @@
 
 	<div id = "body">
 	<?php
+		
 		# Following lines execute only after patient.php submitted from addPatient, addPatientIntervention, ou updatePatient
 		if (isset($_POST['pathology'])) {
 			if ($_SESSION['action'] == 'updatePatient') {

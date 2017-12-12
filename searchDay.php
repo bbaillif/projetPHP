@@ -1,6 +1,6 @@
 <?php
-	require("./fonctions.php");
-	session_start();
+require("./fonctions.php");
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -15,41 +15,39 @@
 <body>
 	<div id = "header"> 
 		<?php 
-			CheckUID();
-			PrintHeader();
+		CheckUID();
+		PrintHeader();
 		?>
 	</div>
 
 	<div id = "body">
-	<?php
+		<?php
+		# if we come from searchDay.php 
 		if ($_SESSION['action'] == 'changeDay') {
 			echo '<h1>Recherche d\'une demi-journée à modifier</h1>' . "\n";
-			echo '<form action="searchDay.php" method="post">'. "\n";
-		}
-		elseif (isset($_POST['dayToChange'])) {
-			#If no date was choosen
-			header('Location: ./changeDay.php');
+			echo '<form action="changeDay.php" method="post">'. "\n";
 		}
 		else {
 			header('Location: ./index.php');
 		}
 
-	?>
+		?>
 
-		Jour <input type="date" name="dayToChange"/><br>
+		Jour <input type="date" name="dayToChange" value="2017-11-13" /><br>
 		Demi-journée <select name="halfDay">
-			<option value="morning" selected="selected">Matin</option>
-			<option value="afternoon">Après-midi</option>
-		</select><br>
+		<option value="morning" selected="selected">Matin</option>
+		<option value="afternoon">Après-midi</option>
+	</select><br>
 
-        <input type="submit" value="Valider" /><br>
-    </form>
+	<input type="submit" value="Valider" /><br>
+</form>
 
-    </div>
-</body>
+</div>
 
 <?php
-	PrintFooter();
+PrintFooter();
 ?>
+
+</body>
 
 </html>

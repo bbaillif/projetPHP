@@ -23,15 +23,21 @@
 	<div id = "body">
 	<?php
 		if ($_SESSION['action'] == 'addIntervention'){
-			$_SESSION['EL'] = $_POST['interventionEmergencyNumber'];
-			$_SESSION['intervention'] = $_POST['intervention']; 
+			if (empty($_SESSION['EL']) && empty($_SESSION['intervention'])){
+				$_SESSION['EL'] = $_POST['interventionEmergencyNumber'];
+				$_SESSION['intervention'] = $_POST['intervention'];
+			} 
 		}
-		elseif ($_SESSION['action'] == 'nextIntervention'){
+
+		if (isset($_POST['nextIntervention'])){
+			$_SESSION['action'] = 'addIntervention'; 
 			$_SESSION['EL'] = $_SESSION['EL'] - 1; 
 		}
-		elseif ($_SESSION['action'] == 'chooseIntervention'){
+		elseif (isset($_POST['chooseIntervention'])){
 			#on crée l'intervention
-			#On va vers InterventionCreated.php  
+			$ID_intervention = explode(" ",$_POST['value'])[0];
+			AddIntervention($_SESSION['intervention'], $ID_intervention, $_SESSION['uid'], $_SESSION['patientID']); 
+			header('Location: ./interventionCreated.php ');
 		}
 	?>
 
@@ -40,19 +46,13 @@
 	<form action="resultsFreeTime.php" method="post">
 	<?php
 		$freeTime = SearchFreeTime($_SESSION['intervention']);
-		if (!empty($freeTime)){
+		if ($freeTime != array()){
 			if ($_SESSION['action'] == 'addIntervention') {
-			print_r($freeTime); 
-			$result2 = ReturnIntervention($result); 
-			PrintResults($result2, "radio");
-			echo '<input type="submit" name="deleteIntervention" value="Supprimer intervention" /><br>' . "\n";
-			echo '<input type="submit" name="chooseIntervention" value="Choisir l\'intervention sélectionné" />       ' . "\n";
+			PrintFreeTime($freeTime,$_SESSION['EL']); 
+			echo '<input type="submit" name="chooseIntervention" value="Choisir l\'intervention sélectionnée" />       ' . "\n";
 			echo '<input type="submit" name="nextIntervention" value="Voir les interventions suivantes" /><br>' . "\n";
+			}
 		}
-		}
-		#$PrintFreeTime = PrintFreeTime($freeTime, $_SESSION['EL']);
-		# SearchFreeTime
-		# PrintFreeTime(tableau, true);
 	?>
 
 	</div>

@@ -1,6 +1,6 @@
 <?php
-	require("./fonctions.php");
-	session_start();
+require("./fonctions.php");
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -15,15 +15,15 @@
 <body>
 	<div id = "header"> 
 		<?php 
-			CheckUID();
-			PrintHeader();
+		CheckUID();
+		PrintHeader();
 		?>
 	</div>
 
 	<div id = "body">
-	<h1>Intranet Hopital Polytech</h1>
+		<h1>Intranet Hopital Polytech</h1>
 
-	<?php
+		<?php
 		if (isset($_GET['action'])) {
 			$_SESSION['action'] = $_GET['action'];
 
@@ -31,7 +31,7 @@
 				header('Location: ./searchUser.php');
 			}
 
-			if ($_SESSION['right'] == '1') {
+			elseif ($_SESSION['right'] == '1') {
 				if ($_SESSION['action'] == 'addPatient' 
 					OR $_SESSION['action'] == 'searchPatient') {
 					header('Location: ./patient.php');
@@ -43,8 +43,12 @@
 					OR $_SESSION['action'] == 'seeFacturedIntervention') {
 					header('Location: ./searchIntervention.php');
 				}
+				else {
+					#Do Nothing
+				}
 			}
-			
+
+
 			elseif ($_SESSION['right'] == '2') {
 				if ($_SESSION['action'] == 'changeDay') {
 					header('Location: ./searchDay.php');
@@ -59,7 +63,11 @@
 				elseif ($_SESSION['action'] == 'factureIntervention') {
 					header('Location: ./searchIntervention.php');
 				}
+				else {
+					#Do Nothing
+				}
 			}
+
 
 			elseif ($_SESSION['right'] == '0') {
 				if ($_SESSION['action'] == 'seeLogs') {
@@ -77,12 +85,19 @@
 				elseif ($_SESSION['action'] == 'addService') {
 					header('Location: ./addService.php');
 				}
+				else {
+					#Do Nothing
+				}
 			}
 
 			else {
-				echo "action incorrecte";
+				echo "Action incorrecte";
 				$_SESSION['action'] = '';
 			}
+		} #end if (isset($_GET['action']))
+
+		else {
+			$_SESSION['action'] = '';
 		}
 
 		if ($_SESSION['right'] == '1') {
@@ -93,7 +108,9 @@
 			echo '<p class = "bouton"> <a href="?action=deleteIntervention">Supprimer intervention</a> </p>' . "\n";
 			echo '<p class = "bouton"> <a href="?action=seeFacturedIntervention">Voir interventions facturées</a> </p>' . "\n";
 		}
+
 		elseif ($_SESSION['right'] == '2') {
+			#PrintSchedule($_SESSION['service']);
 			echo '<br>';
 			echo '<p class = "bouton"> <a href="?action=changeDay">Modifier demi-journée</a> </p>' . "\n";
 			echo '<p class = "bouton"> <a href="?action=emergencyWithoutPatient">Insérer une urgence immédiate (sans patient)</a> </p>' . "\n";
@@ -112,19 +129,19 @@
 		else {
 			echo 'ERREUR, A DEBUGER';
 		}
-	?>
 
-	<?php
+		#A ENLEVER EN VERSION FINALE
 		echo '<br>'. "\n";
 		print_r($_SESSION);
 		echo '<br>'. "\n";
+		?>
+
+	</div>
+
+	<?php
+	PrintFooter();
 	?>
 
-</div>
 </body>
-
-<?php
-	PrintFooter();
-?>
 
 </html>

@@ -22,30 +22,43 @@
 	<div id = "body">
 	<h1>Demi-journée à modifier</h1>
 
-	<form action="dayChanged.php" method="post">
+	<form action="changeDay.php" method="post">
 	<?php
+		print_r($_SESSION);
 		if ($_SESSION['action'] == 'changeDay') {
-			$interventions = SearchDay();
-			#PrintResults();
-
-			foreach ($interventions as $key => $value) {
-				# Afficher créneaux 
-				echo '<select name="'. $ . '">' . "\n";
-
-				echo "</select>" . "\n";
+			if (!isset($_POST['dayToChange']) AND !isset($_POST['halfDay'])) {
+				ChangeHalfDay($_SESSION['appointments'], $_POST);
+				header('Location: ./dayChanged.php');
 			}
+			else {
+			$dayToChange = $_POST['dayToChange'];
+			$halfDay = $_POST['halfDay'];
+			$_SESSION['appointments'] = SearchDay($dayToChange, $halfDay);
 
+			if ($_SESSION['appointments'] != ""){
+			foreach ($_SESSION['appointments'] as $line => $attributes_array) {
+				foreach ($attributes_array as $attribute => $value) {
+					echo $value . ' ';
+				}
+				echo '<select name="appointment' . $line . '">';
+				OptionHours($dayToChange, $halfDay, $attributes_array['heure']);
+				echo '</select>';
+			}
 			echo '<input type="submit" value="Valider les changements" /><br>' . "\n";
+			echo '</form>';
+			}
+		}
 		}
 		else {
 			header('Location: ./index.php');
 		}
 	?>
 	</div>
-</body>
 
 <?php
 	PrintFooter();
 ?>
+
+</body>
 
 </html>

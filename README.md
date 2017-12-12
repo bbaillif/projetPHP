@@ -69,3 +69,13 @@ Ce qui marche :
 Modification Solène du 11/12/17: 
 -Creation fonction returnPatient
 -Modifier & suppimer patient OK 
+
+Modification Benoit du 11/12 : 
+- OK modif 1/2 journée 
+
+Modifications Léa du 12/12 (matin) : 
+- création des deux fonctions : changeWindow (pour changer la taille des créneaux de l'emploi-du-temps) et nom_jour (pour donner à une date son jour de la semaine) ; 
+- modification de printFreeTime et searchFreeTime ; 
+- fonctionnalité créer intervention : ça marche maintenant 
+
+
