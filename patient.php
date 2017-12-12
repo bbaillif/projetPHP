@@ -24,7 +24,7 @@
 	<?php
 		# Following lines execute only after patient.php submitted from addPatient, addPatientIntervention, ou updatePatient
 		if (isset($_GET['filled'])) {
-			if (!EmptyValuePOST($_POST)) {
+			if (!EmptyValue($_POST)) {
 				if ($_SESSION['action'] == 'updatePatient') {
 					$arrayPatient = array(
 					'ssNumber' => $_SESSION['patientID'],
@@ -171,10 +171,10 @@
     </form>
 
     </div>
-</body>
+
 
 <?php
 	PrintFooter();
 ?>
-
+</body>
 </html>

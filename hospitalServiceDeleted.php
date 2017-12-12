@@ -28,11 +28,10 @@
 	<h1>Service d'accueil supprimé</h1>
 
 	</div>
-</body>
 
 <?php
 	$_SESSION['action'] = '';
 	PrintFooter();
 ?>
-
+</body>
 </html>

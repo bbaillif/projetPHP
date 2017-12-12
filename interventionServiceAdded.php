@@ -28,11 +28,10 @@
 	<h1>Service d'intervention ajouté</h1>
 
 	</div>
-</body>
 
 <?php
 	$_SESSION['action'] = '';
 	PrintFooter();
 ?>
-
+</body>
 </html>

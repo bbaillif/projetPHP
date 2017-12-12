@@ -33,13 +33,10 @@
 	?>
 
 	</div>
-</body>
 
 <?php
 	$_SESSION['action'] = '';
 	PrintFooter();
 ?>
-
-</html>
-
+</body>
 </html>

@@ -49,10 +49,9 @@
     </form>
 
     </div>
-</body>
 
 <?php
 	PrintFooter();
 ?>
-
+</body>
 </html>

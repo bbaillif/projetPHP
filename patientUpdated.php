@@ -24,11 +24,10 @@
 	<h1>Patient mis-à-jour</h1>
 
 	</div>
-</body>
 
 <?php
 	$_SESSION['action'] = '';
 	PrintFooter();
 ?>
-
+</body>
 </html>

@@ -43,10 +43,9 @@
 	<br> <br>
 	
 	</div>
-</body>
 
 <?php
 	PrintFooter();
 ?>
-
+</body>
 </html>

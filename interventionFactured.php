@@ -24,11 +24,10 @@
 	<h1>Intervention facturée</h1>
 
 	</div>
-</body>
 
 <?php
 	$_SESSION['action'] = '';
 	PrintFooter();
 ?>
-
+</body>
 </html>

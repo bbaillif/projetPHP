@@ -28,11 +28,11 @@
 	<h1>Service d'intervention supprimé</h1>
 
 	</div>
-</body>
+
 
 <?php
 	$_SESSION['action'] = '';
 	PrintFooter();
 ?>
-
+</body>
 </html>

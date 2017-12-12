@@ -24,7 +24,6 @@
 	<h1>Intervention créée</h1>
 
 	</div>
-</body>
 
 <?php
 	$_SESSION['action'] = '';
@@ -33,5 +32,7 @@
 	$_SESSION['EL'] = '';
 	PrintFooter();
 ?>
+
+</body>
 
 </html>
