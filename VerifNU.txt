@@ -10,3 +10,10 @@
 12/12/2017 13:50 : try_askInt a un os casse avec NU=4
 12/12/2017 13:56 : mam a un os casse avec NU=3
 12/12/2017 13:57 : non a un angine avec NU=2
+13/12/2017 13:10 : 123456789101111 a un angine avec NU=2
+13/12/2017 13:11 : 098765432111111 a un gastroenterite avec NU=4
+13/12/2017 13:14 : 269039584447537 a un gastroenterite avec NU=8
+13/12/2017 13:16 : 444444444444444 a un rhume avec NU=4
+13/12/2017 13:28 : 222222222222222 a un bradycardie avec NU=3
+13/12/2017 13:32 : essaiADD a un os casse avec NU=2
+13/12/2017 13:41 : dernier a un AVC avec NU=2

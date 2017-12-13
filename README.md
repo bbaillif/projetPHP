@@ -87,3 +87,6 @@ Modifications Benoit 12/12 (aprem/ debut de soirée) :
 - fusion des fonctions SearchIntervention
 - suppression de ReturnInterventionNF, la selection de la NF s'effectue dans le SearchIntervention
 - ajout des commentaires avant les fonctions, pour identifier plus clairement leur rôle (entrée, sortie)
+
+Modifications du 13/12 : 
+- push 1 : arrangement de toutes les fonctions médecins (reste à faire des boucles pour les sélections). 

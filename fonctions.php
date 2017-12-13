@@ -9,9 +9,9 @@ function Query($query) {
 	$error2 = "<p>Aucun résultat ne correspond à votre recherche. </p>";
 	$error3 = "<p>ERROR.2: Impossible d'executer la requête. Merci de contacter le service technique. </p>";
 		#Déclaration des variables de la base de données 
-		$user = 'root'; 
-		$pwd = '1711alphaben1995';
-		$bdd = 'hopital';
+		$user = 'Lea';#'root'; 
+		$pwd = 'BDE20162017';#'1711alphaben1995';
+		$bdd = 'projetPHP';#'hopital';
 
 		#On essaye de se connecter à la base de données
 	$r=mysqli_connect('localhost',$user,$pwd,$bdd);

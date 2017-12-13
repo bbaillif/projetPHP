@@ -45,9 +45,10 @@
 			exit();
 		}
 		elseif (isset($_POST['addPatientIntervention'])) {
+			print("ok");
 			$_SESSION['action'] = 'addPatientIntervention';
 			header('Location: ./patient.php');
-			exit();
+			#exit();
 		}
 	?>
 
@@ -68,29 +69,25 @@
 			
 			if (!empty($patients_array)) {
 				foreach ($patients_array as $idx => $info_array) {
+					echo '<input type="radio" name="patient_idx" value="' . $info_array['ssNumber'] . '">' ;
 					foreach ($info_array as $info => $value) {
 						echo $value . '  ';
 					}
-					echo '<input type="radio" name="patient_idx" value="' . $info_array['ssNumber'] . '">' ;
 				}
 				if ($_SESSION['action'] == 'searchPatient') {
 					echo '<input type="submit" name="updatePatient" value="Modifier patient" /><br>' . "\n";
 					echo '<input type="submit" name="deletePatient" value="Supprimer patient" /><br>' . "\n";
-					echo '</form>';
 				}
 				elseif ($_SESSION['action'] == 'addIntervention') {
 					echo '<input type="submit" name="choosePatientIntervention" value="Selectionner ce patient" /><br>' . "\n";
-					echo '</form>';
 				}
 				elseif ($_SESSION['action'] == 'emergencyWithExistingPatient') {
 					echo '<input type="submit" name="choosePatientEmergency" value="Choisir le patient sélectionné" /><br>' . "\n";
-					echo '</form>';
 				}
 			}
 
 			if ($_SESSION['action'] == 'addIntervention') {
 				echo '<input type="submit" name="addPatientIntervention" value="Créer un patient" /><br>' . "\n";
-				echo '</form>';
 			}
 			echo '</form>';
 		}

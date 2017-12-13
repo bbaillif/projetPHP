@@ -59,7 +59,7 @@
 						}
 						elseif ($_SESSION['action'] == 'addPatientIntervention') {
 							$_SESSION['patientID'] = $_POST['ssNumber'];
-							header('Location: ./emergencyDone.php');
+							header('Location: ./askIntervention.php');
 							exit();
 						}
 					}
