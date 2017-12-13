@@ -1,0 +1,16 @@
+13/12/2017 18:45 : connection 
+13/12/2017 18:46 : création du service service1 
+13/12/2017 18:46 : suppression du service d'accueil ACC010 
+13/12/2017 18:46 : création du service  
+13/12/2017 18:49 : création du service  
+13/12/2017 18:51 : création du service ee 
+13/12/2017 18:51 : création du service e 
+13/12/2017 18:51 : suppression du service d'accueil ACC009 
+13/12/2017 18:52 : suppression du service d'accueil ACC013 
+13/12/2017 18:53 : suppression du service d'accueil \"\" 
+13/12/2017 18:55 : suppression du service d'accueil \"\" 
+13/12/2017 18:55 : suppression du service d'accueil \"\" 
+13/12/2017 18:56 : suppression du service d'accueil \"\" 
+13/12/2017 18:56 : suppression du service d'accueil ACC011 
+13/12/2017 19:22 : connection 
+13/12/2017 19:26 : ajout de l'intervention INT001 pour le patient e au créneau ME51A1 

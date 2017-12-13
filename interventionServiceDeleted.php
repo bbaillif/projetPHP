@@ -22,7 +22,13 @@
 
 	<div id = "body">
 	<?php
-		DeleteService($_POST["interventionServiceToDelete"], "service");
+		if(!empty($_POST["interventionServiceToDelete"])){
+			DeleteService($_POST["interventionServiceToDelete"], "service");
+		}
+		else {
+			header("Location: ./deleteService.php");
+			exit();
+		}
 	?>
 
 	<h1>Service d'intervention supprimé</h1>

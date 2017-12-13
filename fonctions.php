@@ -411,7 +411,7 @@ function Emergency($numSecu, $service) {
 
 	} catch (Exception $e){
 				#Si il y a une erreur de query
-		echo $e -> getMessage();
+		echo "L'urgence n'a pas été ajouté. Veuillez vérifier qu’il n’est pas trop tôt ou trop tard dans la journée ou contacter le service technique.";
 	}
 }
 
@@ -1196,7 +1196,7 @@ function ChangeHalfDay($appointments_array, $newHours) {
 		return $jour_semaine[$njour];
 	}
 
-# EmptyValuePOST() returns True if at least one field of $_POST is empty
+# EmptyValue() returns True if at least one field of $_POST is empty
 	# Array array
 # Return boolean
 function EmptyValue($array){
@@ -1221,4 +1221,48 @@ function Debugage() {
 		print_r($_POST);
 	}
 	echo '<br>\n';
+}
+
+# AddUser 
+function AddUser($array_user){
+	try{
+		$secu = $array_user['ssNumber']; 
+		$nom = $array_user['surname'] ;
+		$prenom = $array_user['name']; 
+		$sexe = $array_user['gender']; 
+		$date_naiss = $array_user['birthday'];
+		$ID = $array_user['ID'];
+		$mdp = $array_user['password'];
+		$droit = $array_user['right'];
+		$ID_service = $array_user['Service'];
+		$mail = $nom.'.'.$prenom."@chu.fr";
+
+		if ($droit == "1") {
+			$r_medecin = "INSERT INTO medecin VALUES (\"$ID\",\"$ID_service\")"; 
+			$q_medecin = Query($r_medecin) ;
+		} elseif($droit =="2") {
+			$r_respo = "INSERT INTO respo_intervention VALUES (\"$ID\",\"$ID_service\")"; 
+			$q_respo = Query($r_respo) ;
+		} 
+
+		$r_personne = "INSERT INTO personne VALUES (\"$secu\",\"$nom\",\"$prenom\",\"$sexe\",\"$date_naiss\")" ; 
+		$q_personne = Query($r_personne); 
+
+		$r_personnel = "INSERT INTO personnel VALUES (\"$secu\",\"$ID\",\"$mdp\",\"$droit\",\"$mail\")"; 
+		$q_personnel =Query($r_personnel); 
+
+	}catch(Exception $e){
+		#Si erreur de la fonction Query() 
+		echo $e -> getMessage();
+	}
+}
+
+function DeleteUser($ID){
+	try{
+		$r =  "DELETE FROM `personnel` WHERE ID_personnel=\"$ID\""; 
+		$q = Query($r); 
+	}catch(Exception $e){
+		#Si erreur de la fonction Query() 
+		echo $e -> getMessage();
+	}
 }

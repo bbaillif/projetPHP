@@ -38,8 +38,13 @@
 		elseif (isset($_POST['chooseIntervention'])){
 			#on crée l'intervention
 			$ID_intervention = explode(" ",$_POST['value'])[0];
-			AddIntervention($_SESSION['intervention'], $ID_intervention, $_SESSION['uid'], $_SESSION['patientID']); 
-			header('Location: ./interventionCreated.php ');
+			if (empty($_POST['value'][0])){
+				header('Location: ./resultsFreeTime.php ');
+			}
+			else {
+				AddIntervention($_SESSION['intervention'], $ID_intervention, $_SESSION['uid'], $_SESSION['patientID']); 
+				header('Location: ./interventionCreated.php ');
+			}
 		}
 	?>
 

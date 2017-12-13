@@ -142,7 +142,7 @@
 						<option value = \"\" selected hidden></option> 
 						<option value=\"F\"> Femme </option> 
 						<option value=\"H\"> Homme </option>
-						</select> <p>"; 
+						</select> </p>"; 
 				echo "<p> Numéro de sécurité sociale <input type=\"text\" name=\"ssNumber\" maxlength=\"15\"/> </p> ";
 				#Date
 				echo "<p> Date de naissance <input type=\"date\" name=\"birthday\"/> </p>"; 

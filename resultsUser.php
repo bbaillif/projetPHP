@@ -28,6 +28,9 @@
 		elseif ($_SESSION['action'] == 'seeLogs') {
 			echo '<h1>Résultat de la recherche de personnel (historique) </h1><br><br>' . "\n";
 		}
+		elseif ($_SESSION['action'] == 'deleteUser') {
+			echo '<h1>Utilisateur supprimé</h1><br><br>' . "\n";
+		}
 	?>
 
 	<?php
@@ -37,6 +40,9 @@
 		elseif ($_SESSION['action'] == 'seeLogs') {
 			print("Historique : <br>");
 			PrintArchive($_POST["ID"].".txt"); 
+		}
+		elseif ($_SESSION['action'] == 'deleteUser') {
+			DeleteUser($_POST["ID"]);
 		}
 	?>
 

@@ -1,0 +1,13 @@
+13/12/2017 18:08 : connection 
+13/12/2017 18:26 : ajout du patient e 
+13/12/2017 18:27 : ajout du patient 269039584447537 
+13/12/2017 18:38 : ajout de l'intervention INT004 pour le patient  au créneau ME50A9 
+13/12/2017 18:38 : ajout de l'urgence du patient  pour intervention dans INT004 au créneau ME50A9 
+13/12/2017 18:39 : ajout du patient emergency 
+13/12/2017 18:39 : ajout de l'intervention INT004 pour le patient emergency au créneau ME50A9 
+13/12/2017 18:39 : ajout de l'urgence du patient emergency pour intervention dans INT004 au créneau ME50A9 
+13/12/2017 18:40 : ajout de l'intervention INT004 pour le patient e au créneau ME50A9 
+13/12/2017 18:40 : ajout de l'urgence du patient e pour intervention dans INT004 au créneau ME50A9 
+13/12/2017 18:41 : facturation  de l'intervention ME50A9 du patient emergency 
+13/12/2017 18:42 : facturation  de l'intervention  du patient  
+13/12/2017 18:45 : facturation  de l'intervention ME50A9 du patient  

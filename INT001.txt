@@ -1,0 +1,4 @@
+13/12/2017 17:32 : ajout de l'intervention ME51A2 pour le patient 111023370509701 
+13/12/2017 17:33 : ajout de l'intervention ME51M9 pour le patient 111023370509701 
+13/12/2017 17:33 : ajout de l'intervention JE51A6 pour le patient 111023370509701 
+13/12/2017 19:26 : ajout de l'intervention ME51A1 pour le patient e 

@@ -26,6 +26,7 @@
 	<?php 
 		echo '<form action="hospitalServiceDeleted.php" method="post">' . "\n";
 		echo 'Supprimer service d\'accueil : <select name = "hospitalServiceToDelete">' . "\n";
+		echo "<option value = \"\" selected hidden></option>";
 		$array = ReturnService("accueil");
 		$i = 0; 
 		while ($i < count($array)){
@@ -40,6 +41,7 @@
 
 		echo '<form action="interventionServiceDeleted.php" method="post">' . "\n";
 		echo 'Supprimer service d\'intervetion : <select name = "interventionServiceToDelete">' . "\n";
+		echo "<option value = \"\" selected hidden></option>";
 		$array = ReturnService ("intervention");
 		$i = 0; 
 		while ($i < count($array)){

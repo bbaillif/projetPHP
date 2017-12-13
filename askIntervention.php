@@ -24,6 +24,9 @@
 	<h1> Résumé patient choisi </h1>
 
 		<?php 
+			if(empty($_SESSION['patientID'])){
+				header('Location: ./patient.php');
+			}
 			$_SESSION['action']="addIntervention";
 			print_r($_POST); 
 			print_r($_SESSION);

@@ -96,6 +96,26 @@ session_start();
 					header('Location: ./addService.php');
 					exit();
 				}
+				elseif ($_SESSION['action'] == 'addPatient') {
+					header('Location: ./patient.php');
+					exit();
+				}
+				elseif ($_SESSION['action'] == 'deleteIntervention') {
+					header('Location: ./searchIntervention.php');
+					exit();
+				}
+				elseif ($_SESSION['action'] == 'addIntervention') {
+					header('Location: ./patient.php');
+					exit();
+				}
+				elseif ($_SESSION['action'] == 'addUser') {
+					header('Location: ./addUser.php');
+					exit();
+				}
+				elseif ($_SESSION['action'] == 'deleteUser') {
+					header('Location: ./searchUser.php');
+					exit();
+				}
 				else {
 					echo "Action incorrecte";
 				}
@@ -138,11 +158,20 @@ session_start();
 		}
 
 		elseif ($_SESSION['right'] == '0') {
+			echo '<h2> Gérer les services </h2>';
 			echo '<p class = "bouton"> <a href="?action=addService">Ajouter un service</a> </p>';
-			echo '<p class = "bouton"> <a href="?action=deleteService">Supprimer un service</a> </p>';		
+			echo '<p class = "bouton"> <a href="?action=deleteService">Supprimer un service</a> </p>';
+			echo '<p class = "bouton"> <a href="?action=seeServiceArchive">Voir historique des services</p></a> </p>' . "\n";	
+			echo '<h2> Gérer les utilisateurs </h2>';
+			echo '<p class = "bouton"> <a href="?action=addUser">Ajouter un utilisateur</a> </p>';
+			echo '<p class = "bouton"> <a href="?action=deleteUser">Supprimer un utilisateur</a> </p>';
 			echo '<p class = "bouton"> <a href="?action=seeLogs">Voir historique du personnel</a> </p>' . "\n";
-			echo '<p class = "bouton"> <a href="?action=seeServiceArchive">Voir historique des services</p></a> </p>' . "\n";
+			echo '<h2> Action technique </h2>';
+			echo '<p class = "bouton"> <a href="?action=addPatient">Créer patient</a> </p>';
+			echo '<p class = "bouton"> <a href="?action=addIntervention">Créer intervention</a> </p>' . "\n";					
+			echo '<p class = "bouton"> <a href="?action=deleteIntervention">Supprimer intervention</a> </p>' . "\n";			
 			echo '<p class = "bouton"><a href="?action=checkEmergencyNumber">Vérifier la cohérence pathologie/numéro d\'urgence</a> </p>' . "\n";
+			echo '<br><br>' . "\n";
 		}
 		else {
 			echo 'Droit non identifié';

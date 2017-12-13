@@ -23,15 +23,19 @@
 	<div id = "body">
 	<?php
 		if (isset($_POST['updatePatient'])) {
-			$_SESSION['action'] = 'updatePatient';
-			$_SESSION['patientID'] = $_POST['patient_idx'];
-			header('Location: ./patient.php');
-			exit();
+			if (!empty($_POST['patient_idx'])){
+				$_SESSION['action'] = 'updatePatient';
+				$_SESSION['patientID'] = $_POST['patient_idx'];
+				header('Location: ./patient.php');
+				exit();
+			} 			
 		}
 		elseif (isset($_POST['deletePatient'])) {
-			DeletePatient($_POST['patient_idx']);
-			header('Location: ./patientUpdated.php');
-			exit();
+			if (!empty($_POST['patient_idx'])){
+				DeletePatient($_POST['patient_idx']);
+				header('Location: ./patientUpdated.php');
+				exit();
+			}
 		}
 		elseif (isset($_POST['choosePatientIntervention'])) {
 			$_SESSION['patientID'] = $_POST['patient_idx'];
@@ -40,9 +44,11 @@
 			exit();
 		}
 		elseif (isset($_POST['choosePatientEmergency'])) {
-			$_SESSION['patientID'] = $_POST['patient_idx'];
-			header('Location: ./emergencyDone.php');
-			exit();
+			if (!empty($_POST['patient_idx'])){
+				$_SESSION['patientID'] = $_POST['patient_idx'];
+				header('Location: ./emergencyDone.php');
+				exit();
+			}
 		}
 		elseif (isset($_POST['addPatientIntervention'])) {
 			print("ok");
@@ -75,14 +81,14 @@
 					}
 				}
 				if ($_SESSION['action'] == 'searchPatient') {
-					echo '<input type="submit" name="updatePatient" value="Modifier patient" /><br>' . "\n";
+					echo '<br><input type="submit" name="updatePatient" value="Modifier patient" /><br>' . "\n";
 					echo '<input type="submit" name="deletePatient" value="Supprimer patient" /><br>' . "\n";
 				}
 				elseif ($_SESSION['action'] == 'addIntervention') {
-					echo '<input type="submit" name="choosePatientIntervention" value="Selectionner ce patient" /><br>' . "\n";
+					echo '<br><input type="submit" name="choosePatientIntervention" value="Selectionner ce patient" /><br>' . "\n";
 				}
 				elseif ($_SESSION['action'] == 'emergencyWithExistingPatient') {
-					echo '<input type="submit" name="choosePatientEmergency" value="Choisir le patient sélectionné" /><br>' . "\n";
+					echo '<br><input type="submit" name="choosePatientEmergency" value="Choisir le patient sélectionné" /><br>' . "\n";
 				}
 			}
 

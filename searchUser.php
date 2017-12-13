@@ -28,6 +28,9 @@
 		elseif ($_SESSION['action'] == 'seeLogs') {
 			echo '<h1>Rechercher de personnel (historique) </h1><br><br>' . "\n";
 		}
+		elseif ($_SESSION['action'] == 'deleteUser') {
+			echo '<h1>Rechercher de personnel </h1><br><br>' . "\n";
+		}
 	?>
 
 	<form method="post" action="resultsUser.php">

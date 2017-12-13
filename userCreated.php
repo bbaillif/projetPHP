@@ -21,23 +21,24 @@
 	</div>
 
 	<div id = "body">
-	<?php
-		if(!empty($_POST["hospitalServiceToDelete"])){
-			DeleteService($_POST["hospitalServiceToDelete"], "accueil");
+	<h1>Utilisateur créé</h1>
+
+	<?php 
+		print_r($_POST);
+		if (emptyValue($_POST)){
+			header('Location: ./addUser.php');
 		}
 		else {
-			header("Location: ./deleteService.php");
-			exit();
+			AddUser($_POST); 
 		}
 	?>
-
-	<h1>Service d'accueil supprimé</h1>
-
 	</div>
 
 <?php
 	$_SESSION['action'] = '';
 	PrintFooter();
 ?>
+
 </body>
+
 </html>

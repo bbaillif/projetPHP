@@ -27,8 +27,10 @@
 			header('Location: ./interventionDeleted.php');
 		}
 		elseif (isset($_POST['factureIntervention'])) {
-			FactureIntervention($_POST['value']);
-			header('Location: ./interventionFactured.php');
+			if (!empty($_POST['value'])){
+				FactureIntervention($_POST['value']);
+				header('Location: ./interventionFactured.php');
+			}
 		}
 		else {
 			# Do nothing
@@ -67,7 +69,7 @@
 			}
 		}
 		elseif ($_SESSION['action'] == 'factureIntervention') {
-			echo "<h1>Recherche terminée. CHoisir quelle(s) intervention(s) facturer : </h1>";
+			echo "<h1>Recherche terminée. Choisir quelle(s) intervention(s) facturer : </h1>";
 			$interventions = SearchIntervention($_POST, "NF", $_SESSION['service'], "");
 			if (!empty($interventions)) {
 				foreach ($interventions as $idx => $info_array) {
@@ -77,7 +79,7 @@
 					$sentence = ReturnIntervention($infosToSentence);
 					echo $sentence[0];
 				}
-				echo '<input type="submit" name="factureIntervention" value="Facturer" /><br>' . "\n";
+				echo '<br><input type="submit" name="factureIntervention" value="Facturer" /><br>' . "\n";
 			}
 		}
 		else {

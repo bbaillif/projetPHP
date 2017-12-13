@@ -90,3 +90,13 @@ Modifications Benoit 12/12 (aprem/ debut de soirée) :
 
 Modifications du 13/12 : 
 - push 1 : arrangement de toutes les fonctions médecins (reste à faire des boucles pour les sélections). 
+- modif de la fonction Emergency pour ne pas qu'elle affiche l'erreur de Query ; 
+> ajout des autres fonctionnalités à l'administrateur : ajouter/retirer des interventions ; ajouter patients ; ajout/suppression d'utilisateur. 
+- push 2 = présence de boucle partout ; fonctionnalités médecins/respo/admin marchent toutes (toutes testées!!) 
+
+MANQUE ENCORE (par rapport aux spécifications) : 
+> tableau de l'EDT (responsables)
+> modification du NU d'urgence par rapport à son intervention (médecin)
+> on a des créneaux de 30 minutes, il faudrait pouvoir gérer que des interventions soient moins de 30 minutes... 
+> gérer le surbooking (utiliser la table surbooking) 
+> est-ce qu'on gére ajouter des informations sur un patient arrivé en urgence (sans patient?)

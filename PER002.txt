@@ -1,2 +1,5 @@
-12/12/2017 21:14 : ajout du patient 5498564 
-12/12/2017 21:14 : ajout du patient 48578755 
+13/12/2017 17:32 : ajout de l'intervention INT001 pour le patient 111023370509701 au créneau ME51A2 
+13/12/2017 17:33 : ajout de l'intervention INT001 pour le patient 111023370509701 au créneau ME51M9 
+13/12/2017 17:33 : ajout de l'intervention INT001 pour le patient 111023370509701 au créneau JE51A6 
+13/12/2017 17:42 : suppression du patient () 
+13/12/2017 17:47 : ajout du patient PPPPPPPPPPPPPPP 
