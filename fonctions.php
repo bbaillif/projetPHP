@@ -9,9 +9,9 @@ function Query($query) {
 	$error2 = "<p>Aucun résultat ne correspond à votre recherche. </p>";
 	$error3 = "<p>ERROR.2: Impossible d'executer la requête. Merci de contacter le service technique. </p>";
 		#Déclaration des variables de la base de données 
-		$user = 'Lea';#'Lea'
-		$pwd = "BDE20162017";#'1711alphaben1995';'BDE20162017';
-		$bdd = 'projetPHP';#'hopital';
+		$user = 'root';#'Lea'
+		$pwd = "1711alphaben1995";#'1711alphaben1995';'BDE20162017';
+		$bdd = 'hopital';#'hopital';
 
 		#On essaye de se connecter à la base de données
 	$r=mysqli_connect('localhost',$user,$pwd,$bdd);
@@ -1077,12 +1077,29 @@ function PrintSchedule($service) {
 			# date A CHANGER EN VERSION FINALE
 	$date = date("2017-11-13");
 	$query1 = 'SELECT nom, prenom, jour, heure, ID_service_int, mail FROM (creneau NATURAL JOIN planning NATURAL JOIN personne) JOIN personnel ON planning.ID_personnel = personnel.ID_personnel WHERE jour = "' . $date . '" AND ID_service_int = "' . $service . '"';
+	echo "<br><br>";
+	echo "<h2>Interventions du jour</h2>";
 	try {
 		$results = Query($query1);
+		echo "<table>";
+		echo "<tr>";
+		echo "<th>Nom</th>";
+		echo "<th>Prénom</th>";
+		echo "<th>Jour</th>";
+		echo "<th>Heure</th>";
+		echo "<th>Service d'intervention</th>";
+		echo "<th>Mail du médecin</th>";
+		echo "</tr>";
 		while($nuplet = mysqli_fetch_array($results)) {
-			echo $nuplet[0] . ' ' . $nuplet[1] . ' ' . $nuplet[2] . ' ' . $nuplet[3] . ' ' . $nuplet[4] . ' ' . $nuplet[5];
-			echo '<br>' . "\n";
+			echo "<tr>";
+			$i = 0;
+			while ($i < 6) {
+				echo '<td>' . $nuplet[$i] . '</td>' ;
+				$i = $i + 1;
+			}
+			echo "</tr>";
 		}
+		echo "</table>";
 	} catch (Exception $e){
 			#Si erreur de la fonction Query() 
 		echo $e -> getMessage();
