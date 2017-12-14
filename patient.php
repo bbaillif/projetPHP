@@ -40,7 +40,8 @@
 			}
 			elseif ($_SESSION['action'] == 'addPatient'
 				OR $_SESSION['action'] == 'emergencyWithNewPatient'
-				OR $_SESSION['action'] == 'addPatientIntervention') {
+				OR $_SESSION['action'] == 'addPatientIntervention'
+				OR $_SESSION['action'] == 'addPatientE') {
 				if (!EmptyValue($_POST)) {
 					if (!PatientUnknown($_POST) AND $_SESSION['action'] == 'addPatient') {
 						$_SESSION['action'] = 'updatePatient';
@@ -62,6 +63,11 @@
 							header('Location: ./askIntervention.php');
 							exit();
 						}
+						elseif ($_SESSION['action'] == 'addPatientE') {
+							$_SESSION['patientID'] = $_POST['ssNumber'];
+							header('Location: ./searchIntervention.php');
+							exit();
+						}
 					}
 				}
 				elseif (!empty($_POST['ssNumber'])) {
@@ -81,7 +87,8 @@
 	?>
 
 	<?php
-		if ($_SESSION['action'] == 'addPatient') {
+		if ($_SESSION['action'] == 'addPatient'
+		OR $_SESSION['action'] == 'addPatientE') {
 			echo '<h1>Rédaction de fiche patient</h1>' . "\n";
 			echo '<form action="patient.php?filled=True" method="post">'. "\n";
 		}
@@ -93,7 +100,8 @@
 			echo '<h1>Rédaction de fiche patient pour une urgence</h1>' . "\n";
 			echo '<form action="patient.php?filled=True" method="post">'. "\n";
 		}
-		elseif ($_SESSION['action'] == 'searchPatient' ) {
+		elseif ($_SESSION['action'] == 'searchPatient' 
+		OR $_SESSION['action'] == 'searchPatientE') {
 			echo '<h1>Recherche de patient</h1>'. "\n"; 
 			echo '<form action="resultsPatient.php" method="post">'. "\n";
 		}
@@ -134,7 +142,9 @@
 			OR $_SESSION['action'] == 'addPatientIntervention' 
 			OR $_SESSION['action'] == 'emergencyWithNewPatient'
 			OR $_SESSION['action'] == 'searchPatient'
-			OR $_SESSION['action'] == 'emergencyWithExistingPatient'){
+			OR $_SESSION['action'] == 'emergencyWithExistingPatient'
+			OR $_SESSION['action'] == 'addPatientE'
+			OR $_SESSION['action'] == 'searchPatientE'){
 				echo "<p> Nom <input type=\"text\" name=\"surname\"/> </p>";
 				echo "<p> Prénom <input type=\"text\" name=\"name\" /> </p>";
 				#Pour le sexe, menu déroulant

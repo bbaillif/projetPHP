@@ -56,6 +56,13 @@
 			header('Location: ./patient.php');
 			#exit();
 		}
+		elseif (isset($_POST['choosePatientE'])) {
+			if (!empty($_POST['patient_idx'])){
+				$_SESSION['patientID'] = $_POST['patient_idx'];
+				header('Location: ./searchIntervention.php');
+				exit();
+			}
+		}
 	?>
 
 	<h1>Résultats de la recherche de patient</h1>
@@ -63,7 +70,8 @@
 	<?php
 		if ($_SESSION['action'] =='searchPatient' 
 			OR $_SESSION['action'] == 'emergencyWithExistingPatient'
-			OR $_SESSION['action'] == 'addIntervention' ){
+			OR $_SESSION['action'] == 'addIntervention'
+			OR $_SESSION['action'] =='searchPatientE'){
 			if(empty($_POST['ssNumber'])){
 				header('Location: ./patient.php');
 				exit();
@@ -89,6 +97,9 @@
 				}
 				elseif ($_SESSION['action'] == 'emergencyWithExistingPatient') {
 					echo '<br><input type="submit" name="choosePatientEmergency" value="Choisir le patient sélectionné" /><br>' . "\n";
+				}
+				elseif ($_SESSION['action'] == 'searchPatientE') {
+					echo '<br><input type="submit" name="choosePatientE" value="Choisir le patient sélectionné" /><br>' . "\n";
 				}
 			}
 

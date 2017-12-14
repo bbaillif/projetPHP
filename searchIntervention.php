@@ -35,6 +35,11 @@
 			echo '<h1>Recherche d\'une intervention à facturer</h1>' . "\n";
 			echo '<form action="resultsIntervention.php" method="post">'. "\n";
 		}
+		elseif ($_SESSION['action'] == 'addPatientE'
+		OR $_SESSION['action'] =='searchPatientE') {
+			echo '<h1>Recherche d\'une intervention sans patient</h1>' . "\n";
+			echo '<form action="resultsIntervention.php" method="post">'. "\n";
+		}
 		else {
 			header('Location: ./index.php');
 		}

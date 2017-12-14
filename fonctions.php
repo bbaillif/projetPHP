@@ -9,8 +9,8 @@ function Query($query) {
 	$error2 = "<p>Aucun résultat ne correspond à votre recherche. </p>";
 	$error3 = "<p>ERROR.2: Impossible d'executer la requête. Merci de contacter le service technique. </p>";
 		#Déclaration des variables de la base de données 
-		$user = 'Lea';#'root'; 
-		$pwd = 'BDE20162017';#'1711alphaben1995';
+		$user = 'root';#'Lea'
+		$pwd = "";#'1711alphaben1995';'BDE20162017';
 		$bdd = 'projetPHP';#'hopital';
 
 		#On essaye de se connecter à la base de données
@@ -1259,10 +1259,21 @@ function AddUser($array_user){
 
 function DeleteUser($ID){
 	try{
-		$r =  "DELETE FROM `personnel` WHERE ID_personnel=\"$ID\""; 
+		$r =  "DELETE FROM personnel WHERE ID_personnel=\"$ID\""; 
 		$q = Query($r); 
 	}catch(Exception $e){
 		#Si erreur de la fonction Query() 
 		echo $e -> getMessage();
 	}
 }
+
+function AddNumSecuInt($numsecu, $IDcreneau, $IDint) {
+	try{
+		$r =  "UPDATE planning SET num_secu =\"$numsecu\" WHERE ID_creneau=\"$IDcreneau\" AND ID_service_int=\"$IDint\" AND num_secu=\"\""; 
+		$q = Query($r); 
+	}catch(Exception $e){
+		#Si erreur de la fonction Query() 
+		echo $e -> getMessage();
+	}
+}
+	

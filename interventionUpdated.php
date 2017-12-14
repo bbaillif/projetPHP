@@ -21,17 +21,7 @@
 	</div>
 
 	<div id = "body">
-	<h1>Urgence prise en compte</h1>
-	<?php
-		if ($_SESSION['action'] == 'emergencyWithoutPatient') {
-			Emergency("", $_SESSION['service']);
-		}
-		elseif ($_SESSION['action'] == 'emergencyWithExistingPatient'
-			OR $_SESSION['action'] == 'emergencyWithNewPatient') {
-			Emergency($_SESSION['patientID'], $_SESSION['service']);
-		}
-
-	?>
+	<h1>Intervention mise-à-jour</h1>
 
 	</div>
 

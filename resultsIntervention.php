@@ -32,6 +32,12 @@
 				header('Location: ./interventionFactured.php');
 			}
 		}
+		elseif (isset($_POST['addPatientE'])) {
+			if (!empty($_POST['value'])){
+				AddNumSecuInt($_SESSION['patientID'], $_POST['value'], $_POST['service']);
+				header('Location: ./interventionUpdated.php');
+			}
+		}
 		else {
 			# Do nothing
 		}
@@ -82,15 +88,33 @@
 				echo '<br><input type="submit" name="factureIntervention" value="Facturer" /><br>' . "\n";
 			}
 		}
+		elseif ($_SESSION['action'] == 'addPatientE'
+		OR $_SESSION['action'] =='searchPatientE') {
+			echo "<h1>Recherche terminée. Choisir quelle intervention vous souhaitez affilier à votre patient: </h1>";
+			$interventions = SearchIntervention("", "", $_SESSION['service'], $_SESSION['uid'] );
+			if (!empty($interventions)) {
+				foreach ($interventions as $idx => $info_array) {
+					if ($interventions[$idx]['num_secu']==""){
+						$ID_intervention = $interventions[$idx]['ID_creneau'] . ' ' . $interventions[$idx]['num_secu'];
+						echo '<input type="radio" name="value" value="' . $ID_intervention . '">' . "\n";
+						$infosToSentence = array($info_array['ID_creneau'], $info_array['ID_service_int']);
+						$sentence = ReturnIntervention($infosToSentence);
+						echo $sentence[0];
+					}
+				}
+				echo '<br><input type="submit" name="addPatientE" value="Submit" /><br>' . "\n";
+			}
+		}
 		else {
 			header('Location: ./index.php');
 		}
-	?>
+?>
 	</form>
 	</div>
 
 <?php
 	PrintFooter();
 ?>
+
 </body>
 </html>

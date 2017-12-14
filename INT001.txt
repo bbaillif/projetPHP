@@ -2,3 +2,9 @@
 13/12/2017 17:33 : ajout de l'intervention ME51M9 pour le patient 111023370509701 
 13/12/2017 17:33 : ajout de l'intervention JE51A6 pour le patient 111023370509701 
 13/12/2017 19:26 : ajout de l'intervention ME51A1 pour le patient e 
+14/12/2017 11:36 : ajout de l'intervention JE50M9 pour le patient 456 
+14/12/2017 11:36 : ajout de l'urgence JE50M9 pour le patient 456 
+14/12/2017 11:37 : ajout de l'intervention JE50M9 pour le patient 123 
+14/12/2017 11:37 : ajout de l'urgence JE50M9 pour le patient 123 
+14/12/2017 11:39 : ajout de l'intervention JE50M9 pour le patient  
+14/12/2017 11:39 : ajout de l'urgence JE50M9 pour le patient  

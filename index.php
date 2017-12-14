@@ -70,6 +70,10 @@ session_start();
 					header('Location: ./searchIntervention.php');
 					exit();
 				}
+				elseif ($_SESSION['action'] == 'addPatientEmergency') {
+					header('Location: ./addPatientEmergency.php');
+					exit();
+				}
 				else {
 					echo "Action incorrecte";
 				}
@@ -155,6 +159,7 @@ session_start();
 			echo '<p class = "bouton"> <a href="?action=emergencyWithNewPatient"> Insérer une urgence avec un nouveau patient</a> </p>' . "\n";
 			echo '<p class = "bouton"> <a href="?action=emergencyWithExistingPatient"> Insérer une urgence avec un patient connu</a> </p>' . "\n";
 			echo '<p class = "bouton"> <a href="?action=factureIntervention">Facturer</a> </p><br>' . "\n";
+			echo '<p class = "bouton"> <a href="?action=addPatientEmergency">Ajouter un patient rentré en urgence</a> </p><br>' . "\n";
 		}
 
 		elseif ($_SESSION['right'] == '0') {

@@ -3,3 +3,6 @@
 13/12/2017 17:33 : ajout de l'intervention INT001 pour le patient 111023370509701 au créneau JE51A6 
 13/12/2017 17:42 : suppression du patient () 
 13/12/2017 17:47 : ajout du patient PPPPPPPPPPPPPPP 
+14/12/2017 11:33 : connection 
+14/12/2017 14:04 : connection 
+14/12/2017 14:11 : connection 

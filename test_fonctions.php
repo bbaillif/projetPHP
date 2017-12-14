@@ -147,6 +147,8 @@
 	#print(date('W',strtotime("2018-01-01")));
 
 	changeWindow(30);
+	#Test AddNumSecuInt
+	#AddNumSecuInt('2288', 'JE50M9', 'INT001');
 	?> 
 
 	<p> Coucou </p>
