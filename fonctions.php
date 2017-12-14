@@ -158,19 +158,39 @@ function DeleteService($ID_service,$type) {
 
 #AddIntervention(...)= On ajoute l'intervention selon les données en entrée
 function AddIntervention($serviceI, $creneau, $Idpers, $numSecu) {
-		#Déclaration des variables 
 	$date = date("d/m/Y H:i");
+	$unknownPatientEmergency = False;
 
+	# Test if an emergency patient is already "appointed" at this time
 	try{
+		$r1 = 'SELECT num_secu FROM planning WHERE ID_creneau = "' . $creneau . '"';
+		$q1 = Query($r1);
+		if (!empty($q1)) {
+			while ($nuplet = mysqli_fetch_array($q1)) {
+				$num_secu = $nuplet[0];
+				if ($num_secu == "") {
+					echo "Patient inconnu déjà placé pour cette urgence";
+					$unknownPatientEmergency = True;
+				}
+			}
+		}
+	} catch (Exception $e){
+			#Si il y a une erreur de query
+		echo $e -> getMessage();
+	}
+		
+	try {
+		if (!$unknownPatientEmergency) {
 			#On essaye d'ajouter une ligne à la table planning 
-		$r="INSERT INTO planning VALUES (\"$serviceI\", \"$creneau\", \"$Idpers\", \"$numSecu\" ,0)";
-		$q=Query($r); 
+			$r2="INSERT INTO planning VALUES (\"$serviceI\", \"$creneau\", \"$Idpers\", \"$numSecu\" ,0)";
+			$q2=Query($r2); 
 
 			#On écrit dans le fichier de l'utilisateur
-		WriteUserLog("$date : ajout de l'intervention $serviceI pour le patient $numSecu au créneau $creneau \r\n"); 
+			WriteUserLog("$date : ajout de l'intervention $serviceI pour le patient $numSecu au créneau $creneau \r\n"); 
 
 			#On écrit dans le fichier service
-		WriteInterventionLog("$date : ajout de l'intervention $creneau pour le patient $numSecu \r\n", $serviceI); 
+			WriteInterventionLog("$date : ajout de l'intervention $creneau pour le patient $numSecu \r\n", $serviceI); 
+		}
 
 	}catch (Exception $e){
 			#Si il y a une erreur de query
@@ -350,7 +370,7 @@ function FactureIntervention($chaine) {
 #SearchDay(...)= On récupère les interventions selon la demi-journée
 function SearchDay($date,$halfDay) {
 	try{
-		$attributes = array('ID_service_int', 'mail', 'nom', 'prenom', 'planning.num_secu', 'jour', 'heure');
+		$attributes = array('service_intervention.nom', 'personne.nom', 'prenom', 'planning.num_secu', 'mail', 'jour', 'heure');
 		#Attributes must be in comprehensive order to print further
 		$query = 'SELECT ';
 
@@ -362,7 +382,7 @@ function SearchDay($date,$halfDay) {
 			$query = $query . $attribute;
 		}
 
-		$query = $query . ' FROM (creneau NATURAL JOIN planning NATURAL JOIN personne) JOIN personnel ON personnel.ID_personnel = planning.ID_personnel WHERE jour = "' . $date . '" AND heure BETWEEN ';
+		$query = $query . ' FROM ((creneau NATURAL JOIN planning NATURAL JOIN personne) JOIN personnel ON personnel.ID_personnel = planning.ID_personnel) JOIN service_intervention ON planning.ID_service_int = service_intervention.ID_service_int WHERE jour = "' . $date . '" AND heure BETWEEN ';
 
 		if ($halfDay == "morning"){
 			$query = $query . '"08:30:00" AND "12:00:00"';
@@ -866,15 +886,16 @@ function CheckSurbooking($ID_service_int) {
 		#On check si surbooking 
 		$i=0; 
 		while ($i < count($array_nb)) {
-			if ($array_nb[$i+1] >= $nb_creneaux){
+			if ($array_nb[$i+1] > $nb_creneaux){
 				return(True);
 			} 
 			$i = $i +2; 
 		}
+		echo "Pas de surbooking";
 		return(False);
 	} catch (Exception $e) {
 			#Si il y a une erreur de query 
-		echo " ";
+		echo "Pas de surbooking";
 	}
 }  
 
@@ -1076,7 +1097,7 @@ function returnPatient($array){
 function PrintSchedule($service) {
 			# date A CHANGER EN VERSION FINALE
 	$date = date("2017-11-13");
-	$query1 = 'SELECT nom, prenom, jour, heure, ID_service_int, mail FROM (creneau NATURAL JOIN planning NATURAL JOIN personne) JOIN personnel ON planning.ID_personnel = personnel.ID_personnel WHERE jour = "' . $date . '" AND ID_service_int = "' . $service . '"';
+	$query1 = 'SELECT personne.nom, prenom, jour, heure, service_intervention.nom, mail FROM ((creneau NATURAL JOIN planning NATURAL JOIN personne) JOIN personnel ON planning.ID_personnel = personnel.ID_personnel) JOIN service_intervention ON planning.ID_service_int = service_intervention.ID_service_int WHERE jour = "' . $date . '" AND planning.ID_service_int = "' . $service . '"';
 	echo "<br><br>";
 	echo "<h2>Interventions du jour</h2>";
 	try {

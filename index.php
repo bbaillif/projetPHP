@@ -158,9 +158,9 @@ session_start();
 		}
 
 		elseif ($_SESSION['right'] == '2') {
-			#if (CheckSurbooking($_SESSION['service'])){
+			if (CheckSurbooking($_SESSION['service'])){
 				echo "Attention : il y a un surbooking, pour le gérer cliquer <a href=\"?action=surbooking\"><u>ici</u></a>";
-			#}
+			}
 			PrintSchedule($_SESSION['service']);
 			echo '<br>';
 			echo '<p class = "bouton"> <a href="?action=changeDay">Modifier demi-journée</a> </p>' . "\n";

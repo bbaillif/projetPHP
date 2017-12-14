@@ -1,0 +1,45 @@
+function CheckSurbooking($ID_service_int) {
+		#Déclaration des variables 
+	$heure = date("H:i:s");
+
+	try{
+		#On récupère le nombre de créneaux théoriques 
+			$r = "SELECT nb_creneaux FROM service_intervention WHERE ID_service_int = \"$ID_service_int\"";
+			$q = Query($r); 
+			$nb_creneaux = mysqli_fetch_array($q)[0];
+
+		#Si on est le matin 
+		if ($heure < "12:30:00"){
+			#On prend les interventions du matin 
+			$r_nbcreneaux = "SELECT ID_creneau, COUNT(ID_creneau) FROM planning NATURAL JOIN creneau WHERE ID_service_int = \"$ID_service_int\" AND jour = CURRENT_DATE() AND heure BETWEEN \"8:00:00\" AND \"12:30:00\" GROUP BY ID_creneau"; 
+			$q_nbcreneaux = Query($r_nbcreneaux); 
+			$array_nb = []; 
+			while ($nuplet = mysqli_fetch_array($q_nbcreneaux)) {
+				array_push($array_nb, $nuplet[0], $nuplet[1]);
+			}
+
+		#Si c'est l'après-midi
+		} elseif ("12:30:00" < $heure){
+				#On prend les interventions de l'après-midi 
+			$r_nbcreneaux = "SELECT ID_creneau, COUNT(ID_creneau)  FROM planning NATURAL JOIN creneau WHERE ID_service_int = \"$ID_service_int\" AND jour = CURRENT_DATE() AND heure BETWEEN \"13:00:00\" AND \"18:00:00\" GROUP BY ID_creneau"; 
+			$q_nbcreneaux = Query($r_nbcreneaux); 
+			$array_nb = []; 
+			while ($nuplet = mysqli_fetch_array($q_nbcreneaux)) {
+				array_push($array_nb, $nuplet[0], $nuplet[1]);
+			}
+		}
+
+		#On check si surbooking 
+		$i=0; 
+		while ($i < count($array_nb)) {
+			if ($array_nb[$i+1] >= $nb_creneaux){
+				return(True);
+			} 
+			$i = $i +2; 
+		}
+		return(False);
+	} catch (Exception $e) {
+			#Si il y a une erreur de query 
+		echo " ";
+	}
+}  

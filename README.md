@@ -114,3 +114,10 @@ UPDATE service_intervention SET nb_creneaux=1 WHERE nom='opération'
 - mettre à jour le NU : ok !
 
 > à finir : EDT et checksurbooking  
+
+Modifications du 14/12 soirée (Ben) : 
+- Affichage de tableau pour les interventions
+- Urgence sans patient génère une intervention avec un patient sans num_secu.
+Dans ma BDD, j'ai mis une personne avec comme nom Inconnu et prenom Inconnu associé à ce numéro d'urgence
+- Si on refait urgence sans patient alors qu'on a déjà un patient inconnu à ce créneau, ça ne créé pas d'autre urgence, le chef d'intervetion doit d'abord associer un patient.
+-Surbooking OK 

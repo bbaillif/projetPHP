@@ -11,3 +11,31 @@
 13/12/2017 18:41 : facturation  de l'intervention ME50A9 du patient emergency 
 13/12/2017 18:42 : facturation  de l'intervention  du patient  
 13/12/2017 18:45 : facturation  de l'intervention ME50A9 du patient  
+14/12/2017 14:45 : ajout de l'intervention INT004 pour le patient  au créneau JE50A4 
+14/12/2017 14:45 : ajout de l'urgence du patient  pour intervention dans INT004 au créneau JE50A4 
+14/12/2017 14:45 : ajout de l'intervention INT004 pour le patient  au créneau JE50A4 
+14/12/2017 14:45 : ajout de l'urgence du patient  pour intervention dans INT004 au créneau JE50A4 
+14/12/2017 14:45 : ajout de l'intervention INT004 pour le patient  au créneau JE50A4 
+14/12/2017 14:45 : ajout de l'urgence du patient  pour intervention dans INT004 au créneau JE50A4 
+14/12/2017 14:45 : ajout de l'intervention INT004 pour le patient  au créneau JE50A4 
+14/12/2017 14:45 : ajout de l'urgence du patient  pour intervention dans INT004 au créneau JE50A4 
+14/12/2017 14:45 : ajout de l'intervention INT004 pour le patient  au créneau JE50A4 
+14/12/2017 14:45 : ajout de l'urgence du patient  pour intervention dans INT004 au créneau JE50A4 
+14/12/2017 15:20 : connection 
+14/12/2017 15:39 : ajout de l'urgence du patient  pour intervention dans INT004 au créneau JE50A6 
+14/12/2017 15:39 : ajout de l'urgence du patient  pour intervention dans INT004 au créneau JE50A6 
+14/12/2017 15:40 : ajout de l'urgence du patient  pour intervention dans INT004 au créneau JE50A6 
+14/12/2017 15:41 : ajout de l'urgence du patient  pour intervention dans INT004 au créneau JE50A6 
+14/12/2017 15:42 : ajout de l'urgence du patient  pour intervention dans INT004 au créneau JE50A6 
+14/12/2017 15:43 : ajout de l'intervention INT004 pour le patient  au créneau JE50A6 
+14/12/2017 15:43 : ajout de l'urgence du patient  pour intervention dans INT004 au créneau JE50A6 
+14/12/2017 15:43 : ajout de l'urgence du patient  pour intervention dans INT004 au créneau JE50A6 
+14/12/2017 15:52 : ajout de l'intervention INT004 pour le patient  au créneau JE50A6 
+14/12/2017 15:52 : ajout de l'urgence du patient  pour intervention dans INT004 au créneau JE50A6 
+14/12/2017 15:55 : ajout de l'intervention INT004 pour le patient  au créneau JE50A6 
+14/12/2017 15:55 : ajout de l'urgence du patient  pour intervention dans INT004 au créneau JE50A6 
+14/12/2017 15:55 : ajout de l'urgence du patient  pour intervention dans INT004 au créneau JE50A6 
+14/12/2017 15:57 : ajout de l'intervention INT004 pour le patient  au créneau JE50A6 
+14/12/2017 15:57 : ajout de l'urgence du patient  pour intervention dans INT004 au créneau JE50A6 
+14/12/2017 15:58 : ajout de l'intervention INT004 pour le patient 112233 au créneau JE50A6 
+14/12/2017 15:58 : ajout de l'urgence du patient 112233 pour intervention dans INT004 au créneau JE50A6 
