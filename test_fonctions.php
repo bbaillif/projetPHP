@@ -93,7 +93,7 @@
 	#print_r(ReturnIntervention($a));
 
 	#essai UpdatedUL
-	#print(UpdatedUL("111023370509701","4"));
+	UpdatedUL("111023370509701",2);
 
 	#Search Patient 
 	#$array = array('name' => "",
@@ -141,12 +141,12 @@
 	#$c = "MA46A9 D";
 	#FactureIntervention($c);
 
-	if ("08:00:00" < "08:10:00"){
-		print("ok");
-	}
+	#if ("08:00:00" < "08:10:00"){
+	#	print("ok");
+	#}
 	#print(date('W',strtotime("2018-01-01")));
 
-	changeWindow(30);
+	#changeWindow(30);
 	#Test AddNumSecuInt
 	#AddNumSecuInt('2288', 'JE50M9', 'INT001');
 	?> 

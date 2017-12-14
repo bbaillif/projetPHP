@@ -23,19 +23,33 @@
 	<div id = "body">
 	<?php
 		if (isset($_POST['deleteIntervention'])) {
-			DeleteIntervention($_POST['value']);
-			header('Location: ./interventionDeleted.php');
+			if (!empty($_POST['value'])){
+				DeleteIntervention($_POST['value']);
+				header('Location: ./interventionDeleted.php');
+				exit();
+			}
 		}
 		elseif (isset($_POST['factureIntervention'])) {
 			if (!empty($_POST['value'])){
 				FactureIntervention($_POST['value']);
 				header('Location: ./interventionFactured.php');
+				exit();
 			}
 		}
-		elseif (isset($_POST['addPatientE'])) {
+		elseif (isset($_POST['addPatientEmergency'])) {
 			if (!empty($_POST['value'])){
-				AddNumSecuInt($_SESSION['patientID'], $_POST['value'], $_POST['service']);
-				header('Location: ./interventionUpdated.php');
+				$_SESSION['action']= 'addPatientEmergency';
+				$_SESSION['ID_intervention']= $_POST['value'];
+				header('Location: ./patient.php');
+				exit();
+			}
+		}
+		elseif (isset($_POST['searchPatientEmergency'])) {
+			if (!empty($_POST['value'])){
+				$_SESSION['action']= 'searchPatientEmergency';
+				$_SESSION['ID_intervention']= $_POST['value'];
+				header('Location: ./patient.php');
+				exit();
 			}
 		}
 		else {
@@ -88,21 +102,19 @@
 				echo '<br><input type="submit" name="factureIntervention" value="Facturer" /><br>' . "\n";
 			}
 		}
-		elseif ($_SESSION['action'] == 'addPatientE'
-		OR $_SESSION['action'] =='searchPatientE') {
-			echo "<h1>Recherche terminée. Choisir quelle intervention vous souhaitez affilier à votre patient: </h1>";
-			$interventions = SearchIntervention("", "", $_SESSION['service'], $_SESSION['uid'] );
+		elseif ($_SESSION['action'] == 'patientEmergency') {
+			echo "<h1>Recherche terminée. Choisir à quelle intervention vous voulez affilier à un patient : </h1>";
+			$interventions = SearchIntervention($_POST, "", $_SESSION['service'], $_SESSION['uid']) ;
 			if (!empty($interventions)) {
 				foreach ($interventions as $idx => $info_array) {
-					if ($interventions[$idx]['num_secu']==""){
-						$ID_intervention = $interventions[$idx]['ID_creneau'] . ' ' . $interventions[$idx]['num_secu'];
-						echo '<input type="radio" name="value" value="' . $ID_intervention . '">' . "\n";
-						$infosToSentence = array($info_array['ID_creneau'], $info_array['ID_service_int']);
-						$sentence = ReturnIntervention($infosToSentence);
-						echo $sentence[0];
-					}
+					$ID_intervention = $interventions[$idx]['ID_creneau'];
+					echo '<input type="radio" name="value" value="' . $ID_intervention . '">' . "\n";
+					$infosToSentence = array($info_array['ID_creneau'], $info_array['ID_service_int']);
+					$sentence = ReturnIntervention($infosToSentence);
+					echo $sentence[0];
 				}
-				echo '<br><input type="submit" name="addPatientE" value="Submit" /><br>' . "\n";
+				echo '<br><input type="submit" name="searchPatientEmergency" value="Rechercher un patient" />' . "\n";
+				echo '<br><input type="submit" name="addPatientEmergency" value="Ajouter un patient" /><br>' . "\n";
 			}
 		}
 		else {

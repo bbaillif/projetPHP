@@ -41,10 +41,14 @@
 			elseif ($_SESSION['action'] == 'addPatient'
 				OR $_SESSION['action'] == 'emergencyWithNewPatient'
 				OR $_SESSION['action'] == 'addPatientIntervention'
-				OR $_SESSION['action'] == 'addPatientE') {
+				OR $_SESSION['action'] == 'addPatientEmergency') {
 				if (!EmptyValue($_POST)) {
 					if (!PatientUnknown($_POST) AND $_SESSION['action'] == 'addPatient') {
 						$_SESSION['action'] = 'updatePatient';
+						$_SESSION['patientID'] = $_POST['ssNumber'];
+					}
+					elseif (!PatientUnknown($_POST) AND $_SESSION['action'] == 'addPatientEmergency') {
+						$_SESSION['action'] = 'searchPatientEmergency';
 						$_SESSION['patientID'] = $_POST['ssNumber'];
 					}
 					else {
@@ -63,9 +67,9 @@
 							header('Location: ./askIntervention.php');
 							exit();
 						}
-						elseif ($_SESSION['action'] == 'addPatientE') {
-							$_SESSION['patientID'] = $_POST['ssNumber'];
-							header('Location: ./searchIntervention.php');
+						elseif ($_SESSION['action'] == 'addPatientEmergency') {
+							AddNumSecuInt($_POST['ssNumber'], $_SESSION['ID_intervention'], $_SESSION['service']);
+							header('Location: ./interventionUpdated.php');
 							exit();
 						}
 					}
@@ -87,8 +91,7 @@
 	?>
 
 	<?php
-		if ($_SESSION['action'] == 'addPatient'
-		OR $_SESSION['action'] == 'addPatientE') {
+		if ($_SESSION['action'] == 'addPatient') {
 			echo '<h1>Rédaction de fiche patient</h1>' . "\n";
 			echo '<form action="patient.php?filled=True" method="post">'. "\n";
 		}
@@ -100,8 +103,11 @@
 			echo '<h1>Rédaction de fiche patient pour une urgence</h1>' . "\n";
 			echo '<form action="patient.php?filled=True" method="post">'. "\n";
 		}
-		elseif ($_SESSION['action'] == 'searchPatient' 
-		OR $_SESSION['action'] == 'searchPatientE') {
+		elseif ($_SESSION['action'] == 'addPatientEmergency') {
+			echo '<h1>Rédaction de fiche patient après une urgence</h1>' . "\n";
+			echo '<form action="patient.php?filled=True" method="post">'. "\n";
+		}
+		elseif ($_SESSION['action'] == 'searchPatient' OR $_SESSION['action'] == 'updateEL') {
 			echo '<h1>Recherche de patient</h1>'. "\n"; 
 			echo '<form action="resultsPatient.php" method="post">'. "\n";
 		}
@@ -111,6 +117,10 @@
 		}
 		elseif ($_SESSION['action'] == 'emergencyWithExistingPatient') {
 			echo '<h1>Recherche de patient pour une urgence</h1>'. "\n"; 
+			echo '<form action="resultsPatient.php" method="post">'. "\n";
+		}
+		elseif ($_SESSION['action'] == 'searchPatientEmergency') {
+			echo '<h1>Recherche de patient</h1>'. "\n"; 
 			echo '<form action="resultsPatient.php" method="post">'. "\n";
 		}
 		elseif ($_SESSION['action'] == 'updatePatient') {
@@ -142,9 +152,10 @@
 			OR $_SESSION['action'] == 'addPatientIntervention' 
 			OR $_SESSION['action'] == 'emergencyWithNewPatient'
 			OR $_SESSION['action'] == 'searchPatient'
+			OR $_SESSION['action'] == 'updateEL'
 			OR $_SESSION['action'] == 'emergencyWithExistingPatient'
-			OR $_SESSION['action'] == 'addPatientE'
-			OR $_SESSION['action'] == 'searchPatientE'){
+			OR $_SESSION['action'] == 'addPatientEmergency'
+			OR $_SESSION['action'] == 'searchPatientEmergency'){
 				echo "<p> Nom <input type=\"text\" name=\"surname\"/> </p>";
 				echo "<p> Prénom <input type=\"text\" name=\"name\" /> </p>";
 				#Pour le sexe, menu déroulant

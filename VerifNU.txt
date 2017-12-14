@@ -19,3 +19,11 @@
 13/12/2017 13:41 : dernier a un AVC avec NU=2
 13/12/2017 17:47 : PPPPPPPPPPPPPPP a un angine avec NU=2
 13/12/2017 18:27 : 269039584447537 a un angine avec NU=2
+14/12/2017 11:24 : urgence a un AVC avec NU=3
+14/12/2017 19:09 : try a un angine avec NU=1
+14/12/2017 21:48 : 111023370509701 a un AVC avec NU=-1
+14/12/2017 21:50 : 111023370509701 a un AVC avec NU=2
+14/12/2017 21:50 : 111023370509701 a un AVC avec NU=5
+14/12/2017 21:50 : 111023370509701 a un AVC avec NU=10
+14/12/2017 21:51 : 111023370509701 a un AVC avec NU=10
+14/12/2017 21:51 : annnn a un angine avec NU=2

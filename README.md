@@ -100,3 +100,17 @@ MANQUE ENCORE (par rapport aux spécifications) :
 > on a des créneaux de 30 minutes, il faudrait pouvoir gérer que des interventions soient moins de 30 minutes... 
 > gérer le surbooking (utiliser la table surbooking) 
 > est-ce qu'on gére ajouter des informations sur un patient arrivé en urgence (sans patient?)
+
+Modifications du 14/12 : 
+- ajout du nombre de créneaux 
+"ALTER TABLE service_intervention ADD nb_creneaux INT(1)"
+UPDATE service_intervention SET nb_creneaux=2 WHERE nom='radiologie'
+UPDATE service_intervention SET nb_creneaux=1 WHERE nom='IRM'
+UPDATE service_intervention SET nb_creneaux=3 WHERE nom='laboratoire'
+UPDATE service_intervention SET nb_creneaux=1 WHERE nom='opération'
+- modifications de SearchFreeTime => prend en compte le nombre de créneaux maintenant
+- modifications de CheckSurbooking => prend en compte le nombre de créneaux maintenant
+- écriture de gérer le surbooking mais ça ne marche pas :( 
+- mettre à jour le NU : ok !
+
+> à finir : EDT et checksurbooking  

@@ -34,7 +34,8 @@ session_start();
 
 			elseif ($_SESSION['right'] == '1') {
 				if ($_SESSION['action'] == 'addPatient' 
-					OR $_SESSION['action'] == 'searchPatient') {
+					OR $_SESSION['action'] == 'searchPatient' 
+					OR $_SESSION['action'] == 'updateEL') {
 					header('Location: ./patient.php');
 					exit();
 				}
@@ -57,6 +58,10 @@ session_start();
 					header('Location: ./searchDay.php');
 					exit();
 				}
+				elseif ($_SESSION['action'] == 'surbooking') {
+					header('Location: ./changeDay.php');
+					exit();
+				}
 				elseif ($_SESSION['action'] == 'emergencyWithNewPatient'
 					OR $_SESSION['action'] == 'emergencyWithExistingPatient') {
 					header('Location: ./patient.php');
@@ -70,8 +75,8 @@ session_start();
 					header('Location: ./searchIntervention.php');
 					exit();
 				}
-				elseif ($_SESSION['action'] == 'addPatientEmergency') {
-					header('Location: ./addPatientEmergency.php');
+				elseif ($_SESSION['action'] == 'patientEmergency') {
+					header('Location: ./searchIntervention.php');
 					exit();
 				}
 				else {
@@ -146,20 +151,24 @@ session_start();
 			echo '<br><br>';
 			echo '<p class = "bouton"> <a href="?action=addPatient">Créer patient</a> </p>' . "\n";
 			echo '<p class = "bouton"> <a href="?action=searchPatient">Rechercher patient</a> </p>' . "\n";
+			echo '<p class = "bouton"> <a href="?action=updateEL">Mettre à jour le niveau d\'urgence</a> </p>' . "\n";
 			echo '<p class = "bouton"> <a href="?action=addIntervention">Créer intervention</a> </p>' . "\n";
 			echo '<p class = "bouton"> <a href="?action=deleteIntervention">Supprimer intervention</a> </p>' . "\n";
 			echo '<p class = "bouton"> <a href="?action=seeFacturedIntervention">Voir interventions facturées</a> </p>' . "\n";
 		}
 
 		elseif ($_SESSION['right'] == '2') {
+			#if (CheckSurbooking($_SESSION['service'])){
+				echo "Attention : il y a un surbooking, pour le gérer cliquer <a href=\"?action=surbooking\"><u>ici</u></a>";
+			#}
 			PrintSchedule($_SESSION['service']);
 			echo '<br>';
 			echo '<p class = "bouton"> <a href="?action=changeDay">Modifier demi-journée</a> </p>' . "\n";
 			echo '<p class = "bouton"> <a href="?action=emergencyWithoutPatient">Insérer une urgence immédiate (sans patient)</a> </p>' . "\n";
+			echo '<p class = "bouton"> <a href="?action=patientEmergency">Ajouter un patient rentré en urgence</a> </p>' . "\n";
 			echo '<p class = "bouton"> <a href="?action=emergencyWithNewPatient"> Insérer une urgence avec un nouveau patient</a> </p>' . "\n";
 			echo '<p class = "bouton"> <a href="?action=emergencyWithExistingPatient"> Insérer une urgence avec un patient connu</a> </p>' . "\n";
 			echo '<p class = "bouton"> <a href="?action=factureIntervention">Facturer</a> </p><br>' . "\n";
-			echo '<p class = "bouton"> <a href="?action=addPatientEmergency">Ajouter un patient rentré en urgence</a> </p><br>' . "\n";
 		}
 
 		elseif ($_SESSION['right'] == '0') {

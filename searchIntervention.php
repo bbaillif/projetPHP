@@ -35,8 +35,7 @@
 			echo '<h1>Recherche d\'une intervention à facturer</h1>' . "\n";
 			echo '<form action="resultsIntervention.php" method="post">'. "\n";
 		}
-		elseif ($_SESSION['action'] == 'addPatientE'
-		OR $_SESSION['action'] =='searchPatientE') {
+		elseif ($_SESSION['action'] == 'patientEmergency') {
 			echo '<h1>Recherche d\'une intervention sans patient</h1>' . "\n";
 			echo '<form action="resultsIntervention.php" method="post">'. "\n";
 		}
@@ -44,12 +43,19 @@
 			header('Location: ./index.php');
 		}
 
-	?>
+		?>
 
 		Début de la recherche <input type="date" name="startingDate"/><br>
 		Fin de la recherche <input type="date" name="endingDate"/><br>
-		Numéro de sécurité sociale <input type="text" name="ssNumber"/><br>
 
+		<?php
+		if ($_SESSION['action'] == 'patientEmergency'){
+			#pas de numéro de sécu
+			echo "Numéro de sécurité sociale <input type=\"text\" name=\"ssNumber\" value=\"\" readonly /><br>";
+		} else {
+			echo "Numéro de sécurité sociale <input type=\"text\" name=\"ssNumber\"/><br>";
+		}
+	?>
         <input type="submit" value="Valider" /><br>
     </form>
 
