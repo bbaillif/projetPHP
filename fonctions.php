@@ -722,7 +722,7 @@ function PrintFreeTime ($freetime_array, $EL) {
 # Return nothing
 function PrintFooter() {
 	echo '<div id="footer"> 2017 - projet HTML/CSS/PHP <br>';
-	Debugage();
+	#Debugage();
 	echo 'Benoit Baillif - Solène Guiglion - Léa Wadbled</div>';
 }
 
