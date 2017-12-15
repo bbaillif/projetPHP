@@ -32,7 +32,8 @@
 		} 
 		elseif (isset($_POST['updatePatientEL'])) {
 			if (!empty($_POST['patient_idx'])){
-				$array = array('ssNumber'=>$_POST['patient_idx'], 'surname'=>'', 'name'=>'', 'gender'=>'', 'birthday'=>'', 'pathology'=>'', 'emergencyLevel'=>'');
+				#$array = array('ssNumber' => $_POST['patient_idx'], 'surname'=>'', 'name'=>'', 'gender'=>'', 'birthday'=>'', 'pathology'=>'', 'emergencyLevel'=>'');
+				$array = array('ssNumber' => $_POST['patient_idx'], 'startingDate' => date("Y-m-d"), 'endingDate' => '');
 				$interventions = SearchIntervention($array, "", "", $_SESSION['uid']);
 				if (!empty($interventions[0])){
 					$patients_array=SearchPatient($array);
@@ -69,7 +70,7 @@
 			header('Location: ./patient.php');
 			exit();
 		}
-		elseif (isset($_POST['choosePatientE'])) {
+		elseif (isset($_POST['choosePatientE2'])) {
 			if (!empty($_POST['patient_idx'])){
 				AddNumSecuInt($_POST['patient_idx'], $_SESSION['ID_intervention'], $_SESSION['service']);
 				header('Location: ./interventionUpdated.php');
@@ -87,8 +88,8 @@
 			OR $_SESSION['action'] == 'addIntervention'
 			OR $_SESSION['action'] =='searchPatientEmergency'){
 			if(empty($_POST['ssNumber'])){
-				#header('Location: ./patient.php');
-				#exit();
+				header('Location: ./patient.php');
+				exit();
 			}
 			else {
 				echo '<form action="resultsPatient.php" method="post">';
@@ -115,7 +116,7 @@
 					echo '<br><input type="submit" name="choosePatientEmergency" value="Choisir le patient sélectionné" /><br>' . "\n";
 				}
 				elseif ($_SESSION['action'] == 'searchPatientEmergency') {
-					echo '<br><input type="submit" name="choosePatientE" value="Choisir le patient sélectionné" /><br>' . "\n";
+					echo '<br><input type="submit" name="choosePatientE2" value="Choisir le patient sélectionné" /><br>' . "\n";
 				}
 			}
 

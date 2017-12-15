@@ -96,7 +96,7 @@
 				}
 			}
 			$dayToChange = date("Y-m-d");
-			if (date("H:i:s")>="13:00:00"){
+			if (date("H:i:s")>="12:00:00"){
 				$halfDay="afternoon";
 			} 
 			else {

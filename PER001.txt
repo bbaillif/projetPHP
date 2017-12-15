@@ -1,17 +1,1 @@
-13/12/2017 18:03 : connection 
-14/12/2017 11:12 : connection 
-14/12/2017 11:14 : ajout du patient 123 
-14/12/2017 11:36 : connection 
-14/12/2017 11:36 : ajout du patient 456 
-14/12/2017 11:36 : ajout de l'intervention INT001 pour le patient 456 au créneau JE50M9 
-14/12/2017 11:36 : ajout de l'urgence du patient 456 pour intervention dans INT001 au créneau JE50M9 
-14/12/2017 11:37 : ajout de l'intervention INT001 pour le patient 123 au créneau JE50M9 
-14/12/2017 11:37 : ajout de l'urgence du patient 123 pour intervention dans INT001 au créneau JE50M9 
-14/12/2017 11:39 : ajout de l'intervention INT001 pour le patient  au créneau JE50M9 
-14/12/2017 11:39 : ajout de l'urgence du patient  pour intervention dans INT001 au créneau JE50M9 
-14/12/2017 12:23 : connection 
-14/12/2017 14:09 : connection 
-14/12/2017 14:17 : connection 
-14/12/2017 15:07 : connection 
-14/12/2017 17:04 : ajout du patient 2288 
-14/12/2017 17:12 : ajout du patient 8899 
+15/12/2017 10:50 : connection 

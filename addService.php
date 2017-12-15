@@ -30,6 +30,7 @@
 			echo "<br>";
 			echo '<form action="interventionServiceAdded.php" method="post">' . "\n";
 			echo 'Ajouter un service d\'intervention : <input type="text" name="interventionServiceToAdd">' . "\n";
+			echo 'Nombre de creneau du service d\'intervention<input type="number" name="nbcreneau" min="1" max="5">' . "\n";
 			echo '<input type="submit" value="Ajouter">' . "\n";
 			echo '</form>' . "\n";
 		?>

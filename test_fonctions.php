@@ -93,7 +93,7 @@
 	#print_r(ReturnIntervention($a));
 
 	#essai UpdatedUL
-	UpdatedUL("111023370509701",2);
+	#UpdatedUL("111023370509701",2);
 
 	#Search Patient 
 	#$array = array('name' => "",
@@ -112,11 +112,6 @@
 	#Delete intervention 
 	#DeleteIntervention("A","B");
 
-	#Essai de Update intervention
-	#$array1 = array('hour' => "09:00:00", 'service_int' => "INT004" , 'ssNumber' => "111023370509701", 'day'=>"2017/11/13");
-	#$array2 = array('hour' => "17:00:00", 'service_int' => "INT004" , 'ssNumber' => "111023370509701", 'day'=>"2017/11/13");
-	#UpdateIntervention($array1,$array2);
-
 	#CheckSurbooking("INT004");
 
 	#$old = array(array('day'=>"1",'service_int'=>2,'ssNumber'=>3),array('day'=>"3",'service_int'=>5,'ssNumber'=>7));
@@ -130,8 +125,8 @@
 	#$array = array('startingDate' => '2017-11-10', 'endingDate' => '', 'patientName' => "");
 	#$res = SearchInterventionF($array); 
 	#print(WhichService("PER001")); 
-
-	#print_r(ReturnIntervention($res));
+	$arr = array('0' => 'JE50A6', '1' => "INT004");
+	print_r(ReturnIntervention($arr));
 	#$chaine = "A B" ;
 	#$pieces = explode(" ", $chaine);
 	#print($pieces[0]); 

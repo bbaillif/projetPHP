@@ -23,8 +23,7 @@
 	<div id = "body">
 	<h1>Utilisateur créé</h1>
 
-	<?php 
-		print_r($_POST);
+	<?php
 		if (emptyValue($_POST)){
 			header('Location: ./addUser.php');
 		}

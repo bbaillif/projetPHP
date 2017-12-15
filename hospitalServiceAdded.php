@@ -23,7 +23,7 @@
 	<div id = "body">
 	<?php
 		if(!empty($_POST["hospitalServiceToAdd"])){
-			AddService($_POST["hospitalServiceToAdd"],"accueil");
+			AddService($_POST["hospitalServiceToAdd"],"accueil", 0);
 		}
 		else {
 			header("Location: ./addService.php");

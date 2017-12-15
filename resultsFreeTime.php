@@ -22,8 +22,6 @@
 
 	<div id = "body">
 	<?php
-		print_r($_POST); 
-		print_r($_SESSION);
 		if ($_SESSION['action'] == 'addIntervention'){
 			if (empty($_SESSION['EL']) && empty($_SESSION['intervention'])){
 				$_SESSION['EL'] = $_POST['interventionEmergencyNumber'];

@@ -22,8 +22,8 @@
 
 	<div id = "body">
 	<?php
-		if(!empty($_POST["interventionServiceToAdd"])){
-			AddService($_POST["interventionServiceToAdd"],"intervention");
+		if(!empty($_POST["interventionServiceToAdd"]) AND !empty($_POST['nbcreneau'])){
+			AddService($_POST["interventionServiceToAdd"],"intervention", $_POST['nbcreneau']);
 		}
 		else {
 			header("Location: ./addService.php");

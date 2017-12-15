@@ -40,13 +40,13 @@
 		echo '<br>';
 
 		echo '<form action="interventionServiceDeleted.php" method="post">' . "\n";
-		echo 'Supprimer service d\'intervetion : <select name = "interventionServiceToDelete">' . "\n";
+		echo 'Supprimer service d\'intervention : <select name = "interventionServiceToDelete">' . "\n";
 		echo "<option value = \"\" selected hidden></option>";
 		$array = ReturnService ("intervention");
 		$i = 0; 
 		while ($i < count($array)){
 			print("<option value = \"$array[$i]\">".$array[$i+1]."</option>"); 
-			$i=$i+2;
+			$i = $i+2;
 		}
 		echo '</select>' . "\n";
 		echo '<input type="submit" value="Supprimer">' . "\n";

@@ -33,7 +33,7 @@ session_start();
 
 		?>
 
-		Jour <input type="date" name="dayToChange" value="2017-11-13" /><br>
+		Jour <input type="date" name="dayToChange"/><br>
 		Demi-journée <select name="halfDay">
 		<option value="morning" selected="selected">Matin</option>
 		<option value="afternoon">Après-midi</option>

@@ -120,7 +120,7 @@
 			echo '<form action="resultsPatient.php" method="post">'. "\n";
 		}
 		elseif ($_SESSION['action'] == 'searchPatientEmergency') {
-			echo '<h1>Recherche de patient</h1>'. "\n"; 
+			echo '<h1>Recherche de patient pour remplir une urgence prévue</h1>'. "\n"; 
 			echo '<form action="resultsPatient.php" method="post">'. "\n";
 		}
 		elseif ($_SESSION['action'] == 'updatePatient') {

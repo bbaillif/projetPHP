@@ -41,10 +41,10 @@
 			#If no error : user can access the website
 			if ($userInfoArray['right'] != "" && $userInfoArray['ID'] != ""){
 				$_SESSION['right'] = $userInfoArray['right'];
-				$_SESSION['uid'] = $username; 
+				$_SESSION['uid'] = $username;
 
-				if ($_SESSION['right']==2){
-					$_SESSION['service'] = WhichService($username);
+				if ($_SESSION['right'] == 2){
+					$_SESSION['service'] = WhichService($username, 'intervention')[0];
 				}
 
 				#Write in the user's file : 
@@ -53,6 +53,7 @@
 
 				#Move onto next page
 				header('Location: ./index.php');
+				exit();
 			} 
 			#If an error : user needs to try again
 			else {

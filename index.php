@@ -147,8 +147,15 @@ session_start();
 			}
 		}
 
+		$surname_name = ReturnUsername($_SESSION['uid']);
+		echo 'Page d\'accueil de : ';
+		foreach ($surname_name as $key => $value) {
+			echo $value . ' ';
+		}
+
 		if ($_SESSION['right'] == '1') {
 			echo '<br><br>';
+			echo 'Medecin du service : ' . WhichService($_SESSION['uid'], 'accueil')[1];
 			echo '<p class = "bouton"> <a href="?action=addPatient">Créer patient</a> </p>' . "\n";
 			echo '<p class = "bouton"> <a href="?action=searchPatient">Rechercher patient</a> </p>' . "\n";
 			echo '<p class = "bouton"> <a href="?action=updateEL">Mettre à jour le niveau d\'urgence</a> </p>' . "\n";
@@ -158,6 +165,7 @@ session_start();
 		}
 
 		elseif ($_SESSION['right'] == '2') {
+			echo "<br>Chef du service : " . WhichService($_SESSION['uid'], 'intervention')[1] . '<br><br>';
 			if (CheckSurbooking($_SESSION['service'])){
 				echo "Attention : il y a un surbooking, pour le gérer cliquer <a href=\"?action=surbooking\"><u>ici</u></a>";
 			}
@@ -172,6 +180,7 @@ session_start();
 		}
 
 		elseif ($_SESSION['right'] == '0') {
+			echo '<p>Administrateur du site</p>';
 			echo '<h2> Gérer les services </h2>';
 			echo '<p class = "bouton"> <a href="?action=addService">Ajouter un service</a> </p>';
 			echo '<p class = "bouton"> <a href="?action=deleteService">Supprimer un service</a> </p>';
@@ -191,7 +200,6 @@ session_start();
 			echo 'Droit non identifié';
 		}
 
-		echo '<br>'. "\n";
 		?>
 
 	</div>

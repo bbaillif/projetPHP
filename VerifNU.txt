@@ -1,1 +1,9 @@
 14/12/2017 22:10 : 111111111111 a un AVC avec NU=1
+15/12/2017 12:49 : 1234567 a un  avec NU=
+15/12/2017 12:51 : 11111145 a un  avec NU=
+15/12/2017 12:53 : 1567298 a un bradycardie avec NU=1
+15/12/2017 13:00 : 112233 a un bradycardie avec NU = 5 (defaut : 7)
+15/12/2017 13:36 : 112233 a un angine avec NU = 10 (defaut : 3)
+15/12/2017 13:42 : 1234567 a un AVC avec NU = 10 (defaut : 8)
+15/12/2017 14:25 : 1234567 a un angine avec NU = 5 (defaut : 3)
+15/12/2017 15:24 : 11 a un os casse avec NU = 10 (defaut : 6)
