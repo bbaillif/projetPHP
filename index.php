@@ -24,6 +24,7 @@ session_start();
 		<h1>Intranet Hopital Polytech</h1>
 
 		<?php
+		# If we come from a button of index.php
 		if (isset($_GET['action'])) {
 			$_SESSION['action'] = $_GET['action'];
 
@@ -138,6 +139,7 @@ session_start();
 			# Do nothing, print menu anyway
 		}
 
+		# Delete useless $_SESSION variables
 		foreach ($_SESSION as $key => $value) {
 			if ($key != 'right' AND $key != 'uid' AND $key != 'service' AND $key != 'action') {
 				unset($_SESSION[$key]);

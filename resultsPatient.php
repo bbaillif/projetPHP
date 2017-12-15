@@ -32,7 +32,6 @@
 		} 
 		elseif (isset($_POST['updatePatientEL'])) {
 			if (!empty($_POST['patient_idx'])){
-				#$array = array('ssNumber' => $_POST['patient_idx'], 'surname'=>'', 'name'=>'', 'gender'=>'', 'birthday'=>'', 'pathology'=>'', 'emergencyLevel'=>'');
 				$array = array('ssNumber' => $_POST['patient_idx'], 'startingDate' => date("Y-m-d"), 'endingDate' => '');
 				$interventions = SearchIntervention($array, "", "", $_SESSION['uid']);
 				if (!empty($interventions[0])){

@@ -22,7 +22,7 @@
 
 	<div id = "body">
 	<?php
-		# Following lines execute only after patient.php submitted from addPatient, addPatientIntervention, ou updatePatient
+		# If we come from patient.php
 		if (isset($_GET['filled'])) {
 			if ($_SESSION['action'] == 'updatePatient') {
 				if (EmptyValue($_POST)) {
@@ -88,9 +88,8 @@
 				}
 			}
 		} # end if (isset($_GET['filled']))
-	?>
 
-	<?php
+		# Write page title
 		if ($_SESSION['action'] == 'addPatient') {
 			echo '<h1>Rédaction de fiche patient</h1>' . "\n";
 			echo '<form action="patient.php?filled=True" method="post">'. "\n";
@@ -123,6 +122,7 @@
 			echo '<h1>Recherche de patient pour remplir une urgence prévue</h1>'. "\n"; 
 			echo '<form action="resultsPatient.php" method="post">'. "\n";
 		}
+
 		elseif ($_SESSION['action'] == 'updatePatient') {
 			$array = array('name' => "",
 			'surname' => "", 
@@ -164,7 +164,7 @@
 						<option value=\"F\"> Femme </option> 
 						<option value=\"H\"> Homme </option>
 						</select> </p>"; 
-				echo "<p> Numéro de sécurité sociale <input type=\"text\" name=\"ssNumber\" maxlength=\"15\"/> </p> ";
+				echo "<p> Numéro de sécurité sociale <input type=\"text\" name=\"ssNumber\" minlength=\"15\"  maxlength=\"15\"/> </p> ";
 				#Date
 				echo "<p> Date de naissance <input type=\"date\" name=\"birthday\"/> </p>"; 
 				#Pour la pathologie : menu déroulant 

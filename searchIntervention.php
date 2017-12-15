@@ -50,9 +50,9 @@
 
 		<?php
 		if ($_SESSION['action'] == 'patientEmergency'){
-			#pas de numéro de sécu
-			echo "Numéro de sécurité sociale <input type=\"text\" name=\"ssNumber\" value=\"\" readonly /><br>";
-		} else {
+			#Do nothing
+		} 
+		else {
 			echo "Numéro de sécurité sociale <input type=\"text\" name=\"ssNumber\"/><br>";
 		}
 	?>

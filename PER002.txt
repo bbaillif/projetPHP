@@ -1,8 +1,6 @@
-13/12/2017 17:32 : ajout de l'intervention INT001 pour le patient 111023370509701 au créneau ME51A2 
-13/12/2017 17:33 : ajout de l'intervention INT001 pour le patient 111023370509701 au créneau ME51M9 
-13/12/2017 17:33 : ajout de l'intervention INT001 pour le patient 111023370509701 au créneau JE51A6 
-13/12/2017 17:42 : suppression du patient () 
-13/12/2017 17:47 : ajout du patient PPPPPPPPPPPPPPP 
-14/12/2017 11:33 : connection 
-14/12/2017 14:04 : connection 
-14/12/2017 14:11 : connection 
+15/12/2017 18:04 : connection 
+15/12/2017 18:24 : ajout de l'intervention INT001 pour le patient 111111111111111 au créneau LU51M1 
+18/12/2017 18:25 : Suppression de l'intervention du service INT001 pour LU51M1 
+18/12/2017 18:26 : ajout de l'intervention INT001 pour le patient 111111111111111 au créneau MA51M1 
+15/12/2017 18:28 : ajout de l'intervention INT001 pour le patient 111111111111111 au créneau LU51M1 
+15/12/2017 18:29 : connection 

@@ -80,7 +80,7 @@ function AddPatient($patient_array) {
 
 		CheckNU($patient_array); 
 
-		WriteUserLog("$date : ajout du patient $secu \r\n");
+		WriteUserLog("$date : ajout du patient $ssNumber \r\n");
 	} catch (Exception $e){ # Error of Query()
 		echo $e -> getMessage();
 	}
@@ -295,8 +295,7 @@ function ChangeWindow($minutes){
 		$r = "TRUNCATE TABLE creneau"; 
 		$q = Query($r); 
 
-			#$date = date("Y-m-d");
-		$date = "2017-11-11";
+		$date = date("Y-m-d");
 		$day = strtotime($date); 
 		while ($day < strtotime("2018-02-01")){
 			$jour = dateName($date); 
@@ -741,8 +740,7 @@ function PrintHeader() {
 	# String service : intervention service
 # Return Nothing
 function PrintSchedule($service) {
-			# date A CHANGER EN VERSION FINALE
-	$date = date("2017-11-13");
+	$date = date("Y-m-d");
 	$query1 = 'SELECT personne.nom, prenom, jour, heure, service_intervention.nom, mail FROM ((creneau NATURAL JOIN planning NATURAL JOIN personne) JOIN personnel ON planning.ID_personnel = personnel.ID_personnel) JOIN service_intervention ON planning.ID_service_int = service_intervention.ID_service_int WHERE jour = "' . $date . '" AND planning.ID_service_int = "' . $service . '"';
 	echo "<br><br>";
 	echo "<h2>Interventions du jour</h2>";
@@ -893,6 +891,9 @@ function ReturnService ($type) {
 		elseif ($type == "accueil") {
 			$r = "SELECT ID_service_acc, nom FROM service_accueil"; 
 		}
+		else {
+			throw new Exception("<p>Type de service incorrect</p>"); 
+		}
 		$q = Query($r);
 		$array = []; 
 		while ($nuplet = mysqli_fetch_array($q)) {
@@ -946,6 +947,9 @@ function SearchDay($date,$halfDay) {
 		} 
 		elseif ($halfDay == "afternoon") {
 			$query = $query . '"13:30:00" AND "17:30:00"';
+		}
+		else {
+			throw new Exception("<p>Demi-journée incorrecte</p>"); 
 		}
 
 		$results = Query($query);
@@ -1063,7 +1067,7 @@ function SearchIntervention($info_inter, $facturation, $inter_service, $personne
 
 		if (!empty($info_inter['startingDate'])) {
 			if (!empty($info_inter['endingDate'])){
-				$r2 = "jour BETWEEN \"".$info_inter['startingDate']."\"AND \"".$info_inter['endingDate']."\"";
+				$r2 = "jour BETWEEN (\"".$info_inter['startingDate']."\"AND \"".$info_inter['endingDate']."\")";
 			}
 			else {
 				$r2 = "jour > \"".$info_inter['startingDate']."\"";
@@ -1072,7 +1076,7 @@ function SearchIntervention($info_inter, $facturation, $inter_service, $personne
 
 		elseif (empty($info_inter['startingDate'])) {
 			if (!empty($info_inter['endingDate'])) {
-				$r2 = "jour BETWEEN CURRENT_DATE() AND \"".$info_inter['endingDate']."\"";
+				$r2 = "jour BETWEEN (CURRENT_DATE() AND \"".$info_inter['endingDate']."\")";
 			}
 			else {
 				$r2 = "jour = CURRENT_DATE()";
@@ -1234,7 +1238,7 @@ function UpdatePatient ($patient_array) {
 # WhichService() : return service from userID
 	# String UID : userID
 	# String type : 'intervention' or 'accueil'
-# Returns String ID_service_intervention
+# Returns String ID_service
 function WhichService($UID, $type) {
 	try {
 		if ($type == 'intervention') {

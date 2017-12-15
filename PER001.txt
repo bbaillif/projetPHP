@@ -1,1 +1,8 @@
-15/12/2017 10:50 : connection 
+15/12/2017 18:29 : connection 
+15/12/2017 18:31 : connection 
+15/12/2017 13:49 : ajout de l'intervention INT001 pour le patient  au créneau VE50A2 
+15/12/2017 13:49 : ajout de l'urgence du patient  pour intervention dans INT001 au créneau VE50A2 
+15/12/2017 13:53 : ajout de l'intervention INT001 pour le patient  au créneau VE50A2 
+15/12/2017 13:53 : ajout de l'urgence du patient  pour intervention dans INT001 au créneau VE50A2 
+15/12/2017 14:40 : ajout de l'intervention INT001 pour le patient  au créneau VE50A4 
+15/12/2017 14:40 : ajout de l'urgence du patient  pour intervention dans INT001 au créneau VE50A4 

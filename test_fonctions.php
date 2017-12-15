@@ -1,13 +1,49 @@
 <!DOCTYPE html> 
 <html>  
 
-	<p> OK </p>
+	<p>Page réservée aux tests du site</p>
 
 	<?php
-	require("./fonctions.php"); 
+	require("./fonctions.php");
+
+	$_SESSION['uid'] = "test";
 	
-	$_SESSION['uid'] = "X"; 
-	$_SESSION['service'] = "INT004"; 
+	#AddIntervention("INT001", "VE50A7", "PER005", "");
+
+	#AddNumSecuInt("123456789101111", "VE50A7", "INT001")
+
+	#$patient_array = array('name' => "prénomtest",
+	#	'surname' => "nomtest", 
+	#	'ssNumber' => '123456789012345', 
+	#	'gender' => 'H', 
+	#	'birthday' => '2000-01-01',
+	#	'pathology' => 'rhume', 
+	#	'emergencyLevel' => '6');
+
+	#AddPatient($patient_array);
+
+	#AddService("bla1","accueil", 4);
+
+	#$user_array = array('name' => "prénomtest",
+	#	'surname' => "nomtest", 
+	#	'ssNumber' => '123456789012345', 
+	#	'gender' => 'H', 
+	#	'birthday' => '2000-01-01',
+	#	'right' => '2',
+	#	'Service' => 'INT001',
+	#	'ID' => 'IDtest',
+	#	'password' => 'PWtest');
+	#AddUser($user_array);
+
+	if (AllBooked("INT001")) {
+		echo "Booked";
+	}
+	else {
+		echo "NotBooked";
+	}
+
+	#$_SESSION['uid'] = "X"; 
+	#$_SESSION['service'] = "INT004"; 
 	#Essai WriteUserLog 
 	#WriteUserLog("ça écrit!!");
 	#WriteInterventionLog("ça écrit!","Operation"); 
@@ -30,9 +66,6 @@
 
 	#Essai Facturation #ça ne marche pas :
 	#FactureIntervention("INT004","LU46M3","111023370509701");
-
-	#Essai Add = ne marche pas 
-	#AddIntervention("A","B","C","D"); 
 
 	#Essai de print historique 
 	#PrintArchive("service.txt"); 
@@ -70,13 +103,6 @@
 #		print("nop");
 	#}
 
-
-	#Essai AddPatient 
-	#try{
-	#	AddPatient($array_vide);
-	#} catch (Exception $e){
-	#	echo $e -> getMessage();	
-	#}
 
 	#UpdatePatient
 	#try{
@@ -125,8 +151,8 @@
 	#$array = array('startingDate' => '2017-11-10', 'endingDate' => '', 'patientName' => "");
 	#$res = SearchInterventionF($array); 
 	#print(WhichService("PER001")); 
-	$arr = array('0' => 'JE50A6', '1' => "INT004");
-	print_r(ReturnIntervention($arr));
+	#$arr = array('0' => 'JE50A6', '1' => "INT004");
+	#print_r(ReturnIntervention($arr));
 	#$chaine = "A B" ;
 	#$pieces = explode(" ", $chaine);
 	#print($pieces[0]); 
@@ -145,7 +171,5 @@
 	#Test AddNumSecuInt
 	#AddNumSecuInt('2288', 'JE50M9', 'INT001');
 	?> 
-
-	<p> Coucou </p>
 
 </html>

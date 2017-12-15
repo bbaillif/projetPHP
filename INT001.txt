@@ -1,10 +1,10 @@
-13/12/2017 17:32 : ajout de l'intervention ME51A2 pour le patient 111023370509701 
-13/12/2017 17:33 : ajout de l'intervention ME51M9 pour le patient 111023370509701 
-13/12/2017 17:33 : ajout de l'intervention JE51A6 pour le patient 111023370509701 
-13/12/2017 19:26 : ajout de l'intervention ME51A1 pour le patient e 
-14/12/2017 11:36 : ajout de l'intervention JE50M9 pour le patient 456 
-14/12/2017 11:36 : ajout de l'urgence JE50M9 pour le patient 456 
-14/12/2017 11:37 : ajout de l'intervention JE50M9 pour le patient 123 
-14/12/2017 11:37 : ajout de l'urgence JE50M9 pour le patient 123 
-14/12/2017 11:39 : ajout de l'intervention JE50M9 pour le patient  
-14/12/2017 11:39 : ajout de l'urgence JE50M9 pour le patient  
+15/12/2017 18:24 : ajout de l'intervention LU51M1 pour le patient 111111111111111 
+18/12/2017 18:25 : Suppression de l'intervention du creneau LU51M1 
+18/12/2017 18:26 : ajout de l'intervention MA51M1 pour le patient 111111111111111 
+15/12/2017 18:28 : ajout de l'intervention LU51M1 pour le patient 111111111111111 
+15/12/2017 13:49 : ajout de l'intervention VE50A2 pour le patient  
+15/12/2017 13:49 : ajout de l'urgence VE50A2 pour le patient  
+15/12/2017 13:53 : ajout de l'intervention VE50A2 pour le patient  
+15/12/2017 13:53 : ajout de l'urgence VE50A2 pour le patient  
+15/12/2017 14:40 : ajout de l'intervention VE50A4 pour le patient  
+15/12/2017 14:40 : ajout de l'urgence VE50A4 pour le patient  
